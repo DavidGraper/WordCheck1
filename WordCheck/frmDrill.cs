@@ -103,7 +103,7 @@ namespace WordCheck
             timeStart = DateTime.Now;
             txtHumanResponse.Focus();
 
-            timer1.Start();
+            // timer1.Start(); 102617
             foreach (string word in words)
             {
                 lblTestWordOrPhrase.Text = word;
@@ -111,10 +111,12 @@ namespace WordCheck
 
                 timeStart = DateTime.Now;
 
+                //timer1.Start();
                 while (!match)
                 {
                     SendKeys.Flush();
                 }
+                //timer1.Stop();
 
                 txtHumanResponse.Text = "";
                 timeEnd = DateTime.Now;
@@ -140,7 +142,7 @@ namespace WordCheck
             }
 
             MessageBox.Show("Done!");
-            timer1.Stop();
+            // timer1.Stop();  10/26/17
         }
 
         private void UpdateWordCounts(int TotalWords, int WordsCompleted)
