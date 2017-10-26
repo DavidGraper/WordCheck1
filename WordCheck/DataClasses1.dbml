@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="drillthrall" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=graper-pc;Initial Catalog=drillthrall;Persist Security Info=True;User ID=sa" SettingsObjectName="WordCheck.Properties.Settings" SettingsPropertyName="drillthrallConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.data_dictionary" Member="data_dictionaries">
+    <Type Name="data_dictionary">
+      <Column Name="id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="steno" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="english" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="data_dictionary_data_drill_dictionary" Member="data_drill_dictionaries" ThisKey="id" OtherKey="dictionaryid" Type="data_drill_dictionary" />
+      <Association Name="data_dictionary_data_english2steno" Member="data_english2stenos" ThisKey="id" OtherKey="dictionaryid" Type="data_english2steno" />
+      <Association Name="data_dictionary_data_steno2english" Member="data_steno2englishes" ThisKey="id" OtherKey="dictionaryid" Type="data_steno2english" />
+    </Type>
+  </Table>
+  <Table Name="dbo.data_drill_dictionary" Member="data_drill_dictionaries">
+    <Type Name="data_drill_dictionary">
+      <Column Name="id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="drillid" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="dictionaryid" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Association Name="data_dictionary_data_drill_dictionary" Member="data_dictionary" ThisKey="dictionaryid" OtherKey="id" Type="data_dictionary" IsForeignKey="true" />
+      <Association Name="data_drill_data_drill_dictionary" Member="data_drill" ThisKey="drillid" OtherKey="id" Type="data_drill" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.data_drills" Member="data_drills">
+    <Type Name="data_drill">
+      <Column Name="id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="drillname" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="data_drill_data_drill_dictionary" Member="data_drill_dictionaries" ThisKey="id" OtherKey="drillid" Type="data_drill_dictionary" />
+    </Type>
+  </Table>
+  <Table Name="dbo.data_english2steno" Member="data_english2stenos">
+    <Type Name="data_english2steno">
+      <Column Name="id" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="dictionaryid" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="testtime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="msspeed" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="misspell" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="data_dictionary_data_english2steno" Member="data_dictionary" ThisKey="dictionaryid" OtherKey="id" Type="data_dictionary" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.data_englishsentence2steno" Member="data_englishsentence2stenos">
+    <Type Name="data_englishsentence2steno">
+      <Column Name="id" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="sentenceid" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="testtime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="msspeed" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="data_sentence_data_englishsentence2steno" Member="data_sentence" ThisKey="sentenceid" OtherKey="id" Type="data_sentence" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.data_sentencedrills" Member="data_sentencedrills">
+    <Type Name="data_sentencedrill">
+      <Column Name="id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="drillname" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="data_sentencedrill_data_sentencedrills_sentence" Member="data_sentencedrills_sentences" ThisKey="id" OtherKey="sentencedrillid" Type="data_sentencedrills_sentence" />
+    </Type>
+  </Table>
+  <Table Name="dbo.data_sentencedrills_sentences" Member="data_sentencedrills_sentences">
+    <Type Name="data_sentencedrills_sentence">
+      <Column Name="id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="sentencedrillid" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="sentenceid" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Association Name="data_sentencedrill_data_sentencedrills_sentence" Member="data_sentencedrill" ThisKey="sentencedrillid" OtherKey="id" Type="data_sentencedrill" IsForeignKey="true" />
+      <Association Name="data_sentence_data_sentencedrills_sentence" Member="data_sentence" ThisKey="sentenceid" OtherKey="id" Type="data_sentence" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.data_sentences" Member="data_sentences">
+    <Type Name="data_sentence">
+      <Column Name="id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="sentence" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="data_sentence_data_englishsentence2steno" Member="data_englishsentence2stenos" ThisKey="id" OtherKey="sentenceid" Type="data_englishsentence2steno" />
+      <Association Name="data_sentence_data_sentencedrills_sentence" Member="data_sentencedrills_sentences" ThisKey="id" OtherKey="sentenceid" Type="data_sentencedrills_sentence" />
+    </Type>
+  </Table>
+  <Table Name="dbo.data_steno2english" Member="data_steno2englishes">
+    <Type Name="data_steno2english">
+      <Column Name="id" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="dictionaryid" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="testtime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="msspeed" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="misspell" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Association Name="data_dictionary_data_steno2english" Member="data_dictionary" ThisKey="dictionaryid" OtherKey="id" Type="data_dictionary" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
