@@ -17,7 +17,8 @@ namespace WordCheck
 
         private DateTime timeStart;
         private DateTime timeEnd;
-        Boolean match = false;
+        private Boolean match = false;
+        private Boolean abort = false;
         int mistakes = 0;
 
         public frmDrill()
@@ -92,6 +93,12 @@ namespace WordCheck
 
         private void button1_Click(object sender, EventArgs e)
         {
+            frmCountdown frm1 = new frmCountdown();
+            frm1.ShowDialog();
+
+
+            SetEnabledControls(true);
+            
             //List<string> words = LoadDrill();
             List<string> words = LoadSentenceDrill();
 
@@ -103,7 +110,7 @@ namespace WordCheck
             timeStart = DateTime.Now;
             txtHumanResponse.Focus();
 
-            // timer1.Start(); 102617
+            timer1.Start();
             foreach (string word in words)
             {
                 lblTestWordOrPhrase.Text = word;
@@ -111,12 +118,12 @@ namespace WordCheck
 
                 timeStart = DateTime.Now;
 
-                //timer1.Start();
-                while (!match)
+                while (!match && !abort)
                 {
                     SendKeys.Flush();
                 }
-                //timer1.Stop();
+
+                if (abort) break;
 
                 txtHumanResponse.Text = "";
                 timeEnd = DateTime.Now;
@@ -141,8 +148,10 @@ namespace WordCheck
 
             }
 
+            if (abort) this.Close();
+
             MessageBox.Show("Done!");
-            // timer1.Stop();  10/26/17
+            timer1.Stop();
         }
 
         private void UpdateWordCounts(int TotalWords, int WordsCompleted)
@@ -167,21 +176,36 @@ namespace WordCheck
 
         private void frmDrill_Load(object sender, EventArgs e)
         {
+          
             lblTotalWords.Text = "";
+
+            this.Height = 368;
+            this.Width = 896;
+
+            SetEnabledControls(false);
+        }
+
+        private void SetEnabledControls(Boolean Visible)
+        {
+            btnStop.Enabled =
+            lblTestWordOrPhrase.Enabled =
+            lblTitleHumanResponse.Enabled =
+            lblTitleTestWordOrPhrase.Enabled =
+            progressBar1.Visible = Visible;
         }
 
         #region Properties
 
         public long DrillID { get; set; }
+        public Boolean Abort { get; set; }
 
         #endregion
 
         private void button2_Click(object sender, EventArgs e)
         {
             timer1.Stop();
-
-            Application.DoEvents();
-            this.Close();
+            //timer1 = null;
+            //this.Close();
 
             //this.Close();
             //// SendKeys.Flush();
@@ -189,16 +213,32 @@ namespace WordCheck
             //this.Close();
             //if (MessageBox.Show("OK to quit drill?", "Quit?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             //{
+            //    timer1.Stop();
             //    if (MessageBox.Show("OK to discard testing results?", "Don't Save Drill Info?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             //    {
-            //        MessageBox.Show("Didn't save");
+            //        // MessageBox.Show("Didn't save");
             //        this.Close();
-            //        //this.Hide();
-            //        //return;
             //    }
             //    else
             //    { MessageBox.Show("Did save"); }
             //}
+
+            abort = true;
+
+        }
+
+        private void normalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void largeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
 
         }
     }
