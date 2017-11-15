@@ -57,6 +57,9 @@ namespace WordCheck
     partial void Insertdata_steno2english(data_steno2english instance);
     partial void Updatedata_steno2english(data_steno2english instance);
     partial void Deletedata_steno2english(data_steno2english instance);
+    partial void Insertdata_wordconfusion(data_wordconfusion instance);
+    partial void Updatedata_wordconfusion(data_wordconfusion instance);
+    partial void Deletedata_wordconfusion(data_wordconfusion instance);
     #endregion
 		
 		public DataClasses1DataContext() : 
@@ -159,6 +162,21 @@ namespace WordCheck
 			{
 				return this.GetTable<data_steno2english>();
 			}
+		}
+		
+		public System.Data.Linq.Table<data_wordconfusion> data_wordconfusions
+		{
+			get
+			{
+				return this.GetTable<data_wordconfusion>();
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.pr_AddMistakeRecord")]
+		public int pr_AddMistakeRecord([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="BigInt")] System.Nullable<long> wordid, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(100)")] string incorrectword)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), wordid, incorrectword);
+			return ((int)(result.ReturnValue));
 		}
 	}
 	
@@ -1658,6 +1676,140 @@ namespace WordCheck
 						this._dictionaryid = default(long);
 					}
 					this.SendPropertyChanged("data_dictionary");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.data_wordconfusions")]
+	public partial class data_wordconfusion : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private long _id;
+		
+		private long _wordid;
+		
+		private string _incorrectword;
+		
+		private System.DateTime _incorrectdate;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(long value);
+    partial void OnidChanged();
+    partial void OnwordidChanging(long value);
+    partial void OnwordidChanged();
+    partial void OnincorrectwordChanging(string value);
+    partial void OnincorrectwordChanged();
+    partial void OnincorrectdateChanging(System.DateTime value);
+    partial void OnincorrectdateChanged();
+    #endregion
+		
+		public data_wordconfusion()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="BigInt NOT NULL", IsPrimaryKey=true)]
+		public long id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wordid", DbType="BigInt NOT NULL")]
+		public long wordid
+		{
+			get
+			{
+				return this._wordid;
+			}
+			set
+			{
+				if ((this._wordid != value))
+				{
+					this.OnwordidChanging(value);
+					this.SendPropertyChanging();
+					this._wordid = value;
+					this.SendPropertyChanged("wordid");
+					this.OnwordidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_incorrectword", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
+		public string incorrectword
+		{
+			get
+			{
+				return this._incorrectword;
+			}
+			set
+			{
+				if ((this._incorrectword != value))
+				{
+					this.OnincorrectwordChanging(value);
+					this.SendPropertyChanging();
+					this._incorrectword = value;
+					this.SendPropertyChanged("incorrectword");
+					this.OnincorrectwordChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_incorrectdate", DbType="DateTime NOT NULL")]
+		public System.DateTime incorrectdate
+		{
+			get
+			{
+				return this._incorrectdate;
+			}
+			set
+			{
+				if ((this._incorrectdate != value))
+				{
+					this.OnincorrectdateChanging(value);
+					this.SendPropertyChanging();
+					this._incorrectdate = value;
+					this.SendPropertyChanged("incorrectdate");
+					this.OnincorrectdateChanged();
 				}
 			}
 		}
