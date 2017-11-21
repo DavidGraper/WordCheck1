@@ -54,6 +54,7 @@
             this.extraLargeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblTestWordOrPhrase = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -63,7 +64,7 @@
             // 
             this.lblTitleTestWordOrPhrase.AutoSize = true;
             this.lblTitleTestWordOrPhrase.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitleTestWordOrPhrase.Location = new System.Drawing.Point(15, 135);
+            this.lblTitleTestWordOrPhrase.Location = new System.Drawing.Point(15, 148);
             this.lblTitleTestWordOrPhrase.Name = "lblTitleTestWordOrPhrase";
             this.lblTitleTestWordOrPhrase.Size = new System.Drawing.Size(163, 29);
             this.lblTitleTestWordOrPhrase.TabIndex = 1;
@@ -72,7 +73,7 @@
             // txtHumanResponse
             // 
             this.txtHumanResponse.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtHumanResponse.Location = new System.Drawing.Point(343, 180);
+            this.txtHumanResponse.Location = new System.Drawing.Point(343, 194);
             this.txtHumanResponse.Name = "txtHumanResponse";
             this.txtHumanResponse.Size = new System.Drawing.Size(514, 35);
             this.txtHumanResponse.TabIndex = 2;
@@ -80,7 +81,7 @@
             // btnStart
             // 
             this.btnStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStart.Location = new System.Drawing.Point(278, 256);
+            this.btnStart.Location = new System.Drawing.Point(278, 314);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(142, 55);
             this.btnStart.TabIndex = 3;
@@ -134,7 +135,7 @@
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
             this.Column2});
-            this.dataGridView1.Location = new System.Drawing.Point(20, 344);
+            this.dataGridView1.Location = new System.Drawing.Point(20, 399);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(394, 236);
             this.dataGridView1.TabIndex = 8;
@@ -153,7 +154,7 @@
             // 
             this.lblTitleHumanResponse.AutoSize = true;
             this.lblTitleHumanResponse.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitleHumanResponse.Location = new System.Drawing.Point(15, 187);
+            this.lblTitleHumanResponse.Location = new System.Drawing.Point(15, 197);
             this.lblTitleHumanResponse.Name = "lblTitleHumanResponse";
             this.lblTitleHumanResponse.Size = new System.Drawing.Size(280, 29);
             this.lblTitleHumanResponse.TabIndex = 9;
@@ -162,7 +163,7 @@
             // btnStop
             // 
             this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStop.Location = new System.Drawing.Point(454, 256);
+            this.btnStop.Location = new System.Drawing.Point(454, 314);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(142, 55);
             this.btnStop.TabIndex = 10;
@@ -177,7 +178,7 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(437, 344);
+            this.groupBox1.Location = new System.Drawing.Point(437, 399);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(420, 156);
             this.groupBox1.TabIndex = 11;
@@ -187,7 +188,7 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(18, 97);
+            this.progressBar1.Location = new System.Drawing.Point(18, 105);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(839, 23);
             this.progressBar1.TabIndex = 13;
@@ -268,16 +269,29 @@
             // 
             this.lblTestWordOrPhrase.AutoSize = true;
             this.lblTestWordOrPhrase.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTestWordOrPhrase.Location = new System.Drawing.Point(338, 135);
+            this.lblTestWordOrPhrase.Location = new System.Drawing.Point(338, 146);
             this.lblTestWordOrPhrase.Name = "lblTestWordOrPhrase";
             this.lblTestWordOrPhrase.Size = new System.Drawing.Size(0, 29);
             this.lblTestWordOrPhrase.TabIndex = 0;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Courier New", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.label2.Location = new System.Drawing.Point(337, 248);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(129, 36);
+            this.label2.TabIndex = 16;
+            this.label2.Text = "label2";
+            this.label2.Visible = false;
             // 
             // frmDrill
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(880, 592);
+            this.ClientSize = new System.Drawing.Size(880, 654);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.groupBox1);
@@ -329,5 +343,6 @@
         private System.Windows.Forms.ToolStripMenuItem extraLargeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.Label lblTestWordOrPhrase;
+        private System.Windows.Forms.Label label2;
     }
 }

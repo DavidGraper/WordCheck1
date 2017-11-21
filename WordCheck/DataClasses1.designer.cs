@@ -33,15 +33,15 @@ namespace WordCheck
     partial void Insertdata_dictionary(data_dictionary instance);
     partial void Updatedata_dictionary(data_dictionary instance);
     partial void Deletedata_dictionary(data_dictionary instance);
+    partial void Insertdata_wordcorrect(data_wordcorrect instance);
+    partial void Updatedata_wordcorrect(data_wordcorrect instance);
+    partial void Deletedata_wordcorrect(data_wordcorrect instance);
     partial void Insertdata_drill_dictionary(data_drill_dictionary instance);
     partial void Updatedata_drill_dictionary(data_drill_dictionary instance);
     partial void Deletedata_drill_dictionary(data_drill_dictionary instance);
     partial void Insertdata_drill(data_drill instance);
     partial void Updatedata_drill(data_drill instance);
     partial void Deletedata_drill(data_drill instance);
-    partial void Insertdata_english2steno(data_english2steno instance);
-    partial void Updatedata_english2steno(data_english2steno instance);
-    partial void Deletedata_english2steno(data_english2steno instance);
     partial void Insertdata_englishsentence2steno(data_englishsentence2steno instance);
     partial void Updatedata_englishsentence2steno(data_englishsentence2steno instance);
     partial void Deletedata_englishsentence2steno(data_englishsentence2steno instance);
@@ -54,9 +54,6 @@ namespace WordCheck
     partial void Insertdata_sentence(data_sentence instance);
     partial void Updatedata_sentence(data_sentence instance);
     partial void Deletedata_sentence(data_sentence instance);
-    partial void Insertdata_steno2english(data_steno2english instance);
-    partial void Updatedata_steno2english(data_steno2english instance);
-    partial void Deletedata_steno2english(data_steno2english instance);
     partial void Insertdata_wordconfusion(data_wordconfusion instance);
     partial void Updatedata_wordconfusion(data_wordconfusion instance);
     partial void Deletedata_wordconfusion(data_wordconfusion instance);
@@ -100,6 +97,14 @@ namespace WordCheck
 			}
 		}
 		
+		public System.Data.Linq.Table<data_wordcorrect> data_wordcorrects
+		{
+			get
+			{
+				return this.GetTable<data_wordcorrect>();
+			}
+		}
+		
 		public System.Data.Linq.Table<data_drill_dictionary> data_drill_dictionaries
 		{
 			get
@@ -113,14 +118,6 @@ namespace WordCheck
 			get
 			{
 				return this.GetTable<data_drill>();
-			}
-		}
-		
-		public System.Data.Linq.Table<data_english2steno> data_english2stenos
-		{
-			get
-			{
-				return this.GetTable<data_english2steno>();
 			}
 		}
 		
@@ -156,14 +153,6 @@ namespace WordCheck
 			}
 		}
 		
-		public System.Data.Linq.Table<data_steno2english> data_steno2englishes
-		{
-			get
-			{
-				return this.GetTable<data_steno2english>();
-			}
-		}
-		
 		public System.Data.Linq.Table<data_wordconfusion> data_wordconfusions
 		{
 			get
@@ -176,6 +165,13 @@ namespace WordCheck
 		public int pr_AddMistakeRecord([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="BigInt")] System.Nullable<long> wordid, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(100)")] string incorrectword)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), wordid, incorrectword);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.pr_AddCorrectRecord")]
+		public int pr_AddCorrectRecord([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="BigInt")] System.Nullable<long> wordid, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="BigInt")] System.Nullable<long> milliseconds, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="DateTime")] System.Nullable<System.DateTime> datecorrect)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), wordid, milliseconds, datecorrect);
 			return ((int)(result.ReturnValue));
 		}
 	}
@@ -192,11 +188,11 @@ namespace WordCheck
 		
 		private string _english;
 		
+		private EntitySet<data_wordcorrect> _data_wordcorrects;
+		
 		private EntitySet<data_drill_dictionary> _data_drill_dictionaries;
 		
-		private EntitySet<data_english2steno> _data_english2stenos;
-		
-		private EntitySet<data_steno2english> _data_steno2englishes;
+		private EntitySet<data_wordconfusion> _data_wordconfusions;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -212,9 +208,9 @@ namespace WordCheck
 		
 		public data_dictionary()
 		{
+			this._data_wordcorrects = new EntitySet<data_wordcorrect>(new Action<data_wordcorrect>(this.attach_data_wordcorrects), new Action<data_wordcorrect>(this.detach_data_wordcorrects));
 			this._data_drill_dictionaries = new EntitySet<data_drill_dictionary>(new Action<data_drill_dictionary>(this.attach_data_drill_dictionaries), new Action<data_drill_dictionary>(this.detach_data_drill_dictionaries));
-			this._data_english2stenos = new EntitySet<data_english2steno>(new Action<data_english2steno>(this.attach_data_english2stenos), new Action<data_english2steno>(this.detach_data_english2stenos));
-			this._data_steno2englishes = new EntitySet<data_steno2english>(new Action<data_steno2english>(this.attach_data_steno2englishes), new Action<data_steno2english>(this.detach_data_steno2englishes));
+			this._data_wordconfusions = new EntitySet<data_wordconfusion>(new Action<data_wordconfusion>(this.attach_data_wordconfusions), new Action<data_wordconfusion>(this.detach_data_wordconfusions));
 			OnCreated();
 		}
 		
@@ -278,6 +274,19 @@ namespace WordCheck
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="data_dictionary_data_wordcorrect", Storage="_data_wordcorrects", ThisKey="id", OtherKey="wordid")]
+		public EntitySet<data_wordcorrect> data_wordcorrects
+		{
+			get
+			{
+				return this._data_wordcorrects;
+			}
+			set
+			{
+				this._data_wordcorrects.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="data_dictionary_data_drill_dictionary", Storage="_data_drill_dictionaries", ThisKey="id", OtherKey="dictionaryid")]
 		public EntitySet<data_drill_dictionary> data_drill_dictionaries
 		{
@@ -291,29 +300,16 @@ namespace WordCheck
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="data_dictionary_data_english2steno", Storage="_data_english2stenos", ThisKey="id", OtherKey="dictionaryid")]
-		public EntitySet<data_english2steno> data_english2stenos
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="data_dictionary_data_wordconfusion", Storage="_data_wordconfusions", ThisKey="id", OtherKey="wordid")]
+		public EntitySet<data_wordconfusion> data_wordconfusions
 		{
 			get
 			{
-				return this._data_english2stenos;
+				return this._data_wordconfusions;
 			}
 			set
 			{
-				this._data_english2stenos.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="data_dictionary_data_steno2english", Storage="_data_steno2englishes", ThisKey="id", OtherKey="dictionaryid")]
-		public EntitySet<data_steno2english> data_steno2englishes
-		{
-			get
-			{
-				return this._data_steno2englishes;
-			}
-			set
-			{
-				this._data_steno2englishes.Assign(value);
+				this._data_wordconfusions.Assign(value);
 			}
 		}
 		
@@ -337,6 +333,18 @@ namespace WordCheck
 			}
 		}
 		
+		private void attach_data_wordcorrects(data_wordcorrect entity)
+		{
+			this.SendPropertyChanging();
+			entity.data_dictionary = this;
+		}
+		
+		private void detach_data_wordcorrects(data_wordcorrect entity)
+		{
+			this.SendPropertyChanging();
+			entity.data_dictionary = null;
+		}
+		
 		private void attach_data_drill_dictionaries(data_drill_dictionary entity)
 		{
 			this.SendPropertyChanging();
@@ -349,28 +357,191 @@ namespace WordCheck
 			entity.data_dictionary = null;
 		}
 		
-		private void attach_data_english2stenos(data_english2steno entity)
+		private void attach_data_wordconfusions(data_wordconfusion entity)
 		{
 			this.SendPropertyChanging();
 			entity.data_dictionary = this;
 		}
 		
-		private void detach_data_english2stenos(data_english2steno entity)
+		private void detach_data_wordconfusions(data_wordconfusion entity)
 		{
 			this.SendPropertyChanging();
 			entity.data_dictionary = null;
 		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.data_wordcorrect")]
+	public partial class data_wordcorrect : INotifyPropertyChanging, INotifyPropertyChanged
+	{
 		
-		private void attach_data_steno2englishes(data_steno2english entity)
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private long _id;
+		
+		private long _wordid;
+		
+		private long _msspeed;
+		
+		private System.DateTime _date;
+		
+		private EntityRef<data_dictionary> _data_dictionary;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(long value);
+    partial void OnidChanged();
+    partial void OnwordidChanging(long value);
+    partial void OnwordidChanged();
+    partial void OnmsspeedChanging(long value);
+    partial void OnmsspeedChanged();
+    partial void OndateChanging(System.DateTime value);
+    partial void OndateChanged();
+    #endregion
+		
+		public data_wordcorrect()
 		{
-			this.SendPropertyChanging();
-			entity.data_dictionary = this;
+			this._data_dictionary = default(EntityRef<data_dictionary>);
+			OnCreated();
 		}
 		
-		private void detach_data_steno2englishes(data_steno2english entity)
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="BigInt NOT NULL", IsPrimaryKey=true)]
+		public long id
 		{
-			this.SendPropertyChanging();
-			entity.data_dictionary = null;
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wordid", DbType="BigInt NOT NULL")]
+		public long wordid
+		{
+			get
+			{
+				return this._wordid;
+			}
+			set
+			{
+				if ((this._wordid != value))
+				{
+					if (this._data_dictionary.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnwordidChanging(value);
+					this.SendPropertyChanging();
+					this._wordid = value;
+					this.SendPropertyChanged("wordid");
+					this.OnwordidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_msspeed", DbType="BigInt NOT NULL")]
+		public long msspeed
+		{
+			get
+			{
+				return this._msspeed;
+			}
+			set
+			{
+				if ((this._msspeed != value))
+				{
+					this.OnmsspeedChanging(value);
+					this.SendPropertyChanging();
+					this._msspeed = value;
+					this.SendPropertyChanged("msspeed");
+					this.OnmsspeedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_date", DbType="DateTime NOT NULL")]
+		public System.DateTime date
+		{
+			get
+			{
+				return this._date;
+			}
+			set
+			{
+				if ((this._date != value))
+				{
+					this.OndateChanging(value);
+					this.SendPropertyChanging();
+					this._date = value;
+					this.SendPropertyChanged("date");
+					this.OndateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="data_dictionary_data_wordcorrect", Storage="_data_dictionary", ThisKey="wordid", OtherKey="id", IsForeignKey=true)]
+		public data_dictionary data_dictionary
+		{
+			get
+			{
+				return this._data_dictionary.Entity;
+			}
+			set
+			{
+				data_dictionary previousValue = this._data_dictionary.Entity;
+				if (((previousValue != value) 
+							|| (this._data_dictionary.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._data_dictionary.Entity = null;
+						previousValue.data_wordcorrects.Remove(this);
+					}
+					this._data_dictionary.Entity = value;
+					if ((value != null))
+					{
+						value.data_wordcorrects.Add(this);
+						this._wordid = value.id;
+					}
+					else
+					{
+						this._wordid = default(long);
+					}
+					this.SendPropertyChanged("data_dictionary");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 	
@@ -677,205 +848,6 @@ namespace WordCheck
 		{
 			this.SendPropertyChanging();
 			entity.data_drill = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.data_english2steno")]
-	public partial class data_english2steno : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private long _id;
-		
-		private long _dictionaryid;
-		
-		private System.DateTime _testtime;
-		
-		private int _msspeed;
-		
-		private string _misspell;
-		
-		private EntityRef<data_dictionary> _data_dictionary;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnidChanging(long value);
-    partial void OnidChanged();
-    partial void OndictionaryidChanging(long value);
-    partial void OndictionaryidChanged();
-    partial void OntesttimeChanging(System.DateTime value);
-    partial void OntesttimeChanged();
-    partial void OnmsspeedChanging(int value);
-    partial void OnmsspeedChanged();
-    partial void OnmisspellChanging(string value);
-    partial void OnmisspellChanged();
-    #endregion
-		
-		public data_english2steno()
-		{
-			this._data_dictionary = default(EntityRef<data_dictionary>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="BigInt NOT NULL", IsPrimaryKey=true)]
-		public long id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_dictionaryid", DbType="BigInt NOT NULL")]
-		public long dictionaryid
-		{
-			get
-			{
-				return this._dictionaryid;
-			}
-			set
-			{
-				if ((this._dictionaryid != value))
-				{
-					if (this._data_dictionary.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OndictionaryidChanging(value);
-					this.SendPropertyChanging();
-					this._dictionaryid = value;
-					this.SendPropertyChanged("dictionaryid");
-					this.OndictionaryidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_testtime", DbType="DateTime NOT NULL")]
-		public System.DateTime testtime
-		{
-			get
-			{
-				return this._testtime;
-			}
-			set
-			{
-				if ((this._testtime != value))
-				{
-					this.OntesttimeChanging(value);
-					this.SendPropertyChanging();
-					this._testtime = value;
-					this.SendPropertyChanged("testtime");
-					this.OntesttimeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_msspeed", DbType="Int NOT NULL")]
-		public int msspeed
-		{
-			get
-			{
-				return this._msspeed;
-			}
-			set
-			{
-				if ((this._msspeed != value))
-				{
-					this.OnmsspeedChanging(value);
-					this.SendPropertyChanging();
-					this._msspeed = value;
-					this.SendPropertyChanged("msspeed");
-					this.OnmsspeedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_misspell", DbType="VarChar(50)")]
-		public string misspell
-		{
-			get
-			{
-				return this._misspell;
-			}
-			set
-			{
-				if ((this._misspell != value))
-				{
-					this.OnmisspellChanging(value);
-					this.SendPropertyChanging();
-					this._misspell = value;
-					this.SendPropertyChanged("misspell");
-					this.OnmisspellChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="data_dictionary_data_english2steno", Storage="_data_dictionary", ThisKey="dictionaryid", OtherKey="id", IsForeignKey=true)]
-		public data_dictionary data_dictionary
-		{
-			get
-			{
-				return this._data_dictionary.Entity;
-			}
-			set
-			{
-				data_dictionary previousValue = this._data_dictionary.Entity;
-				if (((previousValue != value) 
-							|| (this._data_dictionary.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._data_dictionary.Entity = null;
-						previousValue.data_english2stenos.Remove(this);
-					}
-					this._data_dictionary.Entity = value;
-					if ((value != null))
-					{
-						value.data_english2stenos.Add(this);
-						this._dictionaryid = value.id;
-					}
-					else
-					{
-						this._dictionaryid = default(long);
-					}
-					this.SendPropertyChanged("data_dictionary");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
 		}
 	}
 	
@@ -1502,205 +1474,6 @@ namespace WordCheck
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.data_steno2english")]
-	public partial class data_steno2english : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private long _id;
-		
-		private long _dictionaryid;
-		
-		private System.DateTime _testtime;
-		
-		private int _msspeed;
-		
-		private string _misspell;
-		
-		private EntityRef<data_dictionary> _data_dictionary;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnidChanging(long value);
-    partial void OnidChanged();
-    partial void OndictionaryidChanging(long value);
-    partial void OndictionaryidChanged();
-    partial void OntesttimeChanging(System.DateTime value);
-    partial void OntesttimeChanged();
-    partial void OnmsspeedChanging(int value);
-    partial void OnmsspeedChanged();
-    partial void OnmisspellChanging(string value);
-    partial void OnmisspellChanged();
-    #endregion
-		
-		public data_steno2english()
-		{
-			this._data_dictionary = default(EntityRef<data_dictionary>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="BigInt NOT NULL", IsPrimaryKey=true)]
-		public long id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_dictionaryid", DbType="BigInt NOT NULL")]
-		public long dictionaryid
-		{
-			get
-			{
-				return this._dictionaryid;
-			}
-			set
-			{
-				if ((this._dictionaryid != value))
-				{
-					if (this._data_dictionary.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OndictionaryidChanging(value);
-					this.SendPropertyChanging();
-					this._dictionaryid = value;
-					this.SendPropertyChanged("dictionaryid");
-					this.OndictionaryidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_testtime", DbType="DateTime NOT NULL")]
-		public System.DateTime testtime
-		{
-			get
-			{
-				return this._testtime;
-			}
-			set
-			{
-				if ((this._testtime != value))
-				{
-					this.OntesttimeChanging(value);
-					this.SendPropertyChanging();
-					this._testtime = value;
-					this.SendPropertyChanged("testtime");
-					this.OntesttimeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_msspeed", DbType="Int NOT NULL")]
-		public int msspeed
-		{
-			get
-			{
-				return this._msspeed;
-			}
-			set
-			{
-				if ((this._msspeed != value))
-				{
-					this.OnmsspeedChanging(value);
-					this.SendPropertyChanging();
-					this._msspeed = value;
-					this.SendPropertyChanged("msspeed");
-					this.OnmsspeedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_misspell", DbType="VarChar(100)")]
-		public string misspell
-		{
-			get
-			{
-				return this._misspell;
-			}
-			set
-			{
-				if ((this._misspell != value))
-				{
-					this.OnmisspellChanging(value);
-					this.SendPropertyChanging();
-					this._misspell = value;
-					this.SendPropertyChanged("misspell");
-					this.OnmisspellChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="data_dictionary_data_steno2english", Storage="_data_dictionary", ThisKey="dictionaryid", OtherKey="id", IsForeignKey=true)]
-		public data_dictionary data_dictionary
-		{
-			get
-			{
-				return this._data_dictionary.Entity;
-			}
-			set
-			{
-				data_dictionary previousValue = this._data_dictionary.Entity;
-				if (((previousValue != value) 
-							|| (this._data_dictionary.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._data_dictionary.Entity = null;
-						previousValue.data_steno2englishes.Remove(this);
-					}
-					this._data_dictionary.Entity = value;
-					if ((value != null))
-					{
-						value.data_steno2englishes.Add(this);
-						this._dictionaryid = value.id;
-					}
-					else
-					{
-						this._dictionaryid = default(long);
-					}
-					this.SendPropertyChanged("data_dictionary");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.data_wordconfusions")]
 	public partial class data_wordconfusion : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -1714,6 +1487,8 @@ namespace WordCheck
 		private string _incorrectword;
 		
 		private System.DateTime _incorrectdate;
+		
+		private EntityRef<data_dictionary> _data_dictionary;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1731,10 +1506,11 @@ namespace WordCheck
 		
 		public data_wordconfusion()
 		{
+			this._data_dictionary = default(EntityRef<data_dictionary>);
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="BigInt NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="BigInt NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public long id
 		{
 			get
@@ -1765,6 +1541,10 @@ namespace WordCheck
 			{
 				if ((this._wordid != value))
 				{
+					if (this._data_dictionary.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.OnwordidChanging(value);
 					this.SendPropertyChanging();
 					this._wordid = value;
@@ -1810,6 +1590,40 @@ namespace WordCheck
 					this._incorrectdate = value;
 					this.SendPropertyChanged("incorrectdate");
 					this.OnincorrectdateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="data_dictionary_data_wordconfusion", Storage="_data_dictionary", ThisKey="wordid", OtherKey="id", IsForeignKey=true)]
+		public data_dictionary data_dictionary
+		{
+			get
+			{
+				return this._data_dictionary.Entity;
+			}
+			set
+			{
+				data_dictionary previousValue = this._data_dictionary.Entity;
+				if (((previousValue != value) 
+							|| (this._data_dictionary.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._data_dictionary.Entity = null;
+						previousValue.data_wordconfusions.Remove(this);
+					}
+					this._data_dictionary.Entity = value;
+					if ((value != null))
+					{
+						value.data_wordconfusions.Add(this);
+						this._wordid = value.id;
+					}
+					else
+					{
+						this._wordid = default(long);
+					}
+					this.SendPropertyChanged("data_dictionary");
 				}
 			}
 		}

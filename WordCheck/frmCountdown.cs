@@ -17,7 +17,7 @@ namespace WordCheck
             InitializeComponent();
         }
 
-        private int countDown = 6;
+        private int countDown = 2;
 
         private void frmCountdown_Load(object sender, EventArgs e)
         {

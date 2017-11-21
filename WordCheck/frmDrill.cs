@@ -21,16 +21,18 @@ namespace WordCheck
         private Boolean abort = false;
 
         private long CurrentWordID;
-        private long CurrentWordStrokeCount;
+        private long HumanWordStrokeCount;
 
-        private int StrokePauseCount;
+        private int ErrorCount0 = 0;
+
+        private int DictionaryWordStrokeCount;
 
         private string CachedText;
 
-        int mistakesCount = 0;
-
         List<data_wordconfusion> mistakes = new List<data_wordconfusion>();
-        string mistakeBuffer = string.Empty;
+        List<data_wordcorrect> corrects = new List<data_wordcorrect>();
+
+        string entryBuffer = string.Empty;
 
         public frmDrill()
         {
@@ -51,7 +53,8 @@ namespace WordCheck
 
                 //data_application application1 = new data_application();
                 var query = from q in dc1.data_drill_dictionaries
-                            where q.data_drill.drillname == "Chapter 19"
+                            //where q.data_drill.drillname == "Chapter 19"
+                            where q.data_drill.drillname == "500 Most Common Words Used in English"
                             select q;
 
                 foreach (var item in query)
@@ -95,58 +98,87 @@ namespace WordCheck
         public void Timer_Tick(object sender, EventArgs e)
         {
 
+            string expectedResponse = lblTestWordOrPhrase.Text.ToLower().Trim();
+            string humanResponse = txtHumanResponse.Text.ToLower().Trim();
+
+            //label2.Text = HumanWordStrokeCount.ToString();
+
             // mistakeBuffer:  
             // StrokePauseCount: 
 
-            // If the human response is a match to the test word
-            if (lblTestWordOrPhrase.Text.ToLower().Trim() == txtHumanResponse.Text.ToLower().Trim())
+            if (humanResponse == "")
             {
-                mistakeBuffer = string.Empty;
-                StrokePauseCount = 0;
-                match = true;
+                entryBuffer = string.Empty;
+                HumanWordStrokeCount = 0;
+                return;
             }
 
-            // If the human response is not a match of the test word
-            if (lblTestWordOrPhrase.Text.ToLower().Trim() != txtHumanResponse.Text.ToLower().Trim())
+            // If the human response is a match to the test word
+            if (humanResponse == expectedResponse)
             {
 
-                // If 
-                if (StrokePauseCount > CurrentWordStrokeCount)
+                entryBuffer = string.Empty;
+                //DictionaryWordStrokeCount = 0;
+                HumanWordStrokeCount = 0;
+                match = true;
+
+                ErrorCount0 = 0;
+                label2.Visible = false;
+
+                return;
+            }
+
+            //// If the human response is blank
+            //if (humanResponse == "")
+            //{
+            //    entryBuffer = string.Empty;
+            //    DictionaryWordStrokeCount = 0;
+            //    HumanWordStrokeCount = 0;
+            //    match = false;
+            //    return;
+            //}
+
+            // If the human response is 1) not a match of the test word; and 2) a new entry from the human
+            if ((expectedResponse != humanResponse) && (humanResponse != entryBuffer))
+            {
+
+                ErrorCount0++;
+                if (ErrorCount0 > 1) label2.Visible = true;
+
+
+                HumanWordStrokeCount++;
+
+                // If the number of strokes meets or exceeds the strokes expected, this is a istake
+                if (HumanWordStrokeCount >= DictionaryWordStrokeCount)
                 {
-                    if ((txtHumanResponse.Text.Length > 0) && (txtHumanResponse.Text != mistakeBuffer))
-                    {
-                        mistakeBuffer = txtHumanResponse.Text;
 
+                    // Cache human's 
+                    entryBuffer = humanResponse;
 
-                        //mistakes.Add(string.Format("{0}, {1}", lblTestWordOrPhrase.Text, mistakeBuffer));
-                        data_wordconfusion dw1 = new data_wordconfusion();
+                    data_wordconfusion dw1 = new data_wordconfusion();
+                    dw1.incorrectdate = DateTime.Now;
+                    dw1.incorrectword = humanResponse;
+                    dw1.wordid = CurrentWordID;
 
-                        dw1.incorrectdate = DateTime.Now;
-                        dw1.incorrectword = txtHumanResponse.Text;
-                        dw1.wordid = CurrentWordID;
-
-                        mistakes.Add(dw1);
-
-                    }
+                    mistakes.Add(dw1);
                 }
                 else
                 {
-                    if (txtHumanResponse.Text.Length > 0)
+                    if (humanResponse.Length > 0)
                     {
-                        if (txtHumanResponse.Text != CachedText)
-                        {
-                            StrokePauseCount++;
-                        }
-                        else
-                        {
 
-                            CachedText = txtHumanResponse.Text;
-                        }
+                        // Cache human's actual entry
+                        entryBuffer = humanResponse;
                     }
-
+                    else
+                    {
+                        entryBuffer = "";
+                        HumanWordStrokeCount = 0;
+                    }
                 }
             }
         }
+
 
         #endregion
 
@@ -155,11 +187,9 @@ namespace WordCheck
             frmCountdown frm1 = new frmCountdown();
             frm1.ShowDialog();
 
-
             SetEnabledControls(true);
 
             List<data_drill_dictionary> words = LoadDrill();
-            //List<string> words = LoadSentenceDrill();
 
             int totalWords = words.Count;
             int completedWords = 0;
@@ -172,12 +202,14 @@ namespace WordCheck
             timer1.Start();
             foreach (data_drill_dictionary word in words)
             {
+                label2.Text = word.data_dictionary.steno;
+
+
                 lblTestWordOrPhrase.Text = word.data_dictionary.english;
                 CurrentWordID = word.data_dictionary.id;
 
                 // Get the number of strokes in the current word
-                CurrentWordStrokeCount = word.data_dictionary.steno.Count(x => x == '/');
-
+                DictionaryWordStrokeCount = word.data_dictionary.steno.Count(x => x == '/') + 1;
                 completedWords += 1;
 
                 timeStart = DateTime.Now;
@@ -202,7 +234,13 @@ namespace WordCheck
 
                 string time1 = span1.Seconds.ToString("D3") + ":" + span1.Milliseconds.ToString("D3");
 
-                dataGridView1.Rows.Add(word, time1);
+                data_wordcorrect correct1 = new data_wordcorrect();
+                correct1.date = DateTime.Now;
+                correct1.msspeed = (long)span1.TotalMilliseconds;
+                correct1.wordid = word.data_dictionary.id;
+                corrects.Add(correct1);
+
+                dataGridView1.Rows.Add(word.data_dictionary.english, time1);
 
                 // Test
 
@@ -243,8 +281,8 @@ namespace WordCheck
 
             lblTotalWords.Text = "";
 
-            this.Height = 368;
-            this.Width = 896;
+            //this.Height = 368;
+            //this.Width = 896;
 
             SetEnabledControls(false);
         }
@@ -292,8 +330,17 @@ namespace WordCheck
 
             foreach (data_wordconfusion item in mistakes)
             {
+                if (item.incorrectword.Contains("khr-s")) continue;
+                if (item.incorrectword == "") continue;
+
                 dc1.pr_AddMistakeRecord(item.wordid, item.incorrectword);
             }
+
+            foreach (data_wordcorrect item in corrects)
+            {
+                dc1.pr_AddCorrectRecord(item.wordid, item.msspeed, item.date);
+            }
+
             dc1.SubmitChanges();
 
         }
