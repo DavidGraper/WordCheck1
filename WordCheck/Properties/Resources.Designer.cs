@@ -63,9 +63,39 @@ namespace WordCheck.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ContractArrow_16x {
+            get {
+                object obj = ResourceManager.GetObject("ContractArrow_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ContractArrow_16x_32 {
+            get {
+                object obj = ResourceManager.GetObject("ContractArrow_16x_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap DrillThrall2 {
             get {
                 object obj = ResourceManager.GetObject("DrillThrall2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ExpandArrow_16x {
+            get {
+                object obj = ResourceManager.GetObject("ExpandArrow_16x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

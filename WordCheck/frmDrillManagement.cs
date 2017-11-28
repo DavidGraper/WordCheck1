@@ -61,10 +61,13 @@ namespace WordCheck
               try
             {
                 long id = Convert.ToInt64(dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].Value);
-               
+                string drillName = dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[1].Value.ToString();
+
                 frmDrill form1 = new frmDrill();
 
                 form1.DrillID = id;
+                form1.DrillName = drillName;
+
 
                 form1.ShowDialog(this);
 

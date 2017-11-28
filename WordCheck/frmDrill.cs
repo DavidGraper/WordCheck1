@@ -53,14 +53,21 @@ namespace WordCheck
 
                 //data_application application1 = new data_application();
                 var query = from q in dc1.data_drill_dictionaries
-                            //where q.data_drill.drillname == "Chapter 19"
-                            where q.data_drill.drillname == "500 Most Common Words Used in English"
+                                //where q.data_drill.drillname == "Chapter 19"
+                            where q.data_drill.id == DrillID
                             select q;
 
                 foreach (var item in query)
                 {
                     return1.Add(item);
                 }
+
+                // Randomizing?
+                Random rand = new Random();
+                return1 = return1.OrderBy(c => rand.Next()).Select(c => c).ToList();
+
+                // Set upper limit of progress bar
+                progressBar1.Maximum = return1.Count;
             }
             catch (Exception ex)
             {
@@ -242,17 +249,27 @@ namespace WordCheck
 
                 dataGridView1.Rows.Add(word.data_dictionary.english, time1);
 
+                dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount - 1;
+
                 // Test
 
                 match = false;
 
                 UpdateWordCounts(words.Count, completedWords);
 
+                progressBar1.Value++;
+
             }
 
             if (abort) this.Close();
 
             MessageBox.Show("Done!");
+
+            btnStop.Enabled = false;
+
+            WriteResultsToDB();
+
+
             timer1.Stop();
         }
 
@@ -280,6 +297,7 @@ namespace WordCheck
         {
 
             lblTotalWords.Text = "";
+            lblTitle.Text = DrillName;
 
             //this.Height = 368;
             //this.Width = 896;
@@ -298,8 +316,9 @@ namespace WordCheck
 
         #region Properties
 
-        public long DrillID { get; set; }
         public Boolean Abort { get; set; }
+        public long DrillID { get; set; }
+        public string DrillName { get; set; }
 
         #endregion
 
@@ -327,22 +346,26 @@ namespace WordCheck
 
             abort = true;
 
+            WriteResultsToDB();
 
+        }
+
+        private void WriteResultsToDB()
+        {
             foreach (data_wordconfusion item in mistakes)
             {
                 if (item.incorrectword.Contains("khr-s")) continue;
                 if (item.incorrectword == "") continue;
 
-                dc1.pr_AddMistakeRecord(item.wordid, item.incorrectword);
+                dc1.pr_AddMistakeRecord(DrillID, item.wordid, item.incorrectword);
             }
 
             foreach (data_wordcorrect item in corrects)
             {
-                dc1.pr_AddCorrectRecord(item.wordid, item.msspeed, item.date);
+                dc1.pr_AddCorrectRecord(DrillID, item.wordid, item.msspeed, item.date);
             }
 
             dc1.SubmitChanges();
-
         }
 
         private void normalToolStripMenuItem_Click(object sender, EventArgs e)
@@ -358,6 +381,11 @@ namespace WordCheck
         private void groupBox1_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private void randomToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            randomToolStripMenuItem.Checked = true;
         }
     }
 }
