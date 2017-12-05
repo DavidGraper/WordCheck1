@@ -98,6 +98,7 @@
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "English-to-Steno Word Drills";
             this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
             // label2
             // 
@@ -117,6 +118,7 @@
             this.radioButton2.TabIndex = 6;
             this.radioButton2.Text = "English-to-Steno Sentence Drills";
             this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
             // radioButton3
             // 

@@ -53,6 +53,23 @@ namespace WordCheck
 
                 throw;
             }
+        }
+
+        private void LoadSentenceDrills()
+        {
+            try
+            {
+                var query = from q in dc1.data_sentencedrills
+                            orderby q.drillname
+                            select q;
+
+                dataGridView1.DataSource = query;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
 
         }
 
@@ -93,6 +110,22 @@ namespace WordCheck
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton2.Checked)
+            {
+                LoadSentenceDrills();
+            }
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton1.Checked)
+            {
+                LoadDrills();
+            }
         }
     }
 }
