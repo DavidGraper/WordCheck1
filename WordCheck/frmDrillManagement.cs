@@ -75,29 +75,33 @@ namespace WordCheck
 
         private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-              try
-            {
-                long id = Convert.ToInt64(dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].Value);
-                string drillName = dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[1].Value.ToString();
+            long id = Convert.ToInt64(dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].Value);
+            string drillName = dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[1].Value.ToString();
 
+            RunDrill(id, drillName);
+        }
+
+        private void RunDrill(long DrillID, string DrillName)
+        {
+            try
+            {
                 frmDrill form1 = new frmDrill();
 
-                form1.DrillID = id;
-                form1.DrillName = drillName;
+                form1.DrillID = DrillID;
+                form1.DrillName = DrillName;
 
 
                 form1.ShowDialog(this);
 
                 form1.Dispose();
                 //form1.Show();
-                
+
             }
             catch (Exception ex)
             {
-                ShowErrorMessage("Error on dgvApplications_CellDoubleClick: ", ex);
+                ShowErrorMessage("Error on RunDrill: ", ex);
             }
         }
-
 
         private void ShowErrorMessage(string Description, Exception ExceptionIn)
         {
@@ -126,6 +130,14 @@ namespace WordCheck
             {
                 LoadDrills();
             }
+        }
+
+        private void btnRunDrill_Click(object sender, EventArgs e)
+        {
+            long id = Convert.ToInt64(dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].Value);
+            string drillName = dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[1].Value.ToString();
+
+            RunDrill(id, drillName);
         }
     }
 }

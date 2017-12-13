@@ -36,6 +36,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this.btnRunDrill = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -70,7 +71,7 @@
             // button1
             // 
             this.button1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.button1.Location = new System.Drawing.Point(388, 242);
+            this.button1.Location = new System.Drawing.Point(452, 242);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(95, 23);
             this.button1.TabIndex = 2;
@@ -80,7 +81,7 @@
             // button2
             // 
             this.button2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.button2.Location = new System.Drawing.Point(502, 242);
+            this.button2.Location = new System.Drawing.Point(566, 242);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(88, 23);
             this.button2.TabIndex = 3;
@@ -130,11 +131,23 @@
             this.radioButton3.Text = "Steno-to-English Word Drills";
             this.radioButton3.UseVisualStyleBackColor = true;
             // 
+            // btnRunDrill
+            // 
+            this.btnRunDrill.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnRunDrill.Location = new System.Drawing.Point(327, 242);
+            this.btnRunDrill.Name = "btnRunDrill";
+            this.btnRunDrill.Size = new System.Drawing.Size(95, 23);
+            this.btnRunDrill.TabIndex = 8;
+            this.btnRunDrill.Text = "Run Drill";
+            this.btnRunDrill.UseVisualStyleBackColor = true;
+            this.btnRunDrill.Click += new System.EventHandler(this.btnRunDrill_Click);
+            // 
             // frmDrillManagement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(796, 284);
+            this.Controls.Add(this.btnRunDrill);
             this.Controls.Add(this.radioButton3);
             this.Controls.Add(this.radioButton2);
             this.Controls.Add(this.label2);
@@ -162,5 +175,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton3;
+        private System.Windows.Forms.Button btnRunDrill;
     }
 }

@@ -49,6 +49,7 @@
             this.randomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblTestWordOrPhrase = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblStandardDeviation = new System.Windows.Forms.Label();
             this.btnStop = new System.Windows.Forms.Button();
             this.lblTitleHumanResponse = new System.Windows.Forms.Label();
             this.drillOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -62,6 +63,7 @@
             this.extraLargeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -130,17 +132,17 @@
             // 
             this.lblAverageSpeed.AutoSize = true;
             this.lblAverageSpeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAverageSpeed.Location = new System.Drawing.Point(18, 85);
+            this.lblAverageSpeed.Location = new System.Drawing.Point(18, 112);
             this.lblAverageSpeed.Name = "lblAverageSpeed";
-            this.lblAverageSpeed.Size = new System.Drawing.Size(127, 13);
+            this.lblAverageSpeed.Size = new System.Drawing.Size(150, 13);
             this.lblAverageSpeed.TabIndex = 6;
-            this.lblAverageSpeed.Text = "Average Speed:  40 wpm";
+            this.lblAverageSpeed.Text = "Average Speed (in seconds):  ";
             // 
             // lblDrillTime
             // 
             this.lblDrillTime.AutoSize = true;
             this.lblDrillTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDrillTime.Location = new System.Drawing.Point(18, 108);
+            this.lblDrillTime.Location = new System.Drawing.Point(18, 84);
             this.lblDrillTime.Name = "lblDrillTime";
             this.lblDrillTime.Size = new System.Drawing.Size(87, 13);
             this.lblDrillTime.TabIndex = 7;
@@ -231,6 +233,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.lblStandardDeviation);
             this.groupBox1.Controls.Add(this.lblTotalWords);
             this.groupBox1.Controls.Add(this.lblWordsToGo);
             this.groupBox1.Controls.Add(this.lblAverageSpeed);
@@ -242,6 +245,16 @@
             this.groupBox1.TabIndex = 38;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Statistics";
+            // 
+            // lblStandardDeviation
+            // 
+            this.lblStandardDeviation.AutoSize = true;
+            this.lblStandardDeviation.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStandardDeviation.Location = new System.Drawing.Point(18, 132);
+            this.lblStandardDeviation.Name = "lblStandardDeviation";
+            this.lblStandardDeviation.Size = new System.Drawing.Size(101, 13);
+            this.lblStandardDeviation.TabIndex = 9;
+            this.lblStandardDeviation.Text = "Standard Deviation:";
             // 
             // btnStop
             // 
@@ -349,11 +362,22 @@
             this.progressBar1.Size = new System.Drawing.Size(839, 23);
             this.progressBar1.TabIndex = 39;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(137, 305);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 45;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // frmDrill
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(880, 699);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.pictureBox1);
@@ -420,5 +444,7 @@
         private System.Windows.Forms.ToolStripMenuItem extraLargeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Label lblStandardDeviation;
+        private System.Windows.Forms.Button button1;
     }
 }

@@ -33,7 +33,12 @@ namespace WordCheck
         List<data_wordconfusion> mistakes = new List<data_wordconfusion>();
         List<data_wordcorrect> corrects = new List<data_wordcorrect>();
 
+        List<data_drill_dictionary> words = new List<data_drill_dictionary>();
+
         string entryBuffer = string.Empty;
+
+        double StandardDeviation = 0;
+        double Average = 0;
 
         #region Initialize
 
@@ -52,7 +57,7 @@ namespace WordCheck
             lblTitle.Text = DrillName;
             pictureBox1.Image = Properties.Resources.ExpandArrow_16x;
             this.Size = new Size(896, 411);
-            
+
             SetEnabledControls(false);
         }
 
@@ -91,6 +96,28 @@ namespace WordCheck
             }
 
             return return1;
+        }
+
+        private void LoadLightningDrill(ref List<data_drill_dictionary> Words)
+        {
+            try
+            {
+                foreach (data_wordcorrect item in corrects)
+                {
+                    //if (item.msspeed < (Average + 2 * (StandardDeviation)))
+                    if ((item.msspeed/1000.00) < Average)
+                    {
+                       Words.Remove(Words.Find(word => word.dictionaryid == item.wordid));                      
+                    }
+                }
+
+                // Set upper limit of progress bar
+                progressBar1.Maximum = Words.Count;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private List<string> LoadSentenceDrill()
@@ -282,8 +309,24 @@ namespace WordCheck
 
             SetEnabledControls(true);
 
-            List<data_drill_dictionary> words = LoadDrill();
+            //List<data_drill_dictionary> words = LoadDrill();
+            words = LoadDrill();
+            NewMethod(ref totalMilliSeconds, ref averageMilliSeconds, words);
 
+            // Ask about quick review
+            // MessageBox.Show("Quick Review?");
+
+            // Determine words > 1 Standardard Deviation and ask if you'd like to re-try them
+            // LoadLightningDrill(ref words);
+
+            // Run again
+            // totalMilliSeconds = averageMilliSeconds = 0;
+            // NewMethod(ref totalMilliSeconds, ref averageMilliSeconds, words);
+
+        }
+
+        private void NewMethod(ref double totalMilliSeconds, ref double averageMilliSeconds, List<data_drill_dictionary> words)
+        {
             int totalWords = words.Count;
             int completedWords = 0;
 
@@ -340,7 +383,7 @@ namespace WordCheck
                 // Update average speed
                 totalMilliSeconds += span1.TotalMilliseconds;
                 averageMilliSeconds = totalMilliSeconds / completedWords;
-                
+
 
                 lblAverageSpeed.Text = string.Format("Average speed = {0} seconds per word", Math.Round((averageMilliSeconds / 1000), 2));
 
@@ -363,11 +406,7 @@ namespace WordCheck
 
             timer1.Stop();
 
-            // Ask about quick review
-            MessageBox.Show("Quick Review?");
-
-            // Determine words > 1 Standardard Deviation and ask if you'd like to re-try them
-         
+            UpdateStatistics();
 
         }
 
@@ -433,7 +472,104 @@ namespace WordCheck
         {
 
         }
-      
+
         #endregion
+
+
+        private void UpdateStatistics()
+        {
+            Average = getAverage(corrects) / 1000.00;
+            string averageSpeedInSeconds = Average.ToString();
+            string varianceInSeconds = (variance(corrects) / 1000.00).ToString();
+            StandardDeviation = standardDeviation(variance(corrects)) / 1000.00;
+
+            string stdevInSeconds = StandardDeviation.ToString();
+
+            lblAverageSpeed.Text = string.Format("Average speed (in seconds):  {0}", averageSpeedInSeconds);
+            lblStandardDeviation.Text = string.Format("Standard Deviation (in seconds):  {0}", stdevInSeconds);
+
+        }
+
+        private double variance(List<data_wordcorrect> correctsIn)
+        {
+            if (correctsIn.Count > 1)
+            {
+
+                // Get the average of the values
+                double avg = getAverage(correctsIn);
+
+                // Now figure out how far each point is from the mean
+                // So we subtract from the number the average
+                // Then raise it to the power of 2
+                double sumOfSquares = 0.0;
+
+                foreach (data_wordcorrect dwc in correctsIn)
+                {
+                    sumOfSquares += Math.Pow((dwc.msspeed - avg), 2.0);
+                }
+
+                // Finally divide it by n - 1 (for standard deviation variance)
+                // Or use length without subtracting one ( for population standard deviation variance)
+                //return sumOfSquares / (double)(correctsIn.Count - 1);
+                return sumOfSquares / (double)(correctsIn.Count);
+            }
+            else { return 0.0; }
+        }
+
+        // Square root the variance to get the standard deviation
+        private double standardDeviation(double variance)
+        {
+            return Math.Sqrt(variance);
+        }
+
+        // Get the average of our values in the array
+        private long getAverage(List<data_wordcorrect> correctsIn)
+        {
+            long sum = 0;
+
+            if (correctsIn.Count > 1)
+            {
+
+                // Sum up the values
+                foreach (data_wordcorrect wdc in correctsIn)
+                {
+                    sum += wdc.msspeed;
+                }
+
+                // Divide by the number of values
+                return sum / (long)correctsIn.Count;
+            }
+            else { return correctsIn[0].msspeed; }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            double totalMilliSeconds = 0;
+            double averageMilliSeconds = 0;
+
+            progressBar1.Value = 0;
+
+            frmCountdown frm1 = new frmCountdown();
+
+            frm1.StartPosition = FormStartPosition.CenterParent;
+            frm1.ShowDialog();
+
+            timeDrillStart = DateTime.Now;
+
+            SetEnabledControls(true);
+
+            //List<data_drill_dictionary> words = LoadDrill();
+            //NewMethod(ref totalMilliSeconds, ref averageMilliSeconds, words);
+
+            // Ask about quick review
+            // MessageBox.Show("Quick Review?");
+
+            // Determine words > 1 Standardard Deviation and ask if you'd like to re-try them
+            LoadLightningDrill(ref words);
+
+            // Run again
+            // totalMilliSeconds = averageMilliSeconds = 0;
+            NewMethod(ref totalMilliSeconds, ref averageMilliSeconds, words);
+        }
     }
 }
