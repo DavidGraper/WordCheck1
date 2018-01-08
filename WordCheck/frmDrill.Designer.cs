@@ -64,6 +64,7 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.button1 = new System.Windows.Forms.Button();
+            this.lblRetestingWords = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -372,11 +373,20 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // lblRetestingWords
+            // 
+            this.lblRetestingWords.AutoSize = true;
+            this.lblRetestingWords.Location = new System.Drawing.Point(92, 256);
+            this.lblRetestingWords.Name = "lblRetestingWords";
+            this.lblRetestingWords.Size = new System.Drawing.Size(0, 13);
+            this.lblRetestingWords.TabIndex = 46;
+            // 
             // frmDrill
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(880, 699);
+            this.Controls.Add(this.lblRetestingWords);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
@@ -446,5 +456,6 @@
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label lblStandardDeviation;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label lblRetestingWords;
     }
 }

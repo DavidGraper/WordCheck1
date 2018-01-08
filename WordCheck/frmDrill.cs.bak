@@ -40,8 +40,6 @@ namespace WordCheck
         double StandardDeviation = 0;
         double Average = 0;
 
-        double QuizAverage = 0;
-
         #region Initialize
 
         public frmDrill()
@@ -107,7 +105,7 @@ namespace WordCheck
                 foreach (data_wordcorrect item in corrects)
                 {
                     //if (item.msspeed < (Average + 2 * (StandardDeviation)))
-                    if ((item.msspeed/1000.00) < QuizAverage)
+                    if ((item.msspeed/1000.00) < Average)
                     {
                        Words.Remove(Words.Find(word => word.dictionaryid == item.wordid));                      
                     }
@@ -115,7 +113,6 @@ namespace WordCheck
 
                 // Set upper limit of progress bar
                 progressBar1.Maximum = Words.Count;
-                lblRetestingWords.Text = Words.Count.ToString();
             }
             catch (Exception ex)
             {
@@ -491,8 +488,6 @@ namespace WordCheck
             lblAverageSpeed.Text = string.Format("Average speed (in seconds):  {0}", averageSpeedInSeconds);
             lblStandardDeviation.Text = string.Format("Standard Deviation (in seconds):  {0}", stdevInSeconds);
 
-            // Done once
-            if (QuizAverage == 0) QuizAverage = Average;
         }
 
         private double variance(List<data_wordcorrect> correctsIn)
@@ -549,12 +544,8 @@ namespace WordCheck
 
         private void button1_Click(object sender, EventArgs e)
         {
-
-            // Clear statistics
             double totalMilliSeconds = 0;
             double averageMilliSeconds = 0;
-
-            //corrects.Clear();
 
             progressBar1.Value = 0;
 
@@ -573,13 +564,8 @@ namespace WordCheck
             // Ask about quick review
             // MessageBox.Show("Quick Review?");
 
-            // Hack
-            if (QuizAverage == 0) QuizAverage = Average;
-
-            // Determine words < average for retesting
+            // Determine words > 1 Standardard Deviation and ask if you'd like to re-try them
             LoadLightningDrill(ref words);
-
-            corrects.Clear();
 
             // Run again
             // totalMilliSeconds = averageMilliSeconds = 0;

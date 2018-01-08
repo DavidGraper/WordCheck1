@@ -45,7 +45,7 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblTestWordOrPhrase = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.lblTotalWords = new System.Windows.Forms.Label();
+            this.lblTotalSentences = new System.Windows.Forms.Label();
             this.lblWordsToGo = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -56,16 +56,24 @@
             this.btnStart = new System.Windows.Forms.Button();
             this.txtHumanResponse = new System.Windows.Forms.TextBox();
             this.lblTitleTestWordOrPhrase = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.lnkLabel = new System.Windows.Forms.LinkLabel();
+            this.lblRetestingWords = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lblStandardDeviation = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lblAverageSpeed = new System.Windows.Forms.Label();
+            this.lblDrillTime = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // progressBar1
@@ -183,7 +191,8 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.lblTotalWords);
+            this.groupBox1.Controls.Add(this.groupBox2);
+            this.groupBox1.Controls.Add(this.lblTotalSentences);
             this.groupBox1.Controls.Add(this.lblWordsToGo);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label6);
@@ -197,13 +206,13 @@
             // 
             // lblTotalWords
             // 
-            this.lblTotalWords.AutoSize = true;
-            this.lblTotalWords.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotalWords.Location = new System.Drawing.Point(18, 40);
-            this.lblTotalWords.Name = "lblTotalWords";
-            this.lblTotalWords.Size = new System.Drawing.Size(59, 13);
-            this.lblTotalWords.TabIndex = 4;
-            this.lblTotalWords.Text = "101 Words";
+            this.lblTotalSentences.AutoSize = true;
+            this.lblTotalSentences.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalSentences.Location = new System.Drawing.Point(18, 40);
+            this.lblTotalSentences.Name = "lblTotalWords";
+            this.lblTotalSentences.Size = new System.Drawing.Size(59, 13);
+            this.lblTotalSentences.TabIndex = 4;
+            this.lblTotalSentences.Text = "101 Words";
             // 
             // lblWordsToGo
             // 
@@ -292,6 +301,7 @@
             this.txtHumanResponse.Name = "txtHumanResponse";
             this.txtHumanResponse.Size = new System.Drawing.Size(1035, 35);
             this.txtHumanResponse.TabIndex = 47;
+            this.txtHumanResponse.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtHumanResponse_KeyDown);
             // 
             // lblTitleTestWordOrPhrase
             // 
@@ -302,18 +312,6 @@
             this.lblTitleTestWordOrPhrase.Size = new System.Drawing.Size(121, 29);
             this.lblTitleTestWordOrPhrase.TabIndex = 46;
             this.lblTitleTestWordOrPhrase.Text = "Sentence:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Courier New", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.label2.Location = new System.Drawing.Point(317, 250);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(129, 36);
-            this.label2.TabIndex = 56;
-            this.label2.Text = "label2";
-            this.label2.Visible = false;
             // 
             // Column1
             // 
@@ -346,11 +344,99 @@
             this.dataGridView1.Size = new System.Drawing.Size(394, 236);
             this.dataGridView1.TabIndex = 49;
             // 
+            // lnkLabel
+            // 
+            this.lnkLabel.AutoSize = true;
+            this.lnkLabel.Font = new System.Drawing.Font("Courier New", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lnkLabel.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.lnkLabel.Location = new System.Drawing.Point(316, 243);
+            this.lnkLabel.Name = "lnkLabel";
+            this.lnkLabel.Size = new System.Drawing.Size(205, 36);
+            this.lnkLabel.TabIndex = 59;
+            this.lnkLabel.TabStop = true;
+            this.lnkLabel.Text = "linkLabel1";
+            // 
+            // lblRetestingWords
+            // 
+            this.lblRetestingWords.AutoSize = true;
+            this.lblRetestingWords.Location = new System.Drawing.Point(134, 265);
+            this.lblRetestingWords.Name = "lblRetestingWords";
+            this.lblRetestingWords.Size = new System.Drawing.Size(93, 13);
+            this.lblRetestingWords.TabIndex = 60;
+            this.lblRetestingWords.Text = "lblRetestingWords";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.lblStandardDeviation);
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.lblAverageSpeed);
+            this.groupBox2.Controls.Add(this.lblDrillTime);
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox2.Location = new System.Drawing.Point(8, 8);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(420, 236);
+            this.groupBox2.TabIndex = 39;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Statistics";
+            // 
+            // lblStandardDeviation
+            // 
+            this.lblStandardDeviation.AutoSize = true;
+            this.lblStandardDeviation.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStandardDeviation.Location = new System.Drawing.Point(18, 132);
+            this.lblStandardDeviation.Name = "lblStandardDeviation";
+            this.lblStandardDeviation.Size = new System.Drawing.Size(101, 13);
+            this.lblStandardDeviation.TabIndex = 9;
+            this.lblStandardDeviation.Text = "Standard Deviation:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(18, 40);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(59, 13);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "101 Words";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(18, 62);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(185, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "0 Words Completed, 101 Words to go";
+            // 
+            // lblAverageSpeed
+            // 
+            this.lblAverageSpeed.AutoSize = true;
+            this.lblAverageSpeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAverageSpeed.Location = new System.Drawing.Point(18, 112);
+            this.lblAverageSpeed.Name = "lblAverageSpeed";
+            this.lblAverageSpeed.Size = new System.Drawing.Size(150, 13);
+            this.lblAverageSpeed.TabIndex = 6;
+            this.lblAverageSpeed.Text = "Average Speed (in seconds):  ";
+            // 
+            // lblDrillTime
+            // 
+            this.lblDrillTime.AutoSize = true;
+            this.lblDrillTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDrillTime.Location = new System.Drawing.Point(18, 84);
+            this.lblDrillTime.Name = "lblDrillTime";
+            this.lblDrillTime.Size = new System.Drawing.Size(87, 13);
+            this.lblDrillTime.TabIndex = 7;
+            this.lblDrillTime.Text = "Drill Time:  0m 0s";
+            // 
             // frmSentenceDrill
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1388, 699);
+            this.Controls.Add(this.lblRetestingWords);
+            this.Controls.Add(this.lnkLabel);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.lblTestWordOrPhrase);
@@ -362,7 +448,6 @@
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.txtHumanResponse);
             this.Controls.Add(this.lblTitleTestWordOrPhrase);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dataGridView1);
             this.Name = "frmSentenceDrill";
@@ -373,6 +458,8 @@
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -396,7 +483,7 @@
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.Label lblTestWordOrPhrase;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label lblTotalWords;
+        private System.Windows.Forms.Label lblTotalSentences;
         private System.Windows.Forms.Label lblWordsToGo;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
@@ -407,11 +494,18 @@
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.TextBox txtHumanResponse;
         private System.Windows.Forms.Label lblTitleTestWordOrPhrase;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.LinkLabel lnkLabel;
+        private System.Windows.Forms.Label lblRetestingWords;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label lblStandardDeviation;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblAverageSpeed;
+        private System.Windows.Forms.Label lblDrillTime;
     }
 }
