@@ -23,7 +23,6 @@ namespace WordCheck
         private Boolean abort = false;
 
         private long CurrentSentenceID;
-        private long HumanSentenceCount;
 
         private int ErrorCount0 = 0;
 
@@ -31,6 +30,8 @@ namespace WordCheck
 
         List<data_wordconfusion> mistakes = new List<data_wordconfusion>();
         List<data_wordcorrect> corrects = new List<data_wordcorrect>();
+
+
 
         List<data_sentencedrills_sentence> sentences = new List<data_sentencedrills_sentence>();
 
@@ -40,6 +41,8 @@ namespace WordCheck
         double Average = 0;
 
         double QuizAverage = 0;
+
+        Boolean showRTB = false;
 
         #region Initialize
 
@@ -61,6 +64,8 @@ namespace WordCheck
             this.Size = new Size(896, 411);
 
             SetEnabledControls(false);
+
+            timer1.Start();
         }
 
         #endregion
@@ -156,25 +161,32 @@ namespace WordCheck
             string expectedResponse = lblTestWordOrPhrase.Text.ToLower().Trim();
             string humanResponse = txtHumanResponse.Text.ToLower().Trim();
 
+            lblComputer.Text = expectedResponse;
+            lblHuman.Text = humanResponse;
+
+
+
             // Before checking discrepancies, exit under certain conditions 
 
             // 1.  If human has entered nothing
             if (humanResponse == "")
             {
                 entryBuffer = string.Empty;
-                HumanSentenceCount = 0;
                 return;
             }
 
             // 2.  If the human's response is an exact match to the sentence
             if (humanResponse == expectedResponse)
             {
+
+                MessageBox.Show("Done");
+
                 entryBuffer = string.Empty;
-                HumanSentenceCount = 0;
                 match = true;
 
                 ErrorCount0 = 0;
                 label2.Visible = false;
+                richTextBox1.Visible = false;
 
                 return;
             }
@@ -288,9 +300,30 @@ namespace WordCheck
         {
             if (e.KeyCode == Keys.Enter)
             {
-                MessageBox.Show(txtHumanResponse.Text);
-                txtHumanResponse.Text = "";
+                //MessageBox.Show(txtHumanResponse.Text);
+                //txtHumanResponse.Text = "";
+                richTextBox1.Visible = true;
+
             }
+
+            //int CorrectWords = lblTestWordOrPhrase.Text.Split(' ').Count();
+            //int HumanWords = txtHumanResponse.Text.Split(' ').Count();
+
+            //string[] cwords = lblTestWordOrPhrase.Text.Split(' ');
+            //string[] hwords = txtHumanResponse.Text.Split(' ');
+
+            //if ((CorrectWords == HumanWords) && (lblTestWordOrPhrase.Text  != txtHumanResponse.Text))
+            //{
+
+            //    clsParseSentenceErrors class1 = new clsParseSentenceErrors();
+            //    class1.GetHighlightedErrors2(lblTestWordOrPhrase.Text, txtHumanResponse.Text, ref richTextBox1);
+            //    richTextBox1.Visible = true;
+            //}
+            //else
+            //{
+            //    richTextBox1.Visible = false;
+
+            //}
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -310,6 +343,8 @@ namespace WordCheck
             //List<data_sentencedrills_sentence> words = LoadDrill();
             sentences = LoadDrill();
             NewMethod(ref totalMilliSeconds, ref averageMilliSeconds, sentences);
+
+            timer1.Start();
 
             // Ask about quick review
             // MessageBox.Show("Quick Review?");
@@ -567,6 +602,7 @@ namespace WordCheck
             List<data_sentencedrills_sentence> sentences = LoadDrill();
             NewMethod(ref totalMilliSeconds, ref averageMilliSeconds, sentences);
 
+
             // Ask about quick review
             // MessageBox.Show("Quick Review?");
 
@@ -583,7 +619,46 @@ namespace WordCheck
             NewMethod(ref totalMilliSeconds, ref averageMilliSeconds, this.sentences);
         }
 
+        private void txtHumanResponse_TextChanged(object sender, EventArgs e)
+        {
 
+            SendKeys.Flush();
+
+            string testText = lblTestWordOrPhrase.Text.Trim();
+            string humanText = txtHumanResponse.Text.Trim();
+
+            int CorrectWords = testText.Split(' ').Count();
+            int HumanWords = humanText.Split(' ').Count();
+
+            string[] cwords = testText.Split(' ');
+            string[] hwords = humanText.Split(' ');
+
+            Boolean isLastCharacterPeriod = (humanText.Substring(humanText.Length - 1, 1) == ".");
+
+            //if ((CorrectWords == HumanWords) && (lblTestWordOrPhrase.Text != txtHumanResponse.Text)) 
+            clsParseSentenceErrors class1 = new clsParseSentenceErrors();
+            class1.GetHighlightedErrors2(lblTestWordOrPhrase.Text, txtHumanResponse.Text, ref richTextBox1);
+
+            if (isLastCharacterPeriod && (lblTestWordOrPhrase.Text != txtHumanResponse.Text))
+            {
+
+               
+                richTextBox1.Visible = true;
+                //return;
+            }
+
+            lblHuman.Text = humanText;
+            lblComputer.Text = testText;
+
+            if (testText == humanText)
+            {
+                richTextBox1.Visible = false;
+                MessageBox.Show("Done!");
+
+            }
+
+           
+        }
     }
 }
 

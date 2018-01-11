@@ -22,6 +22,7 @@ namespace WordCheck
             clsParseSentenceErrors class1 = new clsParseSentenceErrors();
 
             class1.GetHighlightedErrors(textBox2.Text, textBox1.Text, ref linkLabel1);
+            class1.GetHighlightedErrors2(textBox2.Text, textBox1.Text, ref richTextBox1);
 
             class1 = null;
         }
@@ -33,7 +34,14 @@ namespace WordCheck
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
+            int CorrectWords = textBox2.Text.Split(' ').Count();
+            int HumanWords = textBox1.Text.Split(' ').Count();
 
+            if (CorrectWords == HumanWords)
+            {
+                clsParseSentenceErrors class1 = new clsParseSentenceErrors();
+                class1.GetHighlightedErrors2(textBox2.Text, textBox1.Text, ref richTextBox1);
+            }
         }
 
         private void frmTest0_Load(object sender, EventArgs e)
