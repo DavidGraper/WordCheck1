@@ -15,8 +15,6 @@ namespace WordCheck
 
         DataClasses1DataContext dc1 = new DataClasses1DataContext();
 
-        //private DateTime timeStart;
-        //private DateTime timeEnd;
         private DateTime timeDrillStart;
 
         private Boolean match = false;
@@ -24,31 +22,16 @@ namespace WordCheck
 
         private long CurrentSentenceID;
 
-        private int ErrorCount0 = 0;
-
-        private int SentenceWordCount;
-
-        List<data_wordconfusion> mistakes = new List<data_wordconfusion>();
-        List<data_wordcorrect> corrects = new List<data_wordcorrect>();
-
-
-
         List<data_sentencedrills_sentence> sentences = new List<data_sentencedrills_sentence>();
 
         string entryBuffer = string.Empty;
-
-        double StandardDeviation = 0;
-        double Average = 0;
-
-        double QuizAverage = 0;
-
-        Boolean showRTB = false;
 
         #region Initialize
 
         public frmSentenceDrill()
         {
-            InitializeComponent(); timer1.Interval = 10;
+            InitializeComponent();
+            timer1.Interval = 10;
             timer1.Tick += Timer_Tick;
         }
 
@@ -184,7 +167,7 @@ namespace WordCheck
                 entryBuffer = string.Empty;
                 match = true;
 
-                ErrorCount0 = 0;
+                //ErrorCount0 = 0;
                 label2.Visible = false;
                 richTextBox1.Visible = false;
 
@@ -284,13 +267,21 @@ namespace WordCheck
             progressBar1.Visible = Visible;
         }
 
-#endregion
+        private void UpdateStatistics()
+        {
+            //Average = getAverage(corrects) / 1000.00;
+            //string averageSpeedInSeconds = Average.ToString();
+            //string varianceInSeconds = (variance(corrects) / 1000.00).ToString();
+            //StandardDeviation = standardDeviation(variance(corrects)) / 1000.00;
 
-        #region Properties
+            //string stdevInSeconds = StandardDeviation.ToString();
 
-        public Boolean Abort { get; set; }
-        public long DrillID { get; set; }
-        public string DrillName { get; set; }
+            //lblAverageSpeed.Text = string.Format("Average speed (in seconds):  { 0} ", averageSpeedInSeconds);
+            //lblStandardDeviation.Text = string.Format("Standard Deviation (in seconds):  {0}", stdevInSeconds);
+
+            //// Done once
+            //if (QuizAverage == 0) QuizAverage = Average;
+        }
 
         #endregion
 
@@ -389,7 +380,7 @@ namespace WordCheck
                 List<string> humanWords = new List<string>();
 
                 // Get the number of words in the current sentence
-                SentenceWordCount = sentence.data_sentence.sentence.Split(' ').Length;
+                // SentenceWordCount = sentence.data_sentence.sentence.Split(' ').Length;
                 //completedWords += 1;
 
                 timeStart = DateTime.Now;
@@ -510,77 +501,6 @@ namespace WordCheck
 
         }
 
-#endregion
-
-
-        private void UpdateStatistics()
-        {
-            Average = getAverage(corrects) / 1000.00;
-            string averageSpeedInSeconds = Average.ToString();
-            string varianceInSeconds = (variance(corrects) / 1000.00).ToString();
-            StandardDeviation = standardDeviation(variance(corrects)) / 1000.00;
-
-            string stdevInSeconds = StandardDeviation.ToString();
-
-            lblAverageSpeed.Text = string.Format("Average speed (in seconds):  { 0} ", averageSpeedInSeconds);
-            lblStandardDeviation.Text = string.Format("Standard Deviation (in seconds):  {0}", stdevInSeconds);
-
-            // Done once
-            if (QuizAverage == 0) QuizAverage = Average;
-        }
-
-        private double variance(List<data_wordcorrect> correctsIn)
-        {
-            if (correctsIn.Count > 1)
-            {
-
-                // Get the average of the values
-                double avg = getAverage(correctsIn);
-
-                // Now figure out how far each point is from the mean
-                // So we subtract from the number the average
-                // Then raise it to the power of 2
-                double sumOfSquares = 0.0;
-
-                foreach (data_wordcorrect dwc in correctsIn)
-                {
-                    sumOfSquares += Math.Pow((dwc.msspeed - avg), 2.0);
-                }
-
-                // Finally divide it by n - 1 (for standard deviation variance)
-                // Or use length without subtracting one ( for population standard deviation variance)
-                //return sumOfSquares / (double)(correctsIn.Count - 1);
-                return sumOfSquares / (double)(correctsIn.Count);
-            }
-            else { return 0.0; }
-        }
-
-        // Square root the variance to get the standard deviation
-        private double standardDeviation(double variance)
-        {
-            return Math.Sqrt(variance);
-        }
-
-        // Get the average of our values in the array
-        private long getAverage(List<data_wordcorrect> correctsIn)
-        {
-            long sum = 0;
-
-            if (correctsIn.Count > 1)
-            {
-
-                // Sum up the values
-                foreach (data_wordcorrect wdc in correctsIn)
-                {
-                    sum += wdc.msspeed;
-                }
-
-                // Divide by the number of values
-                return sum / (long)correctsIn.Count;
-            }
-            else { return correctsIn[0].msspeed; }
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
 
@@ -603,20 +523,20 @@ namespace WordCheck
             NewMethod(ref totalMilliSeconds, ref averageMilliSeconds, sentences);
 
 
-            // Ask about quick review
-            // MessageBox.Show("Quick Review?");
+            //// Ask about quick review
+            //// MessageBox.Show("Quick Review?");
 
-            // Hack
-            if (QuizAverage == 0) QuizAverage = Average;
+            //// Hack
+            //if (QuizAverage == 0) QuizAverage = Average;
 
-            // Determine words < average for retesting
-            // LoadLightningDrill(ref sentences);
+            //// Determine words < average for retesting
+            //// LoadLightningDrill(ref sentences);
 
-            corrects.Clear();
+            //corrects.Clear();
 
-            // Run again
-            // totalMilliSeconds = averageMilliSeconds = 0;
-            NewMethod(ref totalMilliSeconds, ref averageMilliSeconds, this.sentences);
+            //// Run again
+            //// totalMilliSeconds = averageMilliSeconds = 0;
+            //NewMethod(ref totalMilliSeconds, ref averageMilliSeconds, this.sentences);
         }
 
         private void txtHumanResponse_TextChanged(object sender, EventArgs e)
@@ -642,7 +562,7 @@ namespace WordCheck
             if (isLastCharacterPeriod && (lblTestWordOrPhrase.Text != txtHumanResponse.Text))
             {
 
-               
+
                 richTextBox1.Visible = true;
                 //return;
             }
@@ -657,8 +577,20 @@ namespace WordCheck
 
             }
 
-           
+
         }
+
+        #endregion
+
+        #region Properties
+
+        public Boolean Abort { get; set; }
+        public long DrillID { get; set; }
+        public string DrillName { get; set; }
+
+        #endregion
+
+
     }
 }
 
