@@ -187,9 +187,8 @@
             this.lblTestWordOrPhrase.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTestWordOrPhrase.Location = new System.Drawing.Point(317, 148);
             this.lblTestWordOrPhrase.Name = "lblTestWordOrPhrase";
-            this.lblTestWordOrPhrase.Size = new System.Drawing.Size(764, 29);
+            this.lblTestWordOrPhrase.Size = new System.Drawing.Size(0, 29);
             this.lblTestWordOrPhrase.TabIndex = 45;
-            this.lblTestWordOrPhrase.Text = "Now is the time for all good men to come to the aid of their party.";
             // 
             // groupBox1
             // 
@@ -424,7 +423,7 @@
             // 
             // richTextBox1
             // 
-            this.richTextBox1.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.richTextBox1.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.richTextBox1.Location = new System.Drawing.Point(317, 243);
             this.richTextBox1.Name = "richTextBox1";
@@ -475,6 +474,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Name = "frmSentenceDrill";
             this.Text = "Title";
+            this.Load += new System.EventHandler(this.frmSentenceDrill_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);

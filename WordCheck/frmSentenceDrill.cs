@@ -24,7 +24,7 @@ namespace WordCheck
 
         List<data_sentencedrills_sentence> sentences = new List<data_sentencedrills_sentence>();
 
-        string entryBuffer = string.Empty;
+        // string entryBuffer = string.Empty;
 
         #region Initialize
 
@@ -41,10 +41,8 @@ namespace WordCheck
             // HACK
             DrillID = 1;
 
-            lblTotalSentences.Text = "";
             lblTitle.Text = DrillName;
             pictureBox1.Image = Properties.Resources.ExpandArrow_16x;
-            this.Size = new Size(896, 411);
 
             SetEnabledControls(false);
 
@@ -154,7 +152,7 @@ namespace WordCheck
             // 1.  If human has entered nothing
             if (humanResponse == "")
             {
-                entryBuffer = string.Empty;
+                //entryBuffer = string.Empty;
                 return;
             }
 
@@ -162,9 +160,9 @@ namespace WordCheck
             if (humanResponse == expectedResponse)
             {
 
-                MessageBox.Show("Done");
+                //MessageBox.Show("Done");
+                // Lots of BOINGs here
 
-                entryBuffer = string.Empty;
                 match = true;
 
                 //ErrorCount0 = 0;
@@ -174,9 +172,9 @@ namespace WordCheck
                 return;
             }
 
-            // If there is a new entry from the human
-            if (humanResponse != entryBuffer)
-            {
+            //// If there is a new entry from the human
+            //if (humanResponse != entryBuffer)
+            //{
 
                 //// If human makes more than two mistakes, display the 
                 //ErrorCount0++;
@@ -216,7 +214,7 @@ namespace WordCheck
                 //        HumanSentenceCount = 0;
                 //    }
                 //}
-            }
+            //}
         }
 
         //        private void WriteResultsToDB()
@@ -256,7 +254,6 @@ namespace WordCheck
         //            }
 
         //        }
-
 
         private void SetEnabledControls(Boolean Visible)
         {
@@ -352,7 +349,6 @@ namespace WordCheck
         private void NewMethod(ref double totalMilliSeconds, ref double averageMilliSeconds, List<data_sentencedrills_sentence> sentences)
         {
             int totalWords = sentences.Count;
-            int completedWords = 0;
 
             DateTime timeStart;
             DateTime timeEnd;
@@ -415,11 +411,11 @@ namespace WordCheck
 
                 //lblAverageSpeed.Text = string.Format("Average speed = {0} seconds per word", Math.Round((averageMilliSeconds / 1000), 2));
 
-                //match = false;
+                match = false;
 
                 //UpdateWordCounts(sentences.Count, completedWords);
 
-                //progressBar1.Value++;
+                progressBar1.Value++;
 
             }
 
@@ -427,7 +423,10 @@ namespace WordCheck
 
             MessageBox.Show("Done!");
 
+            //match = true;
+
             btnStop.Enabled = false;
+            btnStart.Enabled = false;
 
             //WriteResultsToDB();
 
@@ -553,7 +552,12 @@ namespace WordCheck
             string[] cwords = testText.Split(' ');
             string[] hwords = humanText.Split(' ');
 
-            Boolean isLastCharacterPeriod = (humanText.Substring(humanText.Length - 1, 1) == ".");
+            // Hack
+            Boolean isLastCharacterPeriod = false;
+            if (humanText.Length > 1)
+            {
+                isLastCharacterPeriod = (humanText.Substring(humanText.Length - 1, 1) == ".");
+            }
 
             //if ((CorrectWords == HumanWords) && (lblTestWordOrPhrase.Text != txtHumanResponse.Text)) 
             clsParseSentenceErrors class1 = new clsParseSentenceErrors();
@@ -573,8 +577,8 @@ namespace WordCheck
             if (testText == humanText)
             {
                 richTextBox1.Visible = false;
-                MessageBox.Show("Done!");
-
+                //MessageBox.Show("Done!");
+                //match = true;
             }
 
 

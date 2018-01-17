@@ -13,7 +13,17 @@ namespace WordCheck
     public partial class frmDrillManagement : Form
     {
 
+        public enum DrillType
+        {
+            Words,
+            Sentences,
+            StenoWords,
+            StenoSentences
+        }
+
         DataClasses1DataContext dc1 = new DataClasses1DataContext();
+
+        #region Initialize
 
         public frmDrillManagement()
         {
@@ -22,10 +32,14 @@ namespace WordCheck
 
         private void frmDrillManagement_Load(object sender, EventArgs e)
         {
-            LoadDrills();
+            LoadWordDrills();
             FormatDataGridView();
             NameDatagridColumns();
         }
+
+        #endregion
+
+        #region Private Methods
 
         private void FormatDataGridView()
         {
@@ -33,12 +47,7 @@ namespace WordCheck
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
-        private void NameDatagridColumns()
-        {
-            dataGridView1.Columns["drillname"].HeaderText = "Drill Name";
-       }
-
-        private void LoadDrills()
+        private void LoadWordDrills()
         {
             try
             {
@@ -73,12 +82,9 @@ namespace WordCheck
 
         }
 
-        private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void NameDatagridColumns()
         {
-            long id = Convert.ToInt64(dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].Value);
-            string drillName = dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[1].Value.ToString();
-
-            RunDrill(id, drillName);
+            dataGridView1.Columns["drillname"].HeaderText = "Drill Name";
         }
 
         private void RunDrill(long DrillID, string DrillName)
@@ -111,26 +117,9 @@ namespace WordCheck
             MessageBox.Show(errorText, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
+        #endregion
 
-        }
-
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
-        {
-            if (radioButton2.Checked)
-            {
-                LoadSentenceDrills();
-            }
-        }
-
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
-        {
-            if (radioButton1.Checked)
-            {
-                LoadDrills();
-            }
-        }
+        #region Handle Controls
 
         private void btnRunDrill_Click(object sender, EventArgs e)
         {
@@ -139,5 +128,55 @@ namespace WordCheck
 
             RunDrill(id, drillName);
         }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            long id = Convert.ToInt64(dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].Value);
+            string drillName = dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[1].Value.ToString();
+
+            RunDrill(id, drillName);
+        }
+
+        private void rdoEnglish2StenoSentences_Checked(object sender, EventArgs e)
+        {
+            if (rdoEnglish2StenoSentences.Checked)
+            {
+                CurrentDrillType = DrillType.Sentences;
+                LoadSentenceDrills();
+            }
+        }
+
+        private void rdoEnglish2StenoWords_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rdoEnglish2StenoWords.Checked)
+            {
+                CurrentDrillType = DrillType.Words;
+                LoadWordDrills();
+            }
+        }
+
+        private void rdoStenoToEnglishWords_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rdoStenoToEnglishWords.Checked)
+            {
+                CurrentDrillType = DrillType.StenoWords;
+                //LoadStenoWordDrills();
+            }
+        }
+
+        #endregion
+        
+        #region Properties
+
+        public DrillType CurrentDrillType { get; set; }
+
+        #endregion
+
     }
+    
 }

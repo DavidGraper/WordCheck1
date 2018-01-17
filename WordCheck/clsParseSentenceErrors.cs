@@ -205,7 +205,7 @@ namespace WordCheck
 
                 if (!wordIsCorrect[j])
                 {
-                    RichTextBoxIn.SelectionColor = Color.Blue;
+                    RichTextBoxIn.SelectionColor = Color.MidnightBlue;
                     Font fontIncorrect = new Font("Courier New", 18, FontStyle.Underline | FontStyle.Bold);
                     RichTextBoxIn.SelectionFont = fontIncorrect;
                     RichTextBoxIn.SelectedText += string.Format("{0}", originalCorrectWords[j]);
@@ -217,8 +217,9 @@ namespace WordCheck
                 else
                 {
                 Font fontCorrect = new Font("Courier New", 18, FontStyle.Bold);
+                    Color colorCorrect = System.Drawing.SystemColors.MenuHighlight;
                 RichTextBoxIn.SelectionFont = fontCorrect;
-                RichTextBoxIn.SelectionColor = Color.Red; 
+                    RichTextBoxIn.SelectionColor = colorCorrect;
                 RichTextBoxIn.SelectedText += string.Format("{0} ", originalCorrectWords[j]);
 
                 }

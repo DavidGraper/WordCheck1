@@ -32,10 +32,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.rdoEnglish2StenoWords = new System.Windows.Forms.RadioButton();
             this.label2 = new System.Windows.Forms.Label();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this.rdoEnglish2StenoSentences = new System.Windows.Forms.RadioButton();
+            this.rdoStenoToEnglishWords = new System.Windows.Forms.RadioButton();
             this.btnRunDrill = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -88,18 +88,18 @@
             this.button2.Text = "Delete Drill";
             this.button2.UseVisualStyleBackColor = true;
             // 
-            // radioButton1
+            // rdoEnglish2StenoWords
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Checked = true;
-            this.radioButton1.Location = new System.Drawing.Point(15, 43);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(156, 17);
-            this.radioButton1.TabIndex = 4;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "English-to-Steno Word Drills";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            this.rdoEnglish2StenoWords.AutoSize = true;
+            this.rdoEnglish2StenoWords.Checked = true;
+            this.rdoEnglish2StenoWords.Location = new System.Drawing.Point(15, 43);
+            this.rdoEnglish2StenoWords.Name = "rdoEnglish2StenoWords";
+            this.rdoEnglish2StenoWords.Size = new System.Drawing.Size(156, 17);
+            this.rdoEnglish2StenoWords.TabIndex = 4;
+            this.rdoEnglish2StenoWords.TabStop = true;
+            this.rdoEnglish2StenoWords.Text = "English-to-Steno Word Drills";
+            this.rdoEnglish2StenoWords.UseVisualStyleBackColor = true;
+            this.rdoEnglish2StenoWords.CheckedChanged += new System.EventHandler(this.rdoEnglish2StenoWords_CheckedChanged);
             // 
             // label2
             // 
@@ -110,26 +110,27 @@
             this.label2.TabIndex = 5;
             this.label2.Text = "Show Drills:";
             // 
-            // radioButton2
+            // rdoEnglish2StenoSentences
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(15, 66);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(176, 17);
-            this.radioButton2.TabIndex = 6;
-            this.radioButton2.Text = "English-to-Steno Sentence Drills";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
+            this.rdoEnglish2StenoSentences.AutoSize = true;
+            this.rdoEnglish2StenoSentences.Location = new System.Drawing.Point(15, 66);
+            this.rdoEnglish2StenoSentences.Name = "rdoEnglish2StenoSentences";
+            this.rdoEnglish2StenoSentences.Size = new System.Drawing.Size(176, 17);
+            this.rdoEnglish2StenoSentences.TabIndex = 6;
+            this.rdoEnglish2StenoSentences.Text = "English-to-Steno Sentence Drills";
+            this.rdoEnglish2StenoSentences.UseVisualStyleBackColor = true;
+            this.rdoEnglish2StenoSentences.CheckedChanged += new System.EventHandler(this.rdoEnglish2StenoSentences_Checked);
             // 
-            // radioButton3
+            // rdoStenoToEnglishWords
             // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(15, 89);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(156, 17);
-            this.radioButton3.TabIndex = 7;
-            this.radioButton3.Text = "Steno-to-English Word Drills";
-            this.radioButton3.UseVisualStyleBackColor = true;
+            this.rdoStenoToEnglishWords.AutoSize = true;
+            this.rdoStenoToEnglishWords.Location = new System.Drawing.Point(15, 89);
+            this.rdoStenoToEnglishWords.Name = "rdoStenoToEnglishWords";
+            this.rdoStenoToEnglishWords.Size = new System.Drawing.Size(156, 17);
+            this.rdoStenoToEnglishWords.TabIndex = 7;
+            this.rdoStenoToEnglishWords.Text = "Steno-to-English Word Drills";
+            this.rdoStenoToEnglishWords.UseVisualStyleBackColor = true;
+            this.rdoStenoToEnglishWords.CheckedChanged += new System.EventHandler(this.rdoStenoToEnglishWords_CheckedChanged);
             // 
             // btnRunDrill
             // 
@@ -148,10 +149,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(796, 284);
             this.Controls.Add(this.btnRunDrill);
-            this.Controls.Add(this.radioButton3);
-            this.Controls.Add(this.radioButton2);
+            this.Controls.Add(this.rdoStenoToEnglishWords);
+            this.Controls.Add(this.rdoEnglish2StenoSentences);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.radioButton1);
+            this.Controls.Add(this.rdoEnglish2StenoWords);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
@@ -171,10 +172,10 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton rdoEnglish2StenoWords;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton3;
+        private System.Windows.Forms.RadioButton rdoEnglish2StenoSentences;
+        private System.Windows.Forms.RadioButton rdoStenoToEnglishWords;
         private System.Windows.Forms.Button btnRunDrill;
     }
 }
