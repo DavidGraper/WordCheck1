@@ -1,6 +1,6 @@
 ﻿namespace WordCheck
 {
-    partial class frmDrill
+    partial class frmWordDrill
     {
         /// <summary>
         /// Required designer variable.
@@ -34,14 +34,14 @@
             this.mostErrorsToLeastToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblSuggestCorrectSteno = new System.Windows.Forms.Label();
             this.lblTotalWords = new System.Windows.Forms.Label();
             this.lblWordsToGo = new System.Windows.Forms.Label();
             this.lblAverageSpeed = new System.Windows.Forms.Label();
             this.lblDrillTime = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.lblTitle = new System.Windows.Forms.Label();
-            this.btnStart = new System.Windows.Forms.Button();
+            this.btnStartDrill = new System.Windows.Forms.Button();
             this.txtHumanResponse = new System.Windows.Forms.TextBox();
             this.lblTitleTestWordOrPhrase = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -50,7 +50,7 @@
             this.lblTestWordOrPhrase = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lblStandardDeviation = new System.Windows.Forms.Label();
-            this.btnStop = new System.Windows.Forms.Button();
+            this.btnStopDrill = new System.Windows.Forms.Button();
             this.lblTitleHumanResponse = new System.Windows.Forms.Label();
             this.drillOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.slowestToFastestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,7 +63,7 @@
             this.extraLargeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnTestProblemWords = new System.Windows.Forms.Button();
             this.lblRetestingWords = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -97,17 +97,17 @@
             this.Column1.HeaderText = "Column1";
             this.Column1.Name = "Column1";
             // 
-            // label2
+            // lblSuggestCorrectSteno
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Courier New", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.label2.Location = new System.Drawing.Point(317, 247);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(129, 36);
-            this.label2.TabIndex = 42;
-            this.label2.Text = "label2";
-            this.label2.Visible = false;
+            this.lblSuggestCorrectSteno.AutoSize = true;
+            this.lblSuggestCorrectSteno.Font = new System.Drawing.Font("Courier New", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSuggestCorrectSteno.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.lblSuggestCorrectSteno.Location = new System.Drawing.Point(317, 247);
+            this.lblSuggestCorrectSteno.Name = "lblSuggestCorrectSteno";
+            this.lblSuggestCorrectSteno.Size = new System.Drawing.Size(129, 36);
+            this.lblSuggestCorrectSteno.TabIndex = 42;
+            this.lblSuggestCorrectSteno.Text = "label2";
+            this.lblSuggestCorrectSteno.Visible = false;
             // 
             // lblTotalWords
             // 
@@ -170,16 +170,16 @@
             this.lblTitle.TabIndex = 40;
             this.lblTitle.Text = "Title";
             // 
-            // btnStart
+            // btnStartDrill
             // 
-            this.btnStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStart.Location = new System.Drawing.Point(278, 305);
-            this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(142, 55);
-            this.btnStart.TabIndex = 34;
-            this.btnStart.Text = "Start Drill";
-            this.btnStart.UseVisualStyleBackColor = true;
-            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
+            this.btnStartDrill.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStartDrill.Location = new System.Drawing.Point(278, 305);
+            this.btnStartDrill.Name = "btnStartDrill";
+            this.btnStartDrill.Size = new System.Drawing.Size(142, 55);
+            this.btnStartDrill.TabIndex = 34;
+            this.btnStartDrill.Text = "Start Drill";
+            this.btnStartDrill.UseVisualStyleBackColor = true;
+            this.btnStartDrill.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // txtHumanResponse
             // 
@@ -257,16 +257,16 @@
             this.lblStandardDeviation.TabIndex = 9;
             this.lblStandardDeviation.Text = "Standard Deviation:";
             // 
-            // btnStop
+            // btnStopDrill
             // 
-            this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStop.Location = new System.Drawing.Point(454, 305);
-            this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(142, 55);
-            this.btnStop.TabIndex = 37;
-            this.btnStop.Text = "Stop Drill";
-            this.btnStop.UseVisualStyleBackColor = true;
-            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+            this.btnStopDrill.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStopDrill.Location = new System.Drawing.Point(454, 305);
+            this.btnStopDrill.Name = "btnStopDrill";
+            this.btnStopDrill.Size = new System.Drawing.Size(142, 55);
+            this.btnStopDrill.TabIndex = 37;
+            this.btnStopDrill.Text = "Stop Drill";
+            this.btnStopDrill.UseVisualStyleBackColor = true;
+            this.btnStopDrill.Click += new System.EventHandler(this.btnStop_Click);
             // 
             // lblTitleHumanResponse
             // 
@@ -363,15 +363,16 @@
             this.progressBar1.Size = new System.Drawing.Size(839, 23);
             this.progressBar1.TabIndex = 39;
             // 
-            // button1
+            // btnTestProblemWords
             // 
-            this.button1.Location = new System.Drawing.Point(137, 305);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 45;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnTestProblemWords.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTestProblemWords.Location = new System.Drawing.Point(95, 305);
+            this.btnTestProblemWords.Name = "btnTestProblemWords";
+            this.btnTestProblemWords.Size = new System.Drawing.Size(142, 55);
+            this.btnTestProblemWords.TabIndex = 45;
+            this.btnTestProblemWords.Text = "Re-Drill Problem Words";
+            this.btnTestProblemWords.UseVisualStyleBackColor = true;
+            this.btnTestProblemWords.Click += new System.EventHandler(this.btnTestProblemWords_Click);
             // 
             // lblRetestingWords
             // 
@@ -381,31 +382,31 @@
             this.lblRetestingWords.Size = new System.Drawing.Size(0, 13);
             this.lblRetestingWords.TabIndex = 46;
             // 
-            // frmDrill
+            // frmWordDrill
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(880, 699);
             this.Controls.Add(this.lblRetestingWords);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnTestProblemWords);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lblSuggestCorrectSteno);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.lblTitle);
-            this.Controls.Add(this.btnStart);
+            this.Controls.Add(this.btnStartDrill);
             this.Controls.Add(this.txtHumanResponse);
             this.Controls.Add(this.lblTitleTestWordOrPhrase);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.lblTestWordOrPhrase);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.btnStop);
+            this.Controls.Add(this.btnStopDrill);
             this.Controls.Add(this.lblTitleHumanResponse);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.progressBar1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "frmDrill";
+            this.Name = "frmWordDrill";
             this.Text = "Drill \"CRAH Chapter 19\"";
             this.Load += new System.EventHandler(this.frmDrill_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -426,14 +427,14 @@
         private System.Windows.Forms.ToolStripMenuItem mostErrorsToLeastToolStripMenuItem;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblSuggestCorrectSteno;
         private System.Windows.Forms.Label lblTotalWords;
         private System.Windows.Forms.Label lblWordsToGo;
         private System.Windows.Forms.Label lblAverageSpeed;
         private System.Windows.Forms.Label lblDrillTime;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label lblTitle;
-        private System.Windows.Forms.Button btnStart;
+        private System.Windows.Forms.Button btnStartDrill;
         private System.Windows.Forms.TextBox txtHumanResponse;
         private System.Windows.Forms.Label lblTitleTestWordOrPhrase;
         private System.Windows.Forms.DataGridView dataGridView1;
@@ -441,7 +442,7 @@
         private System.Windows.Forms.ToolStripMenuItem randomToolStripMenuItem;
         private System.Windows.Forms.Label lblTestWordOrPhrase;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button btnStop;
+        private System.Windows.Forms.Button btnStopDrill;
         private System.Windows.Forms.Label lblTitleHumanResponse;
         private System.Windows.Forms.ToolStripMenuItem drillOptionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem slowestToFastestToolStripMenuItem;
@@ -455,7 +456,7 @@
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label lblStandardDeviation;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnTestProblemWords;
         private System.Windows.Forms.Label lblRetestingWords;
     }
 }

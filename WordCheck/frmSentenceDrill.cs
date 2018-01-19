@@ -12,7 +12,6 @@ namespace WordCheck
 {
     public partial class frmSentenceDrill : Form
     {
-
         DataClasses1DataContext dc1 = new DataClasses1DataContext();
 
         private DateTime timeDrillStart;
@@ -23,8 +22,6 @@ namespace WordCheck
         private long CurrentSentenceID;
 
         List<data_sentencedrills_sentence> sentences = new List<data_sentencedrills_sentence>();
-
-        // string entryBuffer = string.Empty;
 
         #region Initialize
 

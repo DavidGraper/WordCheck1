@@ -59,8 +59,7 @@ namespace WordCheck
             }
             catch (Exception ex)
             {
-
-                throw;
+                MessageBox.Show("Failure on LoadWordDrills : ", ex.Message);
             }
         }
 
@@ -76,10 +75,8 @@ namespace WordCheck
             }
             catch (Exception ex)
             {
-
-                throw;
+                MessageBox.Show("Failure on LoadSentenceDrills : ", ex.Message);
             }
-
         }
 
         private void NameDatagridColumns()
@@ -91,17 +88,22 @@ namespace WordCheck
         {
             try
             {
-                frmDrill form1 = new frmDrill();
-
-                form1.DrillID = DrillID;
-                form1.DrillName = DrillName;
-
-
-                form1.ShowDialog(this);
-
-                form1.Dispose();
-                //form1.Show();
-
+                if (CurrentDrillType == DrillType.Words)
+                {
+                    frmWordDrill form1 = new frmWordDrill();
+                    form1.DrillID = DrillID;
+                    form1.DrillName = DrillName;
+                    form1.ShowDialog(this);
+                    form1.Dispose();
+                }
+                else if (CurrentDrillType == DrillType.Sentences)
+                {
+                    frmSentenceDrill form1 = new frmSentenceDrill();
+                    form1.DrillID = DrillID;
+                    form1.DrillName = DrillName;
+                    form1.ShowDialog(this);
+                    form1.Dispose();
+                }
             }
             catch (Exception ex)
             {
@@ -170,7 +172,7 @@ namespace WordCheck
         }
 
         #endregion
-        
+
         #region Properties
 
         public DrillType CurrentDrillType { get; set; }
@@ -178,5 +180,5 @@ namespace WordCheck
         #endregion
 
     }
-    
+
 }

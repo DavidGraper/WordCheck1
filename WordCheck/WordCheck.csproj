@@ -121,11 +121,11 @@
     <Compile Include="frmCreateDrill.Designer.cs">
       <DependentUpon>frmCreateDrill.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmDrill.cs">
+    <Compile Include="frmWordDrill.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmDrill.Designer.cs">
-      <DependentUpon>frmDrill.cs</DependentUpon>
+    <Compile Include="frmWordDrill.Designer.cs">
+      <DependentUpon>frmWordDrill.cs</DependentUpon>
     </Compile>
     <Compile Include="frmDrill0.cs">
       <SubType>Form</SubType>
@@ -198,8 +198,8 @@
     <EmbeddedResource Include="frmCreateDrill.resx">
       <DependentUpon>frmCreateDrill.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmDrill.resx">
-      <DependentUpon>frmDrill.cs</DependentUpon>
+    <EmbeddedResource Include="frmWordDrill.resx">
+      <DependentUpon>frmWordDrill.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmDrill0.resx">
       <DependentUpon>frmDrill0.cs</DependentUpon>
