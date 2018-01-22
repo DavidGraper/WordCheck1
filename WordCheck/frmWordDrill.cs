@@ -12,7 +12,6 @@ namespace WordCheck
 {
     public partial class frmWordDrill : Form
     {
-
         DataClasses1DataContext dc1 = new DataClasses1DataContext();
 
         private DateTime timeStart;
@@ -28,16 +27,18 @@ namespace WordCheck
         private int ErrorCount = 0;
         private int DictionaryWordStrokeCount;
 
+        // Lists of word confusions and time required for correctly entering words
         List<data_wordconfusion> mistakes = new List<data_wordconfusion>();
         List<data_wordcorrect> corrects = new List<data_wordcorrect>();
 
+        // List of words in the selected drill
         List<data_drill_dictionary> words = new List<data_drill_dictionary>();
 
-        string entryBuffer = string.Empty;
+        string cachedHumanEntry = string.Empty;
 
         double StandardDeviation = 0;
         double Average = 0;
-        double QuizAverage = 0;
+        double FirstRunOfDrillAverage = 0;
 
         #region Initialize
 
@@ -54,6 +55,7 @@ namespace WordCheck
 
             lblTotalWords.Text = "";
             lblTitle.Text = DrillName;
+            DrillRandom = randomToolStripMenuItem.Checked;
 
             // Initially collapse the "details" section of the page
             pictureBox1.Image = Properties.Resources.ExpandArrow_16x;
@@ -90,9 +92,11 @@ namespace WordCheck
                     return1.Add(item);
                 }
 
-                // Randomize records returned in query
-                Random rand = new Random();
-                return1 = return1.OrderBy(c => rand.Next()).Select(c => c).ToList();
+                if (DrillRandom)
+                {
+                    Random rand = new Random();
+                    return1 = return1.OrderBy(c => rand.Next()).Select(c => c).ToList();
+                }
             }
             catch (Exception ex)
             {
@@ -112,9 +116,9 @@ namespace WordCheck
                     // If user specifies Standard Deviation, "problem" words are those with response times >= 2 SDs;
                     // otherwise "problem" words are all those with response times greater than the average
                     if (ByStandardDeviation)
-                        if (item.msspeed < (Average + 2 * (StandardDeviation))) Words.Remove(Words.Find(word => word.dictionaryid == item.wordid)); 
-                    else
-                        if ((item.msspeed/1000.00) < QuizAverage) Words.Remove(Words.Find(word => word.dictionaryid == item.wordid));
+                        if (item.msspeed < (Average + 2 * (StandardDeviation))) Words.Remove(Words.Find(word => word.dictionaryid == item.wordid));
+                        else
+                        if ((item.msspeed / 1000.00) < FirstRunOfDrillAverage) Words.Remove(Words.Find(word => word.dictionaryid == item.wordid));
                 }
 
             }
@@ -122,31 +126,6 @@ namespace WordCheck
             {
                 MessageBox.Show(ex.Message);
             }
-        }
-
-        private List<string> LoadSentenceDrill()
-        {
-            List<string> return1 = new List<string>();
-
-            try
-            {
-
-                //data_application application1 = new data_application();
-                var query = from q in dc1.data_sentencedrills_sentences
-                            where q.data_sentencedrill.drillname == "Chapter 19 - Punctuation"
-                            select q.data_sentence.sentence;
-
-                foreach (var item in query)
-                {
-                    return1.Add(item);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-
-            return return1;
         }
 
         private void RunDrill(ref double totalMilliSeconds, ref double averageMilliSeconds, List<data_drill_dictionary> words)
@@ -213,7 +192,7 @@ namespace WordCheck
                 // Clear "match" flag, update controls, and continue (present the next drill word to the human)
                 match = false;
 
-                UpdateWordCounts(words.Count, completedWords);
+                UpdateOnScreenWordCounts(words.Count, completedWords);
                 progressBar1.Value++;
             }
 
@@ -229,72 +208,66 @@ namespace WordCheck
             btnStopDrill.Enabled = false;
         }
 
+        private void ShowStenoHint(Boolean ShowHint)
+        {
+
+            // Show steno for word (which was already loaded earlier)
+            lblSuggestCorrectSteno.Visible = ShowHint;
+        }
+
         public void Timer_Tick(object sender, EventArgs e)
         {
-            // Update time stat
-            TimeSpan drillTime = DateTime.Now - timeDrillStart;
-            lblDrillTime.Text = string.Format("Drill Time:  {0} minutes, {1} seconds", drillTime.Minutes, drillTime.Seconds);
 
-            // Update average speed
+            UpdateTimeUsedInDrillLabel();
 
-
+            // Compare human response to what the drill is expecting
             string expectedResponse = lblTestWordOrPhrase.Text.ToLower().Trim();
             string humanResponse = txtHumanResponse.Text.ToLower().Trim();
 
-            //label2.Text = HumanWordStrokeCount.ToString();
-
-            // mistakeBuffer:  
-            // StrokePauseCount: 
-
+            // If no response from human
             if (humanResponse == "")
             {
-                entryBuffer = string.Empty;
+                match = false;
+
+                cachedHumanEntry = string.Empty;
                 HumanWordStrokeCount = 0;
+
                 return;
             }
 
-            // If the human response is a match to the test word
+            // If human response matches test word
             if (humanResponse == expectedResponse)
             {
-
-                entryBuffer = string.Empty;
-                //DictionaryWordStrokeCount = 0;
-                HumanWordStrokeCount = 0;
                 match = true;
 
+                // Clear "attempt" info
+                cachedHumanEntry = string.Empty;
+                HumanWordStrokeCount = 0;
                 ErrorCount = 0;
-                lblSuggestCorrectSteno.Visible = false;
+                ShowStenoHint(false);
 
                 return;
             }
 
-            //// If the human response is blank
-            //if (humanResponse == "")
-            //{
-            //    entryBuffer = string.Empty;
-            //    DictionaryWordStrokeCount = 0;
-            //    HumanWordStrokeCount = 0;
-            //    match = false;
-            //    return;
-            //}
-
             // If the human response is 1) not a match of the test word; and 2) a new entry from the human
-            if ((expectedResponse != humanResponse) && (humanResponse != entryBuffer))
+            if ((expectedResponse != humanResponse) && (humanResponse != cachedHumanEntry))
             {
 
+                // If human has tried more than once to enter the word, show the correct steno
                 ErrorCount++;
-                if (ErrorCount > 1) lblSuggestCorrectSteno.Visible = true;
-
+                if (ErrorCount > 1) ShowStenoHint(true);
 
                 HumanWordStrokeCount++;
 
-                // If the number of strokes meets or exceeds the strokes expected, this is a istake
+                // If the number of strokes the human has entered meets or exceeds the strokes expected, 
+                // the human is not in this midst of entering a word.  This is a mistake, and is logged.
                 if (HumanWordStrokeCount >= DictionaryWordStrokeCount)
                 {
 
-                    // Cache human's 
-                    entryBuffer = humanResponse;
+                    // Cache the human's response
+                    cachedHumanEntry = humanResponse;
 
+                    // Add the human's error to list of mistakes
                     data_wordconfusion dw1 = new data_wordconfusion();
                     dw1.incorrectdate = DateTime.Now;
                     dw1.incorrectword = humanResponse;
@@ -302,47 +275,43 @@ namespace WordCheck
 
                     mistakes.Add(dw1);
                 }
-                else
+                else // If the human's stroke count is less than what's expected
                 {
-                    if (humanResponse.Length > 0)
+                    if (humanResponse.Length > 0) // If the human's entered anything, just cache it
                     {
-
-                        // Cache human's actual entry
-                        entryBuffer = humanResponse;
+                        cachedHumanEntry = humanResponse;
                     }
-                    else
+                    else  // Otherwise, just clear the cache
                     {
-                        entryBuffer = "";
+                        cachedHumanEntry = "";
                         HumanWordStrokeCount = 0;
                     }
                 }
             }
         }
 
-        private void WriteResultsToDB()
+        private void UpdateOnScreenStatistics()
         {
-            foreach (data_wordconfusion item in mistakes)
-            {
-                if (item.incorrectword.Contains("khr-s")) continue;
-                if (item.incorrectword == "") continue;
+            Average = getAverage(corrects) / 1000.00;
+            string averageSpeedInSeconds = Average.ToString();
+            string varianceInSeconds = (getVariance(corrects) / 1000.00).ToString();
+            StandardDeviation = getStandardDeviation(getVariance(corrects)) / 1000.00;
 
-                dc1.pr_AddMistakeRecord(DrillID, item.wordid, item.incorrectword);
-            }
+            string stdevInSeconds = StandardDeviation.ToString();
 
-            foreach (data_wordcorrect item in corrects)
-            {
-                dc1.pr_AddCorrectRecord(DrillID, item.wordid, item.msspeed, item.date);
-            }
+            lblAverageSpeed.Text = string.Format("Average speed (in seconds):  {0}", averageSpeedInSeconds);
+            lblStandardDeviation.Text = string.Format("Standard Deviation (in seconds):  {0}", stdevInSeconds);
 
-            dc1.SubmitChanges();
+            // This drill average is done only once after initial completion of drill
+            if (FirstRunOfDrillAverage == 0) FirstRunOfDrillAverage = Average;
         }
 
-        private void UpdateWordCounts(int TotalWords, int WordsCompleted)
+        private void UpdateOnScreenWordCounts(int TotalWords, int WordsCompleted)
         {
             lblWordsToGo.Text = string.Format("Words completed: {0}, words to go: {1}",
                 WordsCompleted.ToString(), (TotalWords - WordsCompleted).ToString());
 
-            // Color changes based on proximity to end of list
+            // Color changes when last 10 words are reached
             if ((TotalWords - WordsCompleted) == 10)
             {
                 lblWordsToGo.BackColor = SystemColors.ControlText;
@@ -354,23 +323,42 @@ namespace WordCheck
                 lblWordsToGo.BackColor = SystemColors.Control;
                 lblWordsToGo.ForeColor = SystemColors.ControlText;
             }
-
         }
 
-        private void UpdateOnScreenStatistics()
+        private void UpdateTimeUsedInDrillLabel()
         {
-            Average = getAverage(corrects) / 1000.00;
-            string averageSpeedInSeconds = Average.ToString();
-            string varianceInSeconds = (variance(corrects) / 1000.00).ToString();
-            StandardDeviation = standardDeviation(variance(corrects)) / 1000.00;
 
-            string stdevInSeconds = StandardDeviation.ToString();
+            // Update drill time used on screen
+            TimeSpan drillTime = DateTime.Now - timeDrillStart;
+            lblDrillTime.Text = string.Format("Drill Time:  {0} minutes, {1} seconds", drillTime.Minutes, drillTime.Seconds);
+        }
 
-            lblAverageSpeed.Text = string.Format("Average speed (in seconds):  {0}", averageSpeedInSeconds);
-            lblStandardDeviation.Text = string.Format("Standard Deviation (in seconds):  {0}", stdevInSeconds);
+        private void WriteResultsToDB()
+        {
+            try
+            {
 
-            // Done once
-            if (QuizAverage == 0) QuizAverage = Average;
+                // Log mistakes / human confusions
+                foreach (data_wordconfusion item in mistakes)
+                {
+                    if (item.incorrectword.Contains("khr-s")) continue;
+                    if (item.incorrectword == "") continue;
+
+                    dc1.pr_AddMistakeRecord(DrillID, item.wordid, item.incorrectword);
+                }
+
+                // Log correct word timing
+                foreach (data_wordcorrect item in corrects)
+                {
+                    dc1.pr_AddCorrectRecord(DrillID, item.wordid, item.msspeed, item.date);
+                }
+
+                dc1.SubmitChanges();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error on WriteResultsToDB: " + ex.Message);
+            }
         }
 
         #endregion
@@ -379,21 +367,25 @@ namespace WordCheck
 
         private void btnStart_Click(object sender, EventArgs e)
         {
+
+            // Clear statistics
             double totalMilliSeconds = 0;
             double averageMilliSeconds = 0;
-            
+
             // Give human 5-second warning
             frmCountdown frm1 = new frmCountdown();
             frm1.StartPosition = FormStartPosition.CenterParent;
             frm1.ShowDialog();
 
-            // Load drill words
+            // Load drill words 
             words = LoadDrill();
+
+            // Update controls
+            progressBar1.Maximum = words.Count;
+            EnableQuizControls(true);
 
             // Start drill
             timeDrillStart = DateTime.Now;
-            progressBar1.Maximum = words.Count;
-            EnableQuizControls(true);
             RunDrill(ref totalMilliSeconds, ref averageMilliSeconds, words);
         }
 
@@ -418,33 +410,20 @@ namespace WordCheck
             frm1.StartPosition = FormStartPosition.CenterParent;
             frm1.ShowDialog();
 
-            // Load Drill Words
+            // Load drill words for another go round
             LoadLightningDrill(ref words, UseStandardDeviationReDrill);
+            corrects.Clear();
 
             // Update controls
             progressBar1.Maximum = words.Count;
             lblRetestingWords.Text = words.Count.ToString();
             EnableQuizControls(true);
-            
-            // Start Drill
-            timeDrillStart = DateTime.Now;
-
-
-            //List<data_drill_dictionary> words = LoadDrill();
-            //NewMethod(ref totalMilliSeconds, ref averageMilliSeconds, words);
-
-            // Ask about quick review
-            // MessageBox.Show("Quick Review?");
 
             // Hack
-            if (QuizAverage == 0) QuizAverage = Average;
+            if (FirstRunOfDrillAverage == 0) FirstRunOfDrillAverage = Average;
 
-            // Determine words < average for retesting
-
-            corrects.Clear();
-
-            // Run again
-            // totalMilliSeconds = averageMilliSeconds = 0;
+            // Start Drill
+            timeDrillStart = DateTime.Now;
             RunDrill(ref totalMilliSeconds, ref averageMilliSeconds, words);
         }
 
@@ -453,21 +432,17 @@ namespace WordCheck
             timer1.Stop();
 
             if (MessageBox.Show("Save results to database?", "Save drill statistics?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-            WriteResultsToDB();
-            }
+                WriteResultsToDB();
 
+            // Set global abort flag
             abort = true;
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
         }
 
         private void randomToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            randomToolStripMenuItem.Checked = true;
+            randomToolStripMenuItem.Checked =
+                DrillRandom =
+                !randomToolStripMenuItem.Checked;
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -499,7 +474,31 @@ namespace WordCheck
 
         #region Statistical 
 
-        private double variance(List<data_wordcorrect> correctsIn)
+        private long getAverage(List<data_wordcorrect> correctsIn)
+        {
+            long sum = 0;
+
+            if (correctsIn.Count > 1)
+            {
+
+                // Sum up the values
+                foreach (data_wordcorrect wdc in correctsIn)
+                {
+                    sum += wdc.msspeed;
+                }
+
+                // Divide by the number of values
+                return sum / (long)correctsIn.Count;
+            }
+            else { return correctsIn[0].msspeed; }
+        }
+
+        private double getStandardDeviation(double variance)
+        {
+            return Math.Sqrt(variance);
+        }
+
+        private double getVariance(List<data_wordcorrect> correctsIn)
         {
             if (correctsIn.Count > 1)
             {
@@ -525,32 +524,6 @@ namespace WordCheck
             else { return 0.0; }
         }
 
-        // Square root the variance to get the standard deviation
-        private double standardDeviation(double variance)
-        {
-            return Math.Sqrt(variance);
-        }
-
-        // Get the average of our values in the array
-        private long getAverage(List<data_wordcorrect> correctsIn)
-        {
-            long sum = 0;
-
-            if (correctsIn.Count > 1)
-            {
-
-                // Sum up the values
-                foreach (data_wordcorrect wdc in correctsIn)
-                {
-                    sum += wdc.msspeed;
-                }
-
-                // Divide by the number of values
-                return sum / (long)correctsIn.Count;
-            }
-            else { return correctsIn[0].msspeed; }
-        }
-
         #endregion
 
         #region Properties
@@ -558,6 +531,7 @@ namespace WordCheck
         public Boolean Abort { get; set; }
         public long DrillID { get; set; }
         public string DrillName { get; set; }
+        public Boolean DrillRandom { get; set; }
         public Boolean UseStandardDeviationReDrill { get; set; }
 
         #endregion

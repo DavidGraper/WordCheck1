@@ -43,7 +43,6 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lblTestWordOrPhrase = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lblStandardDeviation = new System.Windows.Forms.Label();
@@ -71,6 +70,7 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.lblComputer = new System.Windows.Forms.Label();
             this.lblHuman = new System.Windows.Forms.Label();
+            this.rchTestSentence = new System.Windows.Forms.RichTextBox();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -80,27 +80,27 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(18, 107);
+            this.progressBar1.Location = new System.Drawing.Point(80, 27);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(1334, 23);
+            this.progressBar1.Size = new System.Drawing.Size(1233, 23);
             this.progressBar1.TabIndex = 53;
             // 
             // extraLargeToolStripMenuItem
             // 
             this.extraLargeToolStripMenuItem.Name = "extraLargeToolStripMenuItem";
-            this.extraLargeToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.extraLargeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.extraLargeToolStripMenuItem.Text = "Extra Large";
             // 
             // largeToolStripMenuItem
             // 
             this.largeToolStripMenuItem.Name = "largeToolStripMenuItem";
-            this.largeToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.largeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.largeToolStripMenuItem.Text = "Large";
             // 
             // normalToolStripMenuItem
             // 
             this.normalToolStripMenuItem.Name = "normalToolStripMenuItem";
-            this.normalToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.normalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.normalToolStripMenuItem.Text = "Normal";
             // 
             // sizeOptionsToolStripMenuItem
@@ -110,7 +110,7 @@
             this.largeToolStripMenuItem,
             this.extraLargeToolStripMenuItem});
             this.sizeOptionsToolStripMenuItem.Name = "sizeOptionsToolStripMenuItem";
-            this.sizeOptionsToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.sizeOptionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.sizeOptionsToolStripMenuItem.Text = "Size Options";
             // 
             // editToolStripMenuItem
@@ -130,7 +130,7 @@
             this.slowestToFastestToolStripMenuItem,
             this.mostErrorsToLeastToolStripMenuItem});
             this.drillOptionsToolStripMenuItem.Name = "drillOptionsToolStripMenuItem";
-            this.drillOptionsToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.drillOptionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.drillOptionsToolStripMenuItem.Text = "Drill Options";
             // 
             // randomToolStripMenuItem
@@ -181,15 +181,6 @@
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
-            // lblTestWordOrPhrase
-            // 
-            this.lblTestWordOrPhrase.AutoSize = true;
-            this.lblTestWordOrPhrase.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTestWordOrPhrase.Location = new System.Drawing.Point(317, 148);
-            this.lblTestWordOrPhrase.Name = "lblTestWordOrPhrase";
-            this.lblTestWordOrPhrase.Size = new System.Drawing.Size(0, 29);
-            this.lblTestWordOrPhrase.TabIndex = 45;
-            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.groupBox2);
@@ -198,7 +189,7 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(437, 459);
+            this.groupBox1.Location = new System.Drawing.Point(437, 602);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(420, 236);
             this.groupBox1.TabIndex = 52;
@@ -313,12 +304,13 @@
             // btnStop
             // 
             this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStop.Location = new System.Drawing.Point(454, 340);
+            this.btnStop.Location = new System.Drawing.Point(454, 483);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(142, 55);
             this.btnStop.TabIndex = 51;
             this.btnStop.Text = "Stop Drill";
             this.btnStop.UseVisualStyleBackColor = true;
+            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
             // lblTitleHumanResponse
             // 
@@ -333,7 +325,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::WordCheck.Properties.Resources.ExpandArrow_16x;
-            this.pictureBox1.Location = new System.Drawing.Point(852, 347);
+            this.pictureBox1.Location = new System.Drawing.Point(852, 490);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(16, 16);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -353,7 +345,7 @@
             // btnStart
             // 
             this.btnStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStart.Location = new System.Drawing.Point(278, 340);
+            this.btnStart.Location = new System.Drawing.Point(278, 483);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(142, 55);
             this.btnStart.TabIndex = 48;
@@ -365,8 +357,9 @@
             // 
             this.txtHumanResponse.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtHumanResponse.Location = new System.Drawing.Point(317, 196);
+            this.txtHumanResponse.Multiline = true;
             this.txtHumanResponse.Name = "txtHumanResponse";
-            this.txtHumanResponse.Size = new System.Drawing.Size(1035, 35);
+            this.txtHumanResponse.Size = new System.Drawing.Size(1035, 130);
             this.txtHumanResponse.TabIndex = 47;
             this.txtHumanResponse.TextChanged += new System.EventHandler(this.txtHumanResponse_TextChanged);
             this.txtHumanResponse.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtHumanResponse_KeyDown);
@@ -375,7 +368,7 @@
             // 
             this.lblTitleTestWordOrPhrase.AutoSize = true;
             this.lblTitleTestWordOrPhrase.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitleTestWordOrPhrase.Location = new System.Drawing.Point(174, 150);
+            this.lblTitleTestWordOrPhrase.Location = new System.Drawing.Point(174, 81);
             this.lblTitleTestWordOrPhrase.Name = "lblTitleTestWordOrPhrase";
             this.lblTitleTestWordOrPhrase.Size = new System.Drawing.Size(121, 29);
             this.lblTitleTestWordOrPhrase.TabIndex = 46;
@@ -395,7 +388,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(312, 414);
+            this.label1.Location = new System.Drawing.Point(312, 557);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(240, 29);
             this.label1.TabIndex = 58;
@@ -407,7 +400,7 @@
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
             this.Column2});
-            this.dataGridView1.Location = new System.Drawing.Point(20, 459);
+            this.dataGridView1.Location = new System.Drawing.Point(20, 602);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(394, 236);
             this.dataGridView1.TabIndex = 49;
@@ -423,11 +416,11 @@
             // 
             // richTextBox1
             // 
-            this.richTextBox1.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.richTextBox1.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox1.Location = new System.Drawing.Point(317, 243);
+            this.richTextBox1.Location = new System.Drawing.Point(317, 332);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(1035, 91);
+            this.richTextBox1.Size = new System.Drawing.Size(1035, 145);
             this.richTextBox1.TabIndex = 61;
             this.richTextBox1.Text = "";
             this.richTextBox1.Visible = false;
@@ -435,7 +428,7 @@
             // lblComputer
             // 
             this.lblComputer.AutoSize = true;
-            this.lblComputer.Location = new System.Drawing.Point(1008, 366);
+            this.lblComputer.Location = new System.Drawing.Point(1008, 509);
             this.lblComputer.Name = "lblComputer";
             this.lblComputer.Size = new System.Drawing.Size(35, 13);
             this.lblComputer.TabIndex = 62;
@@ -444,24 +437,35 @@
             // lblHuman
             // 
             this.lblHuman.AutoSize = true;
-            this.lblHuman.Location = new System.Drawing.Point(1008, 396);
+            this.lblHuman.Location = new System.Drawing.Point(1008, 539);
             this.lblHuman.Name = "lblHuman";
             this.lblHuman.Size = new System.Drawing.Size(35, 13);
             this.lblHuman.TabIndex = 63;
             this.lblHuman.Text = "label7";
             // 
+            // rchTestSentence
+            // 
+            this.rchTestSentence.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.rchTestSentence.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rchTestSentence.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rchTestSentence.Location = new System.Drawing.Point(317, 56);
+            this.rchTestSentence.Name = "rchTestSentence";
+            this.rchTestSentence.Size = new System.Drawing.Size(1035, 134);
+            this.rchTestSentence.TabIndex = 64;
+            this.rchTestSentence.Text = "";
+            // 
             // frmSentenceDrill
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1388, 699);
+            this.ClientSize = new System.Drawing.Size(1388, 859);
+            this.Controls.Add(this.rchTestSentence);
             this.Controls.Add(this.lblHuman);
             this.Controls.Add(this.lblComputer);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.lblRetestingWords);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.lblTestWordOrPhrase);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.lblTitleHumanResponse);
@@ -504,7 +508,6 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-        private System.Windows.Forms.Label lblTestWordOrPhrase;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label lblTotalSentences;
         private System.Windows.Forms.Label lblWordsToGo;
@@ -532,5 +535,6 @@
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Label lblComputer;
         private System.Windows.Forms.Label lblHuman;
+        private System.Windows.Forms.RichTextBox rchTestSentence;
     }
 }

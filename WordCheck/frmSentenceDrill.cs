@@ -14,6 +14,8 @@ namespace WordCheck
     {
         DataClasses1DataContext dc1 = new DataClasses1DataContext();
 
+        private DateTime timeStart;
+        private DateTime timeEnd;
         private DateTime timeDrillStart;
 
         private Boolean match = false;
@@ -21,6 +23,10 @@ namespace WordCheck
 
         private long CurrentSentenceID;
 
+        // Lists of time required for correctly entering sentences
+        List<data_sentencecorrect> corrects = new List<data_sentencecorrect>();
+
+        // List of sentences in the selected drill
         List<data_sentencedrills_sentence> sentences = new List<data_sentencedrills_sentence>();
 
         #region Initialize
@@ -34,10 +40,6 @@ namespace WordCheck
 
         private void frmSentenceDrill_Load(object sender, EventArgs e)
         {
-
-            // HACK
-            DrillID = 1;
-
             lblTitle.Text = DrillName;
             pictureBox1.Image = Properties.Resources.ExpandArrow_16x;
 
@@ -136,7 +138,7 @@ namespace WordCheck
             lblDrillTime.Text = string.Format("Drill Time:  {0} minutes, {1} seconds", drillTime.Minutes, drillTime.Seconds);
 
             // Get expected text and human-entered text
-            string expectedResponse = lblTestWordOrPhrase.Text.ToLower().Trim();
+            string expectedResponse = rchTestSentence.Text.ToLower().Trim();
             string humanResponse = txtHumanResponse.Text.ToLower().Trim();
 
             lblComputer.Text = expectedResponse;
@@ -255,7 +257,6 @@ namespace WordCheck
         private void SetEnabledControls(Boolean Visible)
         {
             btnStop.Enabled =
-            lblTestWordOrPhrase.Enabled =
             lblTitleHumanResponse.Enabled =
             lblTitleTestWordOrPhrase.Enabled =
             progressBar1.Visible = Visible;
@@ -291,17 +292,17 @@ namespace WordCheck
 
             }
 
-            //int CorrectWords = lblTestWordOrPhrase.Text.Split(' ').Count();
+            //int CorrectWords = rchTestSentence.Text.Split(' ').Count();
             //int HumanWords = txtHumanResponse.Text.Split(' ').Count();
 
-            //string[] cwords = lblTestWordOrPhrase.Text.Split(' ');
+            //string[] cwords = rchTestSentence.Text.Split(' ');
             //string[] hwords = txtHumanResponse.Text.Split(' ');
 
-            //if ((CorrectWords == HumanWords) && (lblTestWordOrPhrase.Text  != txtHumanResponse.Text))
+            //if ((CorrectWords == HumanWords) && (rchTestSentence.Text  != txtHumanResponse.Text))
             //{
 
             //    clsParseSentenceErrors class1 = new clsParseSentenceErrors();
-            //    class1.GetHighlightedErrors2(lblTestWordOrPhrase.Text, txtHumanResponse.Text, ref richTextBox1);
+            //    class1.GetHighlightedErrors2(rchTestSentence.Text, txtHumanResponse.Text, ref richTextBox1);
             //    richTextBox1.Visible = true;
             //}
             //else
@@ -364,7 +365,7 @@ namespace WordCheck
                 //label2.Text = sentence.data_sentence.sentence;
 
 
-                lblTestWordOrPhrase.Text = sentence.data_sentence.sentence;
+                rchTestSentence.Text = sentence.data_sentence.sentence;
                 CurrentSentenceID = sentence.id;
 
                 string[] correctWordsInSentence = sentence.data_sentence.sentence.Split(' ');
@@ -540,7 +541,7 @@ namespace WordCheck
 
             SendKeys.Flush();
 
-            string testText = lblTestWordOrPhrase.Text.Trim();
+            string testText = rchTestSentence.Text.Trim();
             string humanText = txtHumanResponse.Text.Trim();
 
             int CorrectWords = testText.Split(' ').Count();
@@ -556,11 +557,11 @@ namespace WordCheck
                 isLastCharacterPeriod = (humanText.Substring(humanText.Length - 1, 1) == ".");
             }
 
-            //if ((CorrectWords == HumanWords) && (lblTestWordOrPhrase.Text != txtHumanResponse.Text)) 
+            //if ((CorrectWords == HumanWords) && (rchTestSentence.Text != txtHumanResponse.Text)) 
             clsParseSentenceErrors class1 = new clsParseSentenceErrors();
-            class1.GetHighlightedErrors2(lblTestWordOrPhrase.Text, txtHumanResponse.Text, ref richTextBox1);
+            class1.GetHighlightedErrors2(rchTestSentence.Text, txtHumanResponse.Text, ref richTextBox1);
 
-            if (isLastCharacterPeriod && (lblTestWordOrPhrase.Text != txtHumanResponse.Text))
+            if (isLastCharacterPeriod && (rchTestSentence.Text != txtHumanResponse.Text))
             {
 
 
@@ -588,6 +589,8 @@ namespace WordCheck
         public Boolean Abort { get; set; }
         public long DrillID { get; set; }
         public string DrillName { get; set; }
+        public Boolean DrillRandom { get; set; }
+        public Boolean UseStandardDeviationReDrill { get; set; }
 
         #endregion
 

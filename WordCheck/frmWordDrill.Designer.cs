@@ -48,7 +48,7 @@
             this.alphabeticalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.randomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblTestWordOrPhrase = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.grpStatistics = new System.Windows.Forms.GroupBox();
             this.lblStandardDeviation = new System.Windows.Forms.Label();
             this.btnStopDrill = new System.Windows.Forms.Button();
             this.lblTitleHumanResponse = new System.Windows.Forms.Label();
@@ -67,7 +67,7 @@
             this.lblRetestingWords = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            this.groupBox1.SuspendLayout();
+            this.grpStatistics.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -218,6 +218,8 @@
             // 
             // randomToolStripMenuItem
             // 
+            this.randomToolStripMenuItem.Checked = true;
+            this.randomToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.randomToolStripMenuItem.Name = "randomToolStripMenuItem";
             this.randomToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.randomToolStripMenuItem.Text = "Random";
@@ -232,20 +234,20 @@
             this.lblTestWordOrPhrase.TabIndex = 31;
             this.lblTestWordOrPhrase.Text = "English Word";
             // 
-            // groupBox1
+            // grpStatistics
             // 
-            this.groupBox1.Controls.Add(this.lblStandardDeviation);
-            this.groupBox1.Controls.Add(this.lblTotalWords);
-            this.groupBox1.Controls.Add(this.lblWordsToGo);
-            this.groupBox1.Controls.Add(this.lblAverageSpeed);
-            this.groupBox1.Controls.Add(this.lblDrillTime);
-            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(437, 456);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(420, 236);
-            this.groupBox1.TabIndex = 38;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Statistics";
+            this.grpStatistics.Controls.Add(this.lblStandardDeviation);
+            this.grpStatistics.Controls.Add(this.lblTotalWords);
+            this.grpStatistics.Controls.Add(this.lblWordsToGo);
+            this.grpStatistics.Controls.Add(this.lblAverageSpeed);
+            this.grpStatistics.Controls.Add(this.lblDrillTime);
+            this.grpStatistics.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grpStatistics.Location = new System.Drawing.Point(437, 456);
+            this.grpStatistics.Name = "grpStatistics";
+            this.grpStatistics.Size = new System.Drawing.Size(420, 236);
+            this.grpStatistics.TabIndex = 38;
+            this.grpStatistics.TabStop = false;
+            this.grpStatistics.Text = "Statistics";
             // 
             // lblStandardDeviation
             // 
@@ -286,7 +288,7 @@
             this.slowestToFastestToolStripMenuItem,
             this.mostErrorsToLeastToolStripMenuItem});
             this.drillOptionsToolStripMenuItem.Name = "drillOptionsToolStripMenuItem";
-            this.drillOptionsToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.drillOptionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.drillOptionsToolStripMenuItem.Text = "Drill Options";
             // 
             // slowestToFastestToolStripMenuItem
@@ -398,7 +400,7 @@
             this.Controls.Add(this.lblTitleTestWordOrPhrase);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.lblTestWordOrPhrase);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.grpStatistics);
             this.Controls.Add(this.btnStopDrill);
             this.Controls.Add(this.lblTitleHumanResponse);
             this.Controls.Add(this.menuStrip1);
@@ -411,8 +413,8 @@
             this.Load += new System.EventHandler(this.frmDrill_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.grpStatistics.ResumeLayout(false);
+            this.grpStatistics.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -441,7 +443,7 @@
         private System.Windows.Forms.ToolStripMenuItem alphabeticalToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem randomToolStripMenuItem;
         private System.Windows.Forms.Label lblTestWordOrPhrase;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox grpStatistics;
         private System.Windows.Forms.Button btnStopDrill;
         private System.Windows.Forms.Label lblTitleHumanResponse;
         private System.Windows.Forms.ToolStripMenuItem drillOptionsToolStripMenuItem;
