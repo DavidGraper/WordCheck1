@@ -60,7 +60,7 @@ namespace WordCheck
     #endregion
 		
 		public DataClasses1DataContext() : 
-				base(global::WordCheck.Properties.Settings.Default.drillthrallConnectionString, mappingSource)
+				base(global::WordCheck.Properties.Settings.Default.drillthrallConnectionString1, mappingSource)
 		{
 			OnCreated();
 		}

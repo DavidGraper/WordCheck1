@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="drillthrall" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=graper-pc;Initial Catalog=drillthrall;Persist Security Info=True;User ID=sa" SettingsObjectName="WordCheck.Properties.Settings" SettingsPropertyName="drillthrallConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=grapersql;Initial Catalog=drillthrall;Integrated Security=True" SettingsObjectName="WordCheck.Properties.Settings" SettingsPropertyName="drillthrallConnectionString1" Provider="System.Data.SqlClient" />
   <Table Name="dbo.data_dictionary" Member="data_dictionaries">
     <Type Name="data_dictionary">
       <Column Name="id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />

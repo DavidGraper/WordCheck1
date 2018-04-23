@@ -57,5 +57,15 @@ namespace WordCheck.Properties {
                 return ((string)(this["drillthrallConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=grapersql;Initial Catalog=drillthrall;Integrated Security=True")]
+        public string drillthrallConnectionString1 {
+            get {
+                return ((string)(this["drillthrallConnectionString1"]));
+            }
+        }
     }
 }
