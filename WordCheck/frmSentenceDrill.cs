@@ -144,8 +144,6 @@ namespace WordCheck
             lblComputer.Text = expectedResponse;
             lblHuman.Text = humanResponse;
 
-
-
             // Before checking discrepancies, exit under certain conditions 
 
             // 1.  If human has entered nothing
@@ -165,8 +163,8 @@ namespace WordCheck
                 match = true;
 
                 //ErrorCount0 = 0;
-                label2.Visible = false;
-                richTextBox1.Visible = false;
+                lblTotalSentences.Visible = false;
+                //richTextBox1.Visible = false;
 
                 return;
             }
@@ -558,8 +556,8 @@ namespace WordCheck
             }
 
             //if ((CorrectWords == HumanWords) && (rchTestSentence.Text != txtHumanResponse.Text)) 
-            clsParseSentenceErrors class1 = new clsParseSentenceErrors();
-            class1.GetHighlightedErrors2(rchTestSentence.Text, txtHumanResponse.Text, ref richTextBox1);
+            clsParseSentenceErrors class1 = new clsParseSentenceErrors(System.Drawing.Color.Red);
+            class1.GetHighlightedErrors3(rchTestSentence.Text, txtHumanResponse.Text, ref richTextBox1);
 
             if (isLastCharacterPeriod && (rchTestSentence.Text != txtHumanResponse.Text))
             {
@@ -574,7 +572,7 @@ namespace WordCheck
 
             if (testText == humanText)
             {
-                richTextBox1.Visible = false;
+                //richTextBox1.Visible = false;
                 //MessageBox.Show("Done!");
                 //match = true;
             }
@@ -592,8 +590,22 @@ namespace WordCheck
         public Boolean DrillRandom { get; set; }
         public Boolean UseStandardDeviationReDrill { get; set; }
 
+
         #endregion
 
+        private void pictureBox1_Click_1(object sender, EventArgs e)
+        {
+            if (this.Size.Height == 965)
+            {
+                pictureBox1.Image = Properties.Resources.ExpandArrow_16x;
+                this.Size = new Size(1404, 594);
+            }
+            else
+            {
+                pictureBox1.Image = Properties.Resources.ContractArrow_16x;
+                this.Size = new Size(1404, 965);
+            }
+        }
 
     }
 }

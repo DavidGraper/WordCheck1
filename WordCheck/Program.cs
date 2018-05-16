@@ -17,10 +17,10 @@ namespace WordCheck
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new frmDrill());
-            Application.Run(new frmDrillManagement());
+            //Application.Run(new frmDrillManagement());
             //Application.Run(new drillTemplateSmall());
             //Application.Run(new frmCountdown());
-            //Application.Run(new frmTest0());
+            Application.Run(new frmTest0());
             //Application.Run(new frmSentenceDrill());
         }
     }

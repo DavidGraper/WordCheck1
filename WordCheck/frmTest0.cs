@@ -19,10 +19,10 @@ namespace WordCheck
 
         private void button1_Click(object sender, EventArgs e)
         {
-            clsParseSentenceErrors class1 = new clsParseSentenceErrors();
+            clsParseSentenceErrors class1 = new clsParseSentenceErrors(System.Drawing.Color.Red);
 
             class1.GetHighlightedErrors(textBox2.Text, textBox1.Text, ref linkLabel1);
-            class1.GetHighlightedErrors2(textBox2.Text, textBox1.Text, ref richTextBox1);
+            class1.GetHighlightedErrors3(textBox2.Text, textBox1.Text, ref richTextBox1);
 
             class1 = null;
         }
@@ -37,11 +37,11 @@ namespace WordCheck
             int CorrectWords = textBox2.Text.Split(' ').Count();
             int HumanWords = textBox1.Text.Split(' ').Count();
 
-            if (CorrectWords == HumanWords)
-            {
-                clsParseSentenceErrors class1 = new clsParseSentenceErrors();
-                class1.GetHighlightedErrors2(textBox2.Text, textBox1.Text, ref richTextBox1);
-            }
+            //if (CorrectWords == HumanWords)
+            //{
+                clsParseSentenceErrors class1 = new clsParseSentenceErrors(System.Drawing.Color.Red);
+                class1.GetHighlightedErrors3(textBox2.Text, textBox1.Text, ref richTextBox1);
+            //}
         }
 
         private void frmTest0_Load(object sender, EventArgs e)
