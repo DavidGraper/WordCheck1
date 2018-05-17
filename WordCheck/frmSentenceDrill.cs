@@ -557,7 +557,7 @@ namespace WordCheck
 
             //if ((CorrectWords == HumanWords) && (rchTestSentence.Text != txtHumanResponse.Text)) 
             clsParseSentenceErrors class1 = new clsParseSentenceErrors(System.Drawing.Color.Red);
-            class1.GetHighlightedErrors3(rchTestSentence.Text, txtHumanResponse.Text, ref richTextBox1);
+            //class1.GetHighlightedErrors3(rchTestSentence.Text, txtHumanResponse.Text, ref richTextBox1, re);
 
             if (isLastCharacterPeriod && (rchTestSentence.Text != txtHumanResponse.Text))
             {

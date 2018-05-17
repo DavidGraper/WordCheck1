@@ -15,6 +15,15 @@ namespace WordCheck
             skipped,
             unknown
         };
+
+        // Initialize
+        public clsWordValence(string StringIn, WordState Valence)
+        {
+            Word = StringIn;
+            State = Valence;
+        }
+
+        // Properties
         public string Word { get; set; }
         public WordState State { get; set; }
     }

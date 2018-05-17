@@ -241,150 +241,178 @@ namespace WordCheck
 
         }
 
-        public void GetHighlightedErrors3(string CorrectText, string HumanText, ref System.Windows.Forms.RichTextBox RichTextBoxIn)
+        public void GetHighlightedErrors3(string CorrectText, string HumanText, ref System.Windows.Forms.RichTextBox RichTextBoxIn,
+            ref System.Windows.Forms.ListBox ListBox1, ref System.Windows.Forms.ListBox ListBox2)
         {
-            int correctPointer = 0;
-            int humanBasePointer = 0;
 
             List<string> sentence1 = new List<string>();
-            List<WordState> sentenceValences1 = new List<WordState>();
+            List<clsWordValence> sentenceValences1 = new List<clsWordValence>();
 
             // Diagnostic
-            ParseSentence(CorrectText, HumanText, ref sentence1, ref sentenceValences1);
+            sentenceValences1 = ParseSentence(CorrectText, HumanText, ref sentence1, ref ListBox1, ref ListBox2);
 
             RichTextBoxIn.Text = "";
 
-
-            int wordCount = 0;
-            foreach (string word in sentence1)
+            foreach (clsWordValence wordState1 in sentenceValences1)
             {
-                if (sentenceValences1[wordCount] == WordState.added)
+                if (wordState1.State == clsWordValence.WordState.added)
+                {
+                    RichTextBoxIn.SelectionFont = new Font("Courier New", 18, FontStyle.Italic);
+                    RichTextBoxIn.SelectionColor = System.Drawing.Color.Red;
+                    RichTextBoxIn.SelectedText += string.Format("{0} ", wordState1.Word);
+                }
+                else if (wordState1.State == clsWordValence.WordState.correct)
+                {
+                    RichTextBoxIn.SelectionFont = new Font("Courier New", 18, FontStyle.Regular);
+                    RichTextBoxIn.SelectionColor = System.Drawing.Color.Blue;
+                    RichTextBoxIn.SelectedText += string.Format("{0} ", wordState1.Word);
+                }
+                else if (wordState1.State == clsWordValence.WordState.skipped)
                 {
                     RichTextBoxIn.SelectionFont = new Font("Courier New", 18, FontStyle.Strikeout);
-                    RichTextBoxIn.SelectionColor = System.Drawing.Color.IndianRed;
-                    RichTextBoxIn.SelectedText += string.Format("{0} ", word);
-                }
-                else if (sentenceValences1[wordCount] == WordState.correct)
-                {
-                    RichTextBoxIn.SelectionFont = new Font("Courier New", 18, FontStyle.Bold);
-                    RichTextBoxIn.SelectionColor = System.Drawing.Color.Green;
-                    RichTextBoxIn.SelectedText += string.Format("{0} ", word);
-                }
-                else if (sentenceValences1[wordCount] == WordState.skipped)
-                {
-                    RichTextBoxIn.SelectionFont = new Font("Courier New", 18, FontStyle.Bold);
                     RichTextBoxIn.SelectionColor = System.Drawing.Color.Red;
-                    RichTextBoxIn.SelectedText += string.Format("{0} ", word);
+                    RichTextBoxIn.SelectedText += string.Format("{0} ", wordState1.Word);
+
                 }
-                else if (sentenceValences1[wordCount] == WordState.unknown)
+                else if (wordState1.State == clsWordValence.WordState.unknown)
                 {
-                    RichTextBoxIn.SelectionFont = new Font("Courier New", 18, FontStyle.Bold);
                     RichTextBoxIn.SelectionColor = System.Drawing.Color.Gray;
-                    RichTextBoxIn.SelectedText += string.Format("{0} ", word);
+                    RichTextBoxIn.SelectedText += string.Format("{0} ", wordState1.Word);
                 }
-                wordCount++;
+
+                //else if (sentenceValences1[wordCount] == WordState.skipped)
+                //{
+                //    RichTextBoxIn.SelectionFont = new Font("Courier New", 18, FontStyle.Bold);
+                //    RichTextBoxIn.SelectionColor = System.Drawing.Color.Red;
+                //    RichTextBoxIn.SelectedText += string.Format("{0} ", wordState);
+                //}
+                //else if (sentenceValences1[wordCount] == WordState.unknown)
+                //{
+                //    RichTextBoxIn.SelectionFont = new Font("Courier New", 18, FontStyle.Bold);
+                //    RichTextBoxIn.SelectionColor = System.Drawing.Color.Gray;
+                //    RichTextBoxIn.SelectedText += string.Format("{0} ", wordState);
+                //}
+                //wordCount++;
             }
 
             //
 
         }
 
-        private void ParseSentence(string CorrectText, string HumanText, ref List<string> ReconstitutedSentence, ref List<WordState> ReconstitutedSentenceWordValues)
+        private List<clsWordValence> ParseSentence(string CorrectText, string HumanText, ref List<string> ReconstitutedSentence, ref System.Windows.Forms.ListBox Listbox1, ref System.Windows.Forms.ListBox Listbox2)
         //private void ParseSentence(string CorrectText, string HumanText)
         {
             CorrectText = CorrectText.Trim();
             HumanText = HumanText.Trim();
 
+            CorrectText = "Now is the time for all good men to come to the aid of their party.";
+            HumanText = "Little Women is good to read";
 
             string[] correctWords = SplitSentenceIntoWordsAndPunctuation(CorrectText);
             string[] humanWords = SplitSentenceIntoWordsAndPunctuation(HumanText);
-            List<clsWordValence> correctSentence = new List<clsWordValence>();
-            List<clsWordValence> humanSentence = new List<clsWordValence>();
+
+            List<int?> correctSentence = new List<int?>();
+
+            //List<clsWordValence> correctSentence = new List<clsWordValence>();
+            //List<clsWordValence> humanSentence = new List<clsWordValence>();
             List<clsWordValence> reconstitutedSentence = new List<clsWordValence>();
 
-            // Mark all words as "unknown" if human text is empty
-            if (HumanText.Length == 0)
+            //// Load the CorrectWord and HumanWord lists
+            //for (int i = 0; i < correctWords.Length; i++) correctSentence.Add(new clsWordValence(correctWords[i], clsWordValence.WordState.unknown));
+            //for (int i = 0; i < humanWords.Length; i++) humanSentence.Add(new clsWordValence(humanWords[i], clsWordValence.WordState.unknown));
+
+            //// Insure each list matches the other
+            //if (correctWords.Length > humanWords.Length) for (int i = humanWords.Length; i < correctWords.Length; i++) humanSentence.Add(new clsWordValence("", clsWordValence.WordState.unknown));
+            //if (correctWords.Length < humanWords.Length) for (int i = correctWords.Length; i < humanWords.Length; i++) correctSentence.Add(new clsWordValence("", clsWordValence.WordState.unknown));
+
+            // Create vector of matches between "correct" and "human" arrays
+            Boolean matchFound = false;
+            int humanWordsPointer = 0;
+            for (int i = 0; i < correctWords.Length; i++)
             {
-                foreach (string word in correctWords)
+                for (int j = humanWordsPointer; j < humanWords.Length; j++)
                 {
-                    reconstitutedSentence.Add(word);
-                    reconstitutedSentenceWordValences.Add(WordState.unknown);
+                    if (correctWords[i] == humanWords[j])
+                    {
+                        matchFound = true;
+                        humanWordsPointer = j + 1;
+                    }
                 }
-            }
-            else
-            {
+                if (matchFound)
+                    correctSentence.Add(humanWordsPointer);
+                else
+                    correctSentence.Add(null);
 
-                // Parse sentence
-                //do
-                //{
-                //    if (correctWords[correctPointer] == humanWords[humanPointer])
-                //    {
-                //        reconstitutedSentence.Add(humanWords[humanPointer]);
-                //        reconstitutedSentenceWordValences.Add(WordState.correct);
-                //        correctPointer++;
-                //        humanPointer++;
-                //    }
-                //    else
-                //    {
-                //        reconstitutedSentence.Add(humanWords[humanPointer]);
-                //        reconstitutedSentenceWordValences.Add(WordState.added);
-                //        humanPointer++;
-                //    }
-                //} while ((correctPointer < correctWords.Length) && (humanPointer < humanWords.Length));
-
-                // If we haven't reached the end of the correct words, include them and mark them "incomplete"
-
-                // Parse sentence
-
-
-
-                int correctBasePointer = 0;
-                Boolean matchFound = false;
-
-                for (int humanPointer = 0; humanPointer < humanWords.Length; humanPointer++)
-                {
-                    for (int correctPointer = correctBasePointer; correctPointer < correctWords.Length; correctPointer++)
-                    {
-                        if (correctWords[correctPointer] == humanWords[humanPointer])
-                        {
-                            matchFound = true;
-                            correctBasePointer = correctPointer;
-                            break;
-                        }
-                    }
-
-                    if (matchFound)
-                    {
-                        reconstitutedSentence.Add(humanWords[humanPointer]);
-
-                    }
-                    else
-                    {
-                        reconstitutedSentence.Add(humanWords[humanPointer]);
-                    }
-
-                    int k = 0;
-                    if (reconstitutedSentence.Count() > 1) k = 0;
-
-                }
-
-
-                //// Backfill reconstituted sentence
-                //if (correctPointer < correctWords.Count())
-                //{
-                //    for (int i = correctPointer; i < correctWords.Length; i++)
-                //    {
-                //        reconstitutedSentence.Add(correctWords[i]);
-                //        reconstitutedSentenceWordValences.Add(WordState.unknown);
-                //    }
-                //}
+                matchFound = false;
             }
 
-            ReconstitutedSentence = reconstitutedSentence;
-            ReconstitutedSentenceWordValues = reconstitutedSentenceWordValences;
+            //// Seek matches in both sentences 
+            //int humanSentencePointer = 0;
+            //foreach (clsWordValence item in correctSentence)
+            //{
+            //    for (int i = humanSentencePointer; i < humanSentence.Count(); i++)
+            //    {
+            //        if (item.Word == humanSentence[i].Word)
+            //        {
+            //            item.State = humanSentence[i].State = clsWordValence.WordState.correct;
+            //            humanSentencePointer = i+1;
+            //            break;
+            //        }
+            //    }
+            //}
 
-           
+            //// Adjust valence settings in the two sentences
+            //foreach (clsWordValence item in humanSentence)
+            //{
+            //    if (item.State != clsWordValence.WordState.correct) item.State = clsWordValence.WordState.added;
+            //}
+            //foreach (clsWordValence item in correctSentence)
+            //{
+            //    if (item.State != clsWordValence.WordState.correct) item.State = clsWordValence.WordState.skipped;
+            //}
 
+
+            //// Merge matches between sentences
+            //for (int i = 0; i < correctSentence.Count(); i++)
+            //{
+            //    if (correctSentence[i].State == clsWordValence.WordState.correct)
+            //    {
+            //        reconstitutedSentence.Add(correctSentence[i]);
+
+            //        if (humanSentence[i].State != clsWordValence.WordState.correct)
+            //        {
+            //            reconstitutedSentence.Add(humanSentence[i]);
+            //        }
+            //    }
+            //    else
+            //    {
+            //        reconstitutedSentence.Add(correctSentence[i]);
+            //        reconstitutedSentence.Add(humanSentence[i]);
+            //    }
+                
+            //    //if (humanSentence[humanSentencePointer].State == clsWordValence.WordState.unknown)
+
+            //    //    reconstitutedSentence.Add(humanSentence[humanSentencePointer]) 
+            //    //if (item.State == clsWordValence.WordState.unknown)
+            //    //{
+            //    //    reconstitutedSentence.Add(new clsWordValence(item.Word, clsWordValence.WordState.skipped));
+            //    //    if ((humanSentence[humanSentencePointer].Word != "") && (humanSentence[humanSentencePointer].State != clsWordValence.WordState.correct))
+            //    //        reconstitutedSentence.Add(new clsWordValence(humanSentence[humanSentencePointer].Word, clsWordValence.WordState.added));
+            //    //}
+            //}
+
+            //// Diagnostic - Return Listbox values
+            //foreach (clsWordValence item in correctSentence)
+            //{
+            //    Listbox1.Items.Add(string.Format("{0}\t{1}", item.Word, item.State));
+            //}
+
+            //foreach (clsWordValence item in humanSentence)
+            //{
+            //    Listbox2.Items.Add(string.Format("{0}\t{1}", item.Word, item.State));
+            //}
+
+            return reconstitutedSentence;
         }
 
         private string[] SplitSentenceIntoWordsAndPunctuation(string Input)
@@ -418,7 +446,7 @@ namespace WordCheck
                 }
             }
 
-            bufferList.Add(bufferString);
+            //bufferList.Add(bufferString);
             return bufferList.ToArray();
         }
 
