@@ -19,12 +19,12 @@ namespace WordCheck
 
         private void button1_Click(object sender, EventArgs e)
         {
-            clsParseSentenceErrors class1 = new clsParseSentenceErrors(System.Drawing.Color.Red);
+            //clsParseSentenceErrors class1 = new clsParseSentenceErrors(System.Drawing.Color.Red);
 
-            class1.GetHighlightedErrors(textBox2.Text, textBox1.Text, ref linkLabel1);
-            //class1.GetHighlightedErrors3(textBox2.Text, textBox1.Text, ref richTextBox1);
+            //class1.GetHighlightedErrors(textBox2.Text, textBox1.Text, ref linkLabel1);
+            ////class1.GetHighlightedErrors3(textBox2.Text, textBox1.Text, ref richTextBox1);
 
-            class1 = null;
+            //class1 = null;
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -40,11 +40,8 @@ namespace WordCheck
             listBox1.Items.Clear();
             listBox2.Items.Clear();
 
-            //if (CorrectWords == HumanWords)
-            //{
-                clsParseSentenceErrors class1 = new clsParseSentenceErrors(System.Drawing.Color.Red);
-                class1.GetHighlightedErrors3(textBox2.Text, textBox1.Text, ref richTextBox1, ref listBox1, ref listBox2);
-            //}
+            clsParseSentenceErrors class1 = new clsParseSentenceErrors(System.Drawing.Color.Blue, System.Drawing.Color.Red);
+            class1.GetHighlightedErrors(textBox2.Text, textBox1.Text, ref richTextBox1, ref listBox1, ref listBox2);
 
         }
 
