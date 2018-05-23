@@ -43,7 +43,7 @@ namespace WordCheck
             lblTitle.Text = DrillName;
             pictureBox1.Image = Properties.Resources.ExpandArrow_16x;
 
-            SetEnabledControls(false);
+            EnableQuizControls(false);
 
             timer1.Start();
         }
@@ -132,14 +132,12 @@ namespace WordCheck
 
         public void Timer_Tick(object sender, EventArgs e)
         {
+            UpdateTimeUsedInDrillLabel();
 
-            // Update on-screen time statistics
-            TimeSpan drillTime = DateTime.Now - timeDrillStart;
-            lblDrillTime.Text = string.Format("Drill Time:  {0} minutes, {1} seconds", drillTime.Minutes, drillTime.Seconds);
-
-            // Get expected text and human-entered text
+            // Compare human response to what the drill is expecting 
             string expectedResponse = rchTestSentence.Text.ToLower().Trim();
             string humanResponse = txtHumanResponse.Text.ToLower().Trim();
+
 
             lblComputer.Text = expectedResponse;
             lblHuman.Text = humanResponse;
@@ -252,7 +250,7 @@ namespace WordCheck
 
         //        }
 
-        private void SetEnabledControls(Boolean Visible)
+        private void EnableQuizControls(Boolean Visible)
         {
             btnStop.Enabled =
             lblTitleHumanResponse.Enabled =
@@ -276,6 +274,14 @@ namespace WordCheck
             //if (QuizAverage == 0) QuizAverage = Average;
         }
 
+        private void UpdateTimeUsedInDrillLabel()
+        {
+
+            // Update drill time used on screen
+            TimeSpan drillTime = DateTime.Now - timeDrillStart;
+            lblDrillTime.Text = string.Format("Drill Time:  {0} minutes, {1} seconds", drillTime.Minutes, drillTime.Seconds);
+        }
+
         #endregion
 
         #region Handle Controls
@@ -294,69 +300,45 @@ namespace WordCheck
 
         private void btnStart_Click(object sender, EventArgs e)
         {
+
+            // Clear statistics
             double totalMilliSeconds = 0;
             double averageMilliSeconds = 0;
 
+            // Give human a 5-second warning
             frmCountdown frm1 = new frmCountdown();
-
             frm1.StartPosition = FormStartPosition.CenterParent;
             frm1.ShowDialog();
 
-            timeDrillStart = DateTime.Now;
-
-            SetEnabledControls(true);
-
-            //List<data_sentencedrills_sentence> words = LoadDrill();
+            // Load drill sentences
             sentences = LoadDrill();
-            NewMethod(ref totalMilliSeconds, ref averageMilliSeconds, sentences);
 
-            timer1.Start();
+            // Upate controls
+            progressBar1.Maximum = sentences.Count;
+            EnableQuizControls(true);
 
-            // Ask about quick review
-            // MessageBox.Show("Quick Review?");
-
-            // Determine words > 1 Standardard Deviation and ask if you'd like to re-try them
-            // LoadLightningDrill(ref words);
-
-            // Run again
-            // totalMilliSeconds = averageMilliSeconds = 0;
-            // NewMethod(ref totalMilliSeconds, ref averageMilliSeconds, words);
-
+            // Start drill
+            timeDrillStart = DateTime.Now;
+            RunDrill(ref totalMilliSeconds, ref averageMilliSeconds, sentences);
         }
 
-        private void NewMethod(ref double totalMilliSeconds, ref double averageMilliSeconds, List<data_sentencedrills_sentence> sentences)
+        private void RunDrill(ref double totalMilliSeconds, ref double averageMilliSeconds, List<data_sentencedrills_sentence> sentences)
         {
-            int totalWords = sentences.Count;
+            lblTotalSentences.Text = string.Format("Total sentences = {0}", sentences.Count.ToString());
 
-            DateTime timeStart;
-            DateTime timeEnd;
-
-            lblTotalSentences.Text = string.Format("Total sentences = {0}", totalWords.ToString());
-
-            timeStart = DateTime.Now;
+            // Initialize drill episode
+            int completedSentences = 0;
             txtHumanResponse.Focus();
-
-            // Start ticking
             timer1.Start();
-
 
             foreach (data_sentencedrills_sentence sentence in sentences)
             {
-                //label2.Text = sentence.data_sentence.sentence;
 
-
+                // Update drill sentence richtextbox
                 rchTestSentence.Text = sentence.data_sentence.sentence;
                 CurrentSentenceID = sentence.id;
 
-                string[] correctWordsInSentence = sentence.data_sentence.sentence.Split(' ');
-                List<string> correctWords = correctWordsInSentence.ToList<string>();
-
-                List<string> humanWords = new List<string>();
-
-                // Get the number of words in the current sentence
-                // SentenceWordCount = sentence.data_sentence.sentence.Split(' ').Length;
-                //completedWords += 1;
-
+                // Wait for human to correctly enter sentence (or click abort)
                 timeStart = DateTime.Now;
 
                 while (!match && !abort)
@@ -494,10 +476,10 @@ namespace WordCheck
 
             // Begin drill
             timeDrillStart = DateTime.Now;
-            SetEnabledControls(true);
+            EnableQuizControls(true);
 
             List<data_sentencedrills_sentence> sentences = LoadDrill();
-            NewMethod(ref totalMilliSeconds, ref averageMilliSeconds, sentences);
+            RunDrill(ref totalMilliSeconds, ref averageMilliSeconds, sentences);
 
 
             //// Ask about quick review

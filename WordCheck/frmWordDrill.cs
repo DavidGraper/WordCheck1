@@ -217,7 +217,6 @@ namespace WordCheck
 
         public void Timer_Tick(object sender, EventArgs e)
         {
-
             UpdateTimeUsedInDrillLabel();
 
             // Compare human response to what the drill is expecting
