@@ -29,19 +29,21 @@ namespace WordCheck
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
+            //int CorrectWords = textBox2.Text.Split(' ').Count();
+            //int HumanWords = textBox1.Text.Split(' ').Count();
 
+            clsParseSentenceErrors class1 = new clsParseSentenceErrors(System.Drawing.Color.Blue, System.Drawing.Color.Red);
+            if (class1.GetHighlightedErrors(textBox2.Text, textBox1.Text, ref richTextBox1))
+                MessageBox.Show("Done");
         }
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
-            int CorrectWords = textBox2.Text.Split(' ').Count();
-            int HumanWords = textBox1.Text.Split(' ').Count();
+            //int CorrectWords = textBox2.Text.Split(' ').Count();
+            //int HumanWords = textBox1.Text.Split(' ').Count();
 
-            listBox1.Items.Clear();
-            listBox2.Items.Clear();
-
-            clsParseSentenceErrors class1 = new clsParseSentenceErrors(System.Drawing.Color.Blue, System.Drawing.Color.Red);
-            class1.GetHighlightedErrors(textBox2.Text, textBox1.Text, ref richTextBox1, ref listBox1, ref listBox2);
+            //clsParseSentenceErrors class1 = new clsParseSentenceErrors(System.Drawing.Color.Blue, System.Drawing.Color.Red);
+            //class1.GetHighlightedErrors(textBox2.Text, textBox1.Text, ref richTextBox1);
 
         }
 

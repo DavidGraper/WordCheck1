@@ -282,32 +282,14 @@ namespace WordCheck
 
         private void txtHumanResponse_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
-            {
-                //MessageBox.Show(txtHumanResponse.Text);
-                //txtHumanResponse.Text = "";
-                richTextBox1.Visible = true;
+            //string correctSentence = rchTestSentence.Text;
+            //string humanSentence = txtHumanResponse.Text;
 
-            }
+            //int CorrectWords = correctSentence.Split(' ').Count();
+            //int HumanWords = humanSentence.Split(' ').Count();
 
-            //int CorrectWords = rchTestSentence.Text.Split(' ').Count();
-            //int HumanWords = txtHumanResponse.Text.Split(' ').Count();
-
-            //string[] cwords = rchTestSentence.Text.Split(' ');
-            //string[] hwords = txtHumanResponse.Text.Split(' ');
-
-            //if ((CorrectWords == HumanWords) && (rchTestSentence.Text  != txtHumanResponse.Text))
-            //{
-
-            //    clsParseSentenceErrors class1 = new clsParseSentenceErrors();
-            //    class1.GetHighlightedErrors2(rchTestSentence.Text, txtHumanResponse.Text, ref richTextBox1);
-            //    richTextBox1.Visible = true;
-            //}
-            //else
-            //{
-            //    richTextBox1.Visible = false;
-
-            //}
+            //clsParseSentenceErrors class1 = new clsParseSentenceErrors(System.Drawing.Color.Blue, System.Drawing.Color.Red);
+            //class1.GetHighlightedErrors(correctSentence, humanSentence, ref richTextBox1);
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -539,43 +521,56 @@ namespace WordCheck
 
             SendKeys.Flush();
 
-            string testText = rchTestSentence.Text.Trim();
-            string humanText = txtHumanResponse.Text.Trim();
+            //string testText = rchTestSentence.Text.Trim();
+            //string humanText = txtHumanResponse.Text.Trim();
 
-            int CorrectWords = testText.Split(' ').Count();
-            int HumanWords = humanText.Split(' ').Count();
+            int CorrectWords = rchTestSentence.Text.Split(' ').Count();
+            int HumanWords = txtHumanResponse.Text.Split(' ').Count();
 
-            string[] cwords = testText.Split(' ');
-            string[] hwords = humanText.Split(' ');
-
-            // Hack
-            Boolean isLastCharacterPeriod = false;
-            if (humanText.Length > 1)
-            {
-                isLastCharacterPeriod = (humanText.Substring(humanText.Length - 1, 1) == ".");
-            }
-
-            //if ((CorrectWords == HumanWords) && (rchTestSentence.Text != txtHumanResponse.Text)) 
-            clsParseSentenceErrors class1 = new clsParseSentenceErrors(System.Drawing.Color.CadetBlue, System.Drawing.Color.Red);
-            //class1.GetHighlightedErrors3(rchTestSentence.Text, txtHumanResponse.Text, ref richTextBox1, re);
-
-            if (isLastCharacterPeriod && (rchTestSentence.Text != txtHumanResponse.Text))
-            {
+            clsParseSentenceErrors class1 = new clsParseSentenceErrors(System.Drawing.Color.Blue, System.Drawing.Color.Red);
+            if (class1.GetHighlightedErrors(txtHumanResponse.Text, rchTestSentence.Text, ref richTextBox1))
+                MessageBox.Show("Done");
 
 
-                richTextBox1.Visible = true;
-                //return;
-            }
 
-            lblHuman.Text = humanText;
-            lblComputer.Text = testText;
 
-            if (testText == humanText)
-            {
-                //richTextBox1.Visible = false;
-                //MessageBox.Show("Done!");
-                //match = true;
-            }
+
+
+
+            //int CorrectWords = testText.Split(' ').Count();
+            //int HumanWords = humanText.Split(' ').Count();
+
+            //string[] cwords = testText.Split(' ');
+            //string[] hwords = humanText.Split(' ');
+
+            //// Hack
+            //Boolean isLastCharacterPeriod = false;
+            //if (humanText.Length > 1)
+            //{
+            //    isLastCharacterPeriod = (humanText.Substring(humanText.Length - 1, 1) == ".");
+            //}
+
+            ////if ((CorrectWords == HumanWords) && (rchTestSentence.Text != txtHumanResponse.Text)) 
+            //clsParseSentenceErrors class1 = new clsParseSentenceErrors(System.Drawing.Color.CadetBlue, System.Drawing.Color.Red);
+            ////class1.GetHighlightedErrors3(rchTestSentence.Text, txtHumanResponse.Text, ref richTextBox1, re);
+
+            //if (isLastCharacterPeriod && (rchTestSentence.Text != txtHumanResponse.Text))
+            //{
+
+
+            //    richTextBox1.Visible = true;
+            //    //return;
+            //}
+
+            //lblHuman.Text = humanText;
+            //lblComputer.Text = testText;
+
+            //if (testText == humanText)
+            //{
+            //    //richTextBox1.Visible = false;
+            //    //MessageBox.Show("Done!");
+            //    //match = true;
+            //}
 
 
         }

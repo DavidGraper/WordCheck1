@@ -33,8 +33,6 @@
             this.button1 = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            this.listBox2 = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // textBox1
@@ -70,7 +68,7 @@
             // 
             this.textBox2.Location = new System.Drawing.Point(79, 100);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(348, 20);
+            this.textBox2.Size = new System.Drawing.Size(1125, 20);
             this.textBox2.TabIndex = 4;
             this.textBox2.Text = "Now is the time for all good men to come to the aid of their party.";
             // 
@@ -84,29 +82,11 @@
             this.richTextBox1.TabIndex = 5;
             this.richTextBox1.Text = "";
             // 
-            // listBox1
-            // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(582, 40);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(178, 160);
-            this.listBox1.TabIndex = 6;
-            // 
-            // listBox2
-            // 
-            this.listBox2.FormattingEnabled = true;
-            this.listBox2.Location = new System.Drawing.Point(766, 40);
-            this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(182, 160);
-            this.listBox2.TabIndex = 7;
-            // 
             // frmTest0
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1346, 555);
-            this.Controls.Add(this.listBox2);
-            this.Controls.Add(this.listBox1);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.button1);
@@ -127,7 +107,5 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.ListBox listBox2;
     }
 }

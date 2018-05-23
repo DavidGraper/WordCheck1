@@ -24,9 +24,9 @@ namespace WordCheck
 
         #region Private Methods
 
-        private static bool IsBasicLetter(char c)
+        private static bool IsBasicLetterOrApostrophe(char c)
         {
-            return (c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z');
+            return (c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c == '\'' || c == '-');
         }
 
         private List<clsWordValence> ParseSentence(string CorrectText, string HumanText, ref List<string> ReconstitutedSentence)
@@ -35,7 +35,8 @@ namespace WordCheck
             HumanText = HumanText.Trim();
 
             // Diagnostic - Load problem sentence for debugging
-            //HumanText = "Little Women is the good book to";
+            //HumanText = "A.  The credibility of the the the the";
+            //CorrectText = "A.  The credibility of the student was questioned when the second witness testified he could recognize him without his glasses.";
 
             string[] correctWords = SplitSentenceIntoWordsAndPunctuation(CorrectText);
             string[] humanWords = SplitSentenceIntoWordsAndPunctuation(HumanText);
@@ -52,8 +53,8 @@ namespace WordCheck
                 {
                     if (humanWords[i] == correctWords[j])
                     {
-                        correctWordsPointer = j;
-                        humanWord.MatchPosition = correctWordsPointer;
+                        humanWord.MatchPosition = j;
+                        correctWordsPointer = j+1;
                         break;
                     }
                 }
@@ -120,18 +121,21 @@ namespace WordCheck
 
             foreach (char character in characters)
             {
-                if (IsBasicLetter(character)) bufferString += character;
+                if (IsBasicLetterOrApostrophe(character)) bufferString += character;
 
                 // Split on spaces
                 if (character == ' ')
                 {
                     // Add previously assembled string to the string list
-                    bufferList.Add(bufferString);
-                    bufferString = string.Empty;
+                    if (bufferString.Length > 0)
+                    {
+                        bufferList.Add(bufferString);
+                        bufferString = string.Empty;
+                    }
                 }
 
                 // Split on punctuation
-                if ((character == '.') || (character == ','))
+                if ((character == '.') || (character == ',') || (character == '?'))
                 {
                     // Add previously assembled string to the string list
                     bufferList.Add(bufferString);
@@ -144,6 +148,8 @@ namespace WordCheck
 
             // Handle any last word in the string
             if (bufferString.Length > 0) bufferList.Add(bufferString);
+
+            // Collapse any "A." or "Q." into 
 
             return bufferList.ToArray();
         }
@@ -165,17 +171,17 @@ namespace WordCheck
 
         #region Public Methods
 
-        public void GetHighlightedErrors(string CorrectText, string HumanText, ref System.Windows.Forms.RichTextBox RichTextBoxIn,
-            ref System.Windows.Forms.ListBox ListBox1, ref System.Windows.Forms.ListBox ListBox2)
+        public Boolean GetHighlightedErrors(string CorrectText, string HumanText, ref System.Windows.Forms.RichTextBox RichTextBoxIn)
         {
 
             List<string> sentence1 = new List<string>();
             List<clsWordValence> sentenceValences1 = new List<clsWordValence>();
 
-            // Diagnostic
             sentenceValences1 = ParseSentence(CorrectText, HumanText, ref sentence1);
 
             RichTextBoxIn.Text = "";
+
+            Boolean sentenceCorrect = true;
 
             foreach (clsWordValence wordState1 in sentenceValences1)
             {
@@ -184,6 +190,7 @@ namespace WordCheck
                     RichTextBoxIn.SelectionFont = new Font("Courier New", 18, FontStyle.Italic);
                     RichTextBoxIn.SelectionColor = IncorrectWordColor1;
                     RichTextBoxIn.SelectedText += string.Format("{0} ", wordState1.Word);
+                    sentenceCorrect = false;
                 }
                 else if (wordState1.State == clsWordValence.WordState.correct)
                 {
@@ -196,9 +203,11 @@ namespace WordCheck
                     RichTextBoxIn.SelectionFont = new Font("Courier New", 18, FontStyle.Strikeout);
                     RichTextBoxIn.SelectionColor = IncorrectWordColor1;
                     RichTextBoxIn.SelectedText += string.Format("{0} ", wordState1.Word);
-
+                    sentenceCorrect = false;
                 }
             }
+
+            return sentenceCorrect;
         }
 
         #endregion
