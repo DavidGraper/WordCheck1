@@ -29,6 +29,14 @@ namespace WordCheck
         // List of sentences in the selected drill
         List<data_sentencedrills_sentence> sentences = new List<data_sentencedrills_sentence>();
 
+        clsParseSentenceErrors parseSentenceErrors = new clsParseSentenceErrors(System.Drawing.Color.Blue, System.Drawing.Color.Red);
+
+        string cachedHumanEntry = string.Empty;
+
+        double StandardDeviation = 0;
+        double Average = 0;
+        double FirstRunOfDrillAverage = 0;
+
         #region Initialize
 
         public frmSentenceDrill()
@@ -40,17 +48,28 @@ namespace WordCheck
 
         private void frmSentenceDrill_Load(object sender, EventArgs e)
         {
-            lblTitle.Text = DrillName;
+            lblTotalSentences.Text = "";
+            this.Text = DrillName;
+            DrillRandom = randomToolStripMenuItem.Checked;
+
+            // Initially collapse the "details" section of the page
             pictureBox1.Image = Properties.Resources.ExpandArrow_16x;
+            this.Size = new Size(1404, 656);
 
             EnableQuizControls(false);
-
-            timer1.Start();
         }
 
         #endregion
 
         #region Private Methods
+
+        private void EnableQuizControls(Boolean Visible)
+        {
+            btnStopDrill.Enabled =
+            lblTitleTestWordOrPhrase.Enabled =
+            lblTitleHumanResponse.Enabled =
+            progressBar1.Visible = Visible;
+        }
 
         private List<data_sentencedrills_sentence> LoadDrill()
         {
@@ -67,9 +86,12 @@ namespace WordCheck
                     return1.Add(item);
                 }
 
-                // Randomizing?
-                Random rand = new Random();
-                return1 = return1.OrderBy(c => rand.Next()).Select(c => c).ToList();
+                // Randomizing
+                if (DrillRandom)
+                {
+                    Random rand = new Random();
+                    return1 = return1.OrderBy(c => rand.Next()).Select(c => c).ToList();
+                }
 
                 // Set upper limit of progress bar
                 progressBar1.Maximum = return1.Count;
@@ -82,183 +104,86 @@ namespace WordCheck
             return return1;
         }
 
-        //        private void LoadLightningDrill(ref List<data_sentencedrills_sentence> Words)
-        //        {
-        //            try
-        //            {
-        //                foreach (data_wordcorrect item in corrects)
-        //                {
-        //                    //if (item.msspeed < (Average + 2 * (StandardDeviation)))
-        //                     if ((item.msspeed / 1000.00) < QuizAverage)
-        //                    {
-        //                        Words.Remove(Words.Find(word => word.dictionaryid == item.wordid));
-        //                    }
-        //                }
+        private void RunDrill(ref double totalMilliSeconds, ref double averageMilliSeconds, List<data_sentencedrills_sentence> sentences)
+        {
+            lblTotalSentences.Text = string.Format("Total sentences = {0}", sentences.Count.ToString());
 
-        //                // Set upper limit of progress bar
-        //                progressBar1.Maximum = Words.Count;
-        //                lblRetestingWords.Text = Words.Count.ToString();
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                MessageBox.Show(ex.Message);
-        //            }
-        //        }
+            // Initialize drill episode
+            int completedSentences = 0;
+            txtHumanResponse.Focus();
+            timer1.Start();
 
-        //        private List<string> LoadSentenceDrill()
-        //        {
-        //            List<string> return1 = new List<string>();
+            foreach (data_sentencedrills_sentence sentence in sentences)
+            {
 
-        //            try
-        //            {
+                // Update drill sentence richtextbox
+                rchTestSentence.Text = sentence.data_sentence.sentence;
 
-        //                //data_application application1 = new data_application();
-        //                var query = from q in dc1.data_sentencedrills_sentence
-        //                            where q.data_sentencedrill.drillname == "Chapter 19 - Punctuation"
-        //                            select q.data_sentence.sentence;
+                CurrentSentenceID = sentence.id;
 
-        //                foreach (var item in query)
-        //                {
-        //                    return1.Add(item);
-        //                }
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                MessageBox.Show(ex.Message);
-        //            }
+                // Wait for human to correctly enter sentence (or click abort)
+                timeStart = DateTime.Now;
 
-        //            return return1;
-        //        }
+                while (!match && !abort)
+                {
+                    SendKeys.Flush();
+                }
+
+                if (abort) return;
+
+                // Human has entered proper sentence
+
+                // Clear controls, get timespan required for human to enter proper sentence
+                txtHumanResponse.Text = "";
+                richTextBox1.Text = "";
+                timeEnd = DateTime.Now;
+                TimeSpan span1 = timeEnd - timeStart;
+
+                // Convert the timespan into familiar SS:MM format
+                string time1 = span1.Seconds.ToString("D3") + ":" + span1.Milliseconds.ToString("D3");
+
+                // Collect the time required for this drill sentence, save it to the list of speeds of the responses to the drilled sentences
+                data_sentencecorrect correct1 = new data_sentencecorrect();
+                correct1.date = DateTime.Now;
+                correct1.msspeed = (long)span1.TotalMilliseconds;
+                correct1.sentenceid = sentence.sentenceid;
+                corrects.Add(correct1);
+
+                string tempSentenceFragment = sentence.data_sentence.sentence.Substring(0, (sentence.data_sentence.sentence.Length > 20 ? 20 : sentence.data_sentence.sentence.Length));
+                dataGridView1.Rows.Add(tempSentenceFragment, time1);
+
+                dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount - 1;
+
+                // Update average speed
+                totalMilliSeconds += span1.TotalMilliseconds;
+                averageMilliSeconds = totalMilliSeconds / completedSentences;
+                lblAverageSpeed.Text = string.Format("Average speed = {0} seconds per sentence", Math.Round((averageMilliSeconds / 1000), 2));
+
+                // Clear "match" flag, update controls, and continue (present the next drill sentence to the human)
+                match = false;
+
+                UpdateOnScreenSentenceCounts(sentences.Count, completedSentences);
+                progressBar1.Value++;
+            }
+
+            MessageBox.Show("Drill Complete!");
+
+            // Entirely exit form if abort flag set
+            if (abort) this.Close();
+
+            timer1.Stop();
+            WriteResultsToDB();
+            UpdateOnScreenStatistics();
+
+            btnStopDrill.Enabled = false;
+        }
 
         public void Timer_Tick(object sender, EventArgs e)
         {
             UpdateTimeUsedInDrillLabel();
-
-            // Compare human response to what the drill is expecting 
-            string expectedResponse = rchTestSentence.Text.ToLower().Trim();
-            string humanResponse = txtHumanResponse.Text.ToLower().Trim();
-
-
-            lblComputer.Text = expectedResponse;
-            lblHuman.Text = humanResponse;
-
-            // Before checking discrepancies, exit under certain conditions 
-
-            // 1.  If human has entered nothing
-            if (humanResponse == "")
-            {
-                //entryBuffer = string.Empty;
-                return;
-            }
-
-            // 2.  If the human's response is an exact match to the sentence
-            if (humanResponse == expectedResponse)
-            {
-
-                //MessageBox.Show("Done");
-                // Lots of BOINGs here
-
-                match = true;
-
-                //ErrorCount0 = 0;
-                lblTotalSentences.Visible = false;
-                //richTextBox1.Visible = false;
-
-                return;
-            }
-
-            //// If there is a new entry from the human
-            //if (humanResponse != entryBuffer)
-            //{
-
-                //// If human makes more than two mistakes, display the 
-                //ErrorCount0++;
-                //if (ErrorCount0 > 1) label2.Visible = true;
-
-                //UpdateErrorMessage(ref lnkLabel);
-
-
-
-                //HumanSentenceCount++;
-
-                //// If the number of strokes meets or exceeds the strokes expected, this is a mistake
-                //if (HumanSentenceCount >= SentenceWordCount)
-                //{
-
-                //    // Cache human's
-                //    entryBuffer = humanResponse;
-
-                //    data_wordconfusion dw1 = new data_wordconfusion();
-                //    dw1.incorrectdate = DateTime.Now;
-                //    dw1.incorrectword = humanResponse;
-                //    dw1.wordid = CurrentSentenceID;
-
-                //    mistakes.Add(dw1);
-                //}
-                //else
-                //{
-                //    if (humanResponse.Length > 0)
-                //    {
-
-                //        // Cache human's actual entry
-                //        entryBuffer = humanResponse;
-                //    }
-                //    else
-                //    {
-                //        entryBuffer = "";
-                //        HumanSentenceCount = 0;
-                //    }
-                //}
-            //}
         }
 
-        //        private void WriteResultsToDB()
-        //        {
-        //            foreach (data_wordconfusion item in mistakes)
-        //            {
-        //                if (item.incorrectword.Contains("khr-s")) continue;
-        //                if (item.incorrectword == "") continue;
-
-        //                dc1.pr_AddMistakeRecord(DrillID, item.wordid, item.incorrectword);
-        //            }
-
-        //            foreach (data_wordcorrect item in corrects)
-        //            {
-        //                dc1.pr_AddCorrectRecord(DrillID, item.wordid, item.msspeed, item.date);
-        //            }
-
-        //            dc1.SubmitChanges();
-        //        }
-
-        //        private void UpdateWordCounts(int TotalWords, int WordsCompleted)
-        //        {
-        //            lblWordsToGo.Text = string.Format("Words completed: {0}, words to go: {1}",
-        //                WordsCompleted.ToString(), (TotalWords - WordsCompleted).ToString());
-
-        //            // Color changes based on proximity to end of list
-        //            if ((TotalWords - WordsCompleted) == 10)
-        //            {
-        //                lblWordsToGo.BackColor = SystemColors.ControlText;
-        //                lblWordsToGo.ForeColor = SystemColors.Control;
-        //            }
-
-        //            if ((TotalWords - WordsCompleted) == 0)
-        //            {
-        //                lblWordsToGo.BackColor = SystemColors.Control;
-        //                lblWordsToGo.ForeColor = SystemColors.ControlText;
-        //            }
-
-        //        }
-
-        private void EnableQuizControls(Boolean Visible)
-        {
-            btnStop.Enabled =
-            lblTitleHumanResponse.Enabled =
-            lblTitleTestWordOrPhrase.Enabled =
-            progressBar1.Visible = Visible;
-        }
-
-        private void UpdateStatistics()
+        private void UpdateOnScreenStatistics()
         {
             //Average = getAverage(corrects) / 1000.00;
             //string averageSpeedInSeconds = Average.ToString();
@@ -282,21 +207,50 @@ namespace WordCheck
             lblDrillTime.Text = string.Format("Drill Time:  {0} minutes, {1} seconds", drillTime.Minutes, drillTime.Seconds);
         }
 
+        private void WriteResultsToDB()
+        {
+            foreach (data_sentencecorrect item in corrects)
+            {
+                dc1.pr_AddCorrectSentenceRecord(DrillID, item.sentenceid, item.msspeed, item.date);
+            }
+
+            dc1.SubmitChanges();
+        }
+
+        private void UpdateOnScreenSentenceCounts(int TotalSentences, int SentencesCompleted)
+        {
+            lblSentencesToGo.Text = string.Format("Sentences completed: {0}, sentences to go: {1}",
+                SentencesCompleted.ToString(), (TotalSentences - SentencesCompleted).ToString());
+
+            // Color changes based on proximity to end of list
+            if ((TotalSentences - SentencesCompleted) == 10)
+            {
+                lblSentencesToGo.BackColor = SystemColors.ControlText;
+                lblSentencesToGo.ForeColor = SystemColors.Control;
+            }
+
+            if ((TotalSentences - SentencesCompleted) == 0)
+            {
+                lblSentencesToGo.BackColor = SystemColors.Control;
+                lblSentencesToGo.ForeColor = SystemColors.ControlText;
+            }
+        }
+
         #endregion
 
         #region Handle Controls
 
-        private void txtHumanResponse_KeyDown(object sender, KeyEventArgs e)
-        {
-            //string correctSentence = rchTestSentence.Text;
-            //string humanSentence = txtHumanResponse.Text;
+        //private void txtHumanResponse_KeyDown(object sender, KeyEventArgs e)
+        //{
+        //    //string correctSentence = rchTestSentence.Text;
+        //    //string humanSentence = txtHumanResponse.Text;
 
-            //int CorrectWords = correctSentence.Split(' ').Count();
-            //int HumanWords = humanSentence.Split(' ').Count();
+        //    //int CorrectWords = correctSentence.Split(' ').Count();
+        //    //int HumanWords = humanSentence.Split(' ').Count();
 
-            //clsParseSentenceErrors class1 = new clsParseSentenceErrors(System.Drawing.Color.Blue, System.Drawing.Color.Red);
-            //class1.GetHighlightedErrors(correctSentence, humanSentence, ref richTextBox1);
-        }
+        //    //clsParseSentenceErrors class1 = new clsParseSentenceErrors(System.Drawing.Color.Blue, System.Drawing.Color.Red);
+        //    //class1.GetHighlightedErrors(correctSentence, humanSentence, ref richTextBox1);
+        //}
 
         private void btnStart_Click(object sender, EventArgs e)
         {
@@ -320,81 +274,6 @@ namespace WordCheck
             // Start drill
             timeDrillStart = DateTime.Now;
             RunDrill(ref totalMilliSeconds, ref averageMilliSeconds, sentences);
-        }
-
-        private void RunDrill(ref double totalMilliSeconds, ref double averageMilliSeconds, List<data_sentencedrills_sentence> sentences)
-        {
-            lblTotalSentences.Text = string.Format("Total sentences = {0}", sentences.Count.ToString());
-
-            // Initialize drill episode
-            int completedSentences = 0;
-            txtHumanResponse.Focus();
-            timer1.Start();
-
-            foreach (data_sentencedrills_sentence sentence in sentences)
-            {
-
-                // Update drill sentence richtextbox
-                rchTestSentence.Text = sentence.data_sentence.sentence;
-                CurrentSentenceID = sentence.id;
-
-                // Wait for human to correctly enter sentence (or click abort)
-                timeStart = DateTime.Now;
-
-                while (!match && !abort)
-                {
-                    SendKeys.Flush();
-                }
-
-                if (abort) break;
-
-                txtHumanResponse.Text = "";
-                timeEnd = DateTime.Now;
-                TimeSpan span1 = timeEnd - timeStart;
-
-                //string time1 = span1.Seconds.ToString("D3") + ":" + span1.Milliseconds.ToString("D3");
-
-                //data_wordcorrect correct1 = new data_wordcorrect();
-                //correct1.date = DateTime.Now;
-                //correct1.msspeed = (long)span1.TotalMilliseconds;
-                //correct1.wordid = sentence.data_dictionary.id;
-                //corrects.Add(correct1);
-
-                //dataGridView1.Rows.Add(sentence.data_dictionary.english, time1);
-
-                //dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount - 1;
-
-                //// Update average speed
-                //totalMilliSeconds += span1.TotalMilliseconds;
-                //averageMilliSeconds = totalMilliSeconds / completedWords;
-
-
-                //lblAverageSpeed.Text = string.Format("Average speed = {0} seconds per word", Math.Round((averageMilliSeconds / 1000), 2));
-
-                match = false;
-
-                //UpdateWordCounts(sentences.Count, completedWords);
-
-                progressBar1.Value++;
-
-            }
-
-            if (abort) this.Close();
-
-            MessageBox.Show("Done!");
-
-            //match = true;
-
-            btnStop.Enabled = false;
-            btnStart.Enabled = false;
-
-            //WriteResultsToDB();
-
-
-            timer1.Stop();
-
-            UpdateStatistics();
-
         }
 
         private void btnStop_Click(object sender, EventArgs e)
@@ -432,7 +311,7 @@ namespace WordCheck
 
         private void randomToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            randomToolStripMenuItem.Checked = true;
+            randomToolStripMenuItem.Checked = !randomToolStripMenuItem.Checked;
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -503,16 +382,23 @@ namespace WordCheck
 
             SendKeys.Flush();
 
-            //string testText = rchTestSentence.Text.Trim();
-            //string humanText = txtHumanResponse.Text.Trim();
+            if (txtHumanResponse.Text.Contains("???"))
+            {
+                frmLookupSteno lookup1 = new frmLookupSteno();
+                lookup1.ShowDialog();
+                txtHumanResponse.Text = "";
+                return;
+            }
 
-            int CorrectWords = rchTestSentence.Text.Split(' ').Count();
-            int HumanWords = txtHumanResponse.Text.Split(' ').Count();
+            //int CorrectWords = rchTestSentence.Text.Split(' ').Count();
+            //int HumanWords = txtHumanResponse.Text.Split(' ').Count();
 
-            clsParseSentenceErrors class1 = new clsParseSentenceErrors(System.Drawing.Color.Blue, System.Drawing.Color.Red);
-            if (class1.GetHighlightedErrors(txtHumanResponse.Text, rchTestSentence.Text, ref richTextBox1))
-                MessageBox.Show("Done");
+            string CorrectText = rchTestSentence.Text.ToLower();
+            string HumanText = txtHumanResponse.Text.ToLower();
 
+            //clsParseSentenceErrors class1 = new clsParseSentenceErrors(System.Drawing.Color.Blue, System.Drawing.Color.Red);
+
+            if (parseSentenceErrors.GetHighlightedErrors(HumanText, CorrectText, ref richTextBox1)) match = true;
 
 
 
@@ -584,6 +470,11 @@ namespace WordCheck
             }
         }
 
+        private void chkInputToggle_CheckedChanged(object sender, EventArgs e)
+        {
+            rchTestSentence.Visible = chkInputToggle.Checked;
+            txtHumanResponse.Visible = !chkInputToggle.Checked;
+        }
     }
 }
 

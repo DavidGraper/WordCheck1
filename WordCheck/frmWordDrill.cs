@@ -163,7 +163,7 @@ namespace WordCheck
 
                 if (abort) return;
 
-                // Human has entered proper word.  
+                // Human has entered proper word  
 
                 // Clear controls, get timespan required for human to make proper entry
                 txtHumanResponse.Text = "";

@@ -56,6 +56,10 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -122,6 +126,18 @@
     </Compile>
     <Compile Include="frmCreateDrill.Designer.cs">
       <DependentUpon>frmCreateDrill.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmDictionaryMaintenancecs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDictionaryMaintenancecs.Designer.cs">
+      <DependentUpon>frmDictionaryMaintenancecs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmLookupSteno.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmLookupSteno.Designer.cs">
+      <DependentUpon>frmLookupSteno.cs</DependentUpon>
     </Compile>
     <Compile Include="frmWordDrill.cs">
       <SubType>Form</SubType>
@@ -199,6 +215,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmCreateDrill.resx">
       <DependentUpon>frmCreateDrill.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmDictionaryMaintenancecs.resx">
+      <DependentUpon>frmDictionaryMaintenancecs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmLookupSteno.resx">
+      <DependentUpon>frmLookupSteno.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmWordDrill.resx">
       <DependentUpon>frmWordDrill.cs</DependentUpon>

@@ -12,6 +12,8 @@ namespace WordCheck
 {
     public partial class frmTest0 : Form
     {
+        clsParseSentenceErrors parseSentenceErrors = new clsParseSentenceErrors(System.Drawing.Color.Blue, System.Drawing.Color.Red);
+
         public frmTest0()
         {
             InitializeComponent();
@@ -32,8 +34,16 @@ namespace WordCheck
             //int CorrectWords = textBox2.Text.Split(' ').Count();
             //int HumanWords = textBox1.Text.Split(' ').Count();
 
-            clsParseSentenceErrors class1 = new clsParseSentenceErrors(System.Drawing.Color.Blue, System.Drawing.Color.Red);
-            if (class1.GetHighlightedErrors(textBox2.Text, textBox1.Text, ref richTextBox1))
+            //clsParseSentenceErrors class1 = new clsParseSentenceErrors(System.Drawing.Color.Blue, System.Drawing.Color.Red);
+
+            if (textBox1.Text.Contains("???"))
+            {
+                frmLookupSteno lookup1 = new frmLookupSteno();
+                lookup1.ShowDialog();
+                textBox1.Text = "";
+            }
+
+            if (parseSentenceErrors.GetHighlightedErrors(textBox2.Text, textBox1.Text, ref richTextBox1))
                 MessageBox.Show("Done");
         }
 

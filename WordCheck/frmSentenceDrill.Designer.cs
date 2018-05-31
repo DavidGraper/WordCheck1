@@ -46,13 +46,12 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lblStandardDeviation = new System.Windows.Forms.Label();
             this.lblTotalSentences = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblSentencesToGo = new System.Windows.Forms.Label();
             this.lblAverageSpeed = new System.Windows.Forms.Label();
             this.lblDrillTime = new System.Windows.Forms.Label();
-            this.btnStop = new System.Windows.Forms.Button();
+            this.btnStopDrill = new System.Windows.Forms.Button();
             this.lblTitleHumanResponse = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.lblTitle = new System.Windows.Forms.Label();
             this.btnStart = new System.Windows.Forms.Button();
             this.txtHumanResponse = new System.Windows.Forms.TextBox();
             this.lblTitleTestWordOrPhrase = new System.Windows.Forms.Label();
@@ -63,9 +62,9 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.lblRetestingWords = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.lblComputer = new System.Windows.Forms.Label();
-            this.lblHuman = new System.Windows.Forms.Label();
             this.rchTestSentence = new System.Windows.Forms.RichTextBox();
+            this.chkInputToggle = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -74,7 +73,7 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(18, 104);
+            this.progressBar1.Location = new System.Drawing.Point(18, 35);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(1233, 23);
             this.progressBar1.TabIndex = 53;
@@ -179,7 +178,7 @@
             // 
             this.groupBox2.Controls.Add(this.lblStandardDeviation);
             this.groupBox2.Controls.Add(this.lblTotalSentences);
-            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.lblSentencesToGo);
             this.groupBox2.Controls.Add(this.lblAverageSpeed);
             this.groupBox2.Controls.Add(this.lblDrillTime);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -210,15 +209,15 @@
             this.lblTotalSentences.TabIndex = 4;
             this.lblTotalSentences.Text = "101 Words";
             // 
-            // label3
+            // lblSentencesToGo
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(18, 62);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(185, 13);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "0 Words Completed, 101 Words to go";
+            this.lblSentencesToGo.AutoSize = true;
+            this.lblSentencesToGo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSentencesToGo.Location = new System.Drawing.Point(18, 62);
+            this.lblSentencesToGo.Name = "lblSentencesToGo";
+            this.lblSentencesToGo.Size = new System.Drawing.Size(185, 13);
+            this.lblSentencesToGo.TabIndex = 5;
+            this.lblSentencesToGo.Text = "0 Words Completed, 101 Words to go";
             // 
             // lblAverageSpeed
             // 
@@ -240,26 +239,26 @@
             this.lblDrillTime.TabIndex = 7;
             this.lblDrillTime.Text = "Drill Time:  0m 0s";
             // 
-            // btnStop
+            // btnStopDrill
             // 
-            this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStop.Location = new System.Drawing.Point(742, 486);
-            this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(142, 55);
-            this.btnStop.TabIndex = 51;
-            this.btnStop.Text = "Stop Drill";
-            this.btnStop.UseVisualStyleBackColor = true;
-            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+            this.btnStopDrill.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStopDrill.Location = new System.Drawing.Point(742, 524);
+            this.btnStopDrill.Name = "btnStopDrill";
+            this.btnStopDrill.Size = new System.Drawing.Size(142, 55);
+            this.btnStopDrill.TabIndex = 51;
+            this.btnStopDrill.Text = "Stop Drill";
+            this.btnStopDrill.UseVisualStyleBackColor = true;
+            this.btnStopDrill.Click += new System.EventHandler(this.btnStop_Click);
             // 
             // lblTitleHumanResponse
             // 
             this.lblTitleHumanResponse.AutoSize = true;
             this.lblTitleHumanResponse.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitleHumanResponse.Location = new System.Drawing.Point(20, 303);
+            this.lblTitleHumanResponse.Location = new System.Drawing.Point(20, 204);
             this.lblTitleHumanResponse.Name = "lblTitleHumanResponse";
-            this.lblTitleHumanResponse.Size = new System.Drawing.Size(158, 58);
+            this.lblTitleHumanResponse.Size = new System.Drawing.Size(175, 58);
             this.lblTitleHumanResponse.TabIndex = 50;
-            this.lblTitleHumanResponse.Text = "Human Steno\r\n Response:";
+            this.lblTitleHumanResponse.Text = "Human English\r\n Response:";
             // 
             // pictureBox1
             // 
@@ -272,20 +271,10 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click_1);
             // 
-            // lblTitle
-            // 
-            this.lblTitle.AutoSize = true;
-            this.lblTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitle.Location = new System.Drawing.Point(15, 52);
-            this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(66, 29);
-            this.lblTitle.TabIndex = 54;
-            this.lblTitle.Text = "Title";
-            // 
             // btnStart
             // 
             this.btnStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStart.Location = new System.Drawing.Point(566, 486);
+            this.btnStart.Location = new System.Drawing.Point(566, 524);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(142, 55);
             this.btnStart.TabIndex = 48;
@@ -296,19 +285,18 @@
             // txtHumanResponse
             // 
             this.txtHumanResponse.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtHumanResponse.Location = new System.Drawing.Point(233, 156);
+            this.txtHumanResponse.Location = new System.Drawing.Point(235, 355);
             this.txtHumanResponse.Multiline = true;
             this.txtHumanResponse.Name = "txtHumanResponse";
-            this.txtHumanResponse.Size = new System.Drawing.Size(1035, 130);
+            this.txtHumanResponse.Size = new System.Drawing.Size(1035, 150);
             this.txtHumanResponse.TabIndex = 47;
             this.txtHumanResponse.TextChanged += new System.EventHandler(this.txtHumanResponse_TextChanged);
-            this.txtHumanResponse.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtHumanResponse_KeyDown);
             // 
             // lblTitleTestWordOrPhrase
             // 
             this.lblTitleTestWordOrPhrase.AutoSize = true;
             this.lblTitleTestWordOrPhrase.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitleTestWordOrPhrase.Location = new System.Drawing.Point(20, 176);
+            this.lblTitleTestWordOrPhrase.Location = new System.Drawing.Point(20, 107);
             this.lblTitleTestWordOrPhrase.Name = "lblTitleTestWordOrPhrase";
             this.lblTitleTestWordOrPhrase.Size = new System.Drawing.Size(207, 29);
             this.lblTitleTestWordOrPhrase.TabIndex = 46;
@@ -348,7 +336,7 @@
             // lblRetestingWords
             // 
             this.lblRetestingWords.AutoSize = true;
-            this.lblRetestingWords.Location = new System.Drawing.Point(22, 418);
+            this.lblRetestingWords.Location = new System.Drawing.Point(1283, 393);
             this.lblRetestingWords.Name = "lblRetestingWords";
             this.lblRetestingWords.Size = new System.Drawing.Size(93, 13);
             this.lblRetestingWords.TabIndex = 60;
@@ -358,63 +346,66 @@
             // 
             this.richTextBox1.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox1.Location = new System.Drawing.Point(233, 303);
+            this.richTextBox1.Location = new System.Drawing.Point(235, 204);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(1035, 145);
             this.richTextBox1.TabIndex = 61;
             this.richTextBox1.Text = "";
-            // 
-            // lblComputer
-            // 
-            this.lblComputer.AutoSize = true;
-            this.lblComputer.Location = new System.Drawing.Point(22, 486);
-            this.lblComputer.Name = "lblComputer";
-            this.lblComputer.Size = new System.Drawing.Size(35, 13);
-            this.lblComputer.TabIndex = 62;
-            this.lblComputer.Text = "label4";
-            // 
-            // lblHuman
-            // 
-            this.lblHuman.AutoSize = true;
-            this.lblHuman.Location = new System.Drawing.Point(22, 516);
-            this.lblHuman.Name = "lblHuman";
-            this.lblHuman.Size = new System.Drawing.Size(35, 13);
-            this.lblHuman.TabIndex = 63;
-            this.lblHuman.Text = "label7";
             // 
             // rchTestSentence
             // 
             this.rchTestSentence.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.rchTestSentence.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.rchTestSentence.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rchTestSentence.Location = new System.Drawing.Point(233, 156);
+            this.rchTestSentence.Location = new System.Drawing.Point(235, 64);
             this.rchTestSentence.Name = "rchTestSentence";
             this.rchTestSentence.Size = new System.Drawing.Size(1035, 134);
             this.rchTestSentence.TabIndex = 64;
             this.rchTestSentence.Text = "";
             // 
+            // chkInputToggle
+            // 
+            this.chkInputToggle.AutoSize = true;
+            this.chkInputToggle.Location = new System.Drawing.Point(38, 148);
+            this.chkInputToggle.Name = "chkInputToggle";
+            this.chkInputToggle.Size = new System.Drawing.Size(86, 17);
+            this.chkInputToggle.TabIndex = 65;
+            this.chkInputToggle.Text = "Toggle Input";
+            this.chkInputToggle.UseVisualStyleBackColor = true;
+            this.chkInputToggle.CheckedChanged += new System.EventHandler(this.chkInputToggle_CheckedChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(20, 355);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(158, 58);
+            this.label2.TabIndex = 66;
+            this.label2.Text = "Human Steno\r\n Response:";
+            // 
             // frmSentenceDrill
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1388, 618);
+            this.ClientSize = new System.Drawing.Size(1388, 685);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.chkInputToggle);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.rchTestSentence);
-            this.Controls.Add(this.lblHuman);
-            this.Controls.Add(this.lblComputer);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.lblRetestingWords);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.btnStop);
+            this.Controls.Add(this.btnStopDrill);
             this.Controls.Add(this.lblTitleHumanResponse);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.txtHumanResponse);
             this.Controls.Add(this.lblTitleTestWordOrPhrase);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dataGridView1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "frmSentenceDrill";
             this.Text = "Title";
             this.Load += new System.EventHandler(this.frmSentenceDrill_Load);
@@ -445,10 +436,9 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-        private System.Windows.Forms.Button btnStop;
+        private System.Windows.Forms.Button btnStopDrill;
         private System.Windows.Forms.Label lblTitleHumanResponse;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.TextBox txtHumanResponse;
         private System.Windows.Forms.Label lblTitleTestWordOrPhrase;
@@ -461,12 +451,12 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label lblStandardDeviation;
         private System.Windows.Forms.Label lblTotalSentences;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblSentencesToGo;
         private System.Windows.Forms.Label lblAverageSpeed;
         private System.Windows.Forms.Label lblDrillTime;
         private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.Label lblComputer;
-        private System.Windows.Forms.Label lblHuman;
         private System.Windows.Forms.RichTextBox rchTestSentence;
+        private System.Windows.Forms.CheckBox chkInputToggle;
+        private System.Windows.Forms.Label label2;
     }
 }

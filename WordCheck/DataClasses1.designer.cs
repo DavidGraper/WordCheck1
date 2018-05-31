@@ -174,6 +174,27 @@ namespace WordCheck
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), drillid, wordid, incorrectword);
 			return ((int)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.pr_AddCorrectSentenceRecord")]
+		public int pr_AddCorrectSentenceRecord([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="BigInt")] System.Nullable<long> drillid, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="BigInt")] System.Nullable<long> sentenceid, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="BigInt")] System.Nullable<long> milliseconds, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="DateTime")] System.Nullable<System.DateTime> datecorrect)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), drillid, sentenceid, milliseconds, datecorrect);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.pr_LookupWord")]
+		public ISingleResult<pr_LookupWordResult> pr_LookupWord([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(100)")] string word)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), word);
+			return ((ISingleResult<pr_LookupWordResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.pr_AddDictionaryEntry")]
+		public int pr_AddDictionaryEntry([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(100)")] string steno, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(100)")] string english)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), steno, english);
+			return ((int)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.data_dictionary")]
@@ -1924,6 +1945,32 @@ namespace WordCheck
 			if ((this.PropertyChanged != null))
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	public partial class pr_LookupWordResult
+	{
+		
+		private string _steno;
+		
+		public pr_LookupWordResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_steno", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string steno
+		{
+			get
+			{
+				return this._steno;
+			}
+			set
+			{
+				if ((this._steno != value))
+				{
+					this._steno = value;
+				}
 			}
 		}
 	}

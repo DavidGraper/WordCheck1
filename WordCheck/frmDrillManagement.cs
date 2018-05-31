@@ -179,6 +179,10 @@ namespace WordCheck
 
         #endregion
 
+        private void dictionaryMaintenanceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
 }

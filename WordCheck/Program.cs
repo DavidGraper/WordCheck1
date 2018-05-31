@@ -22,6 +22,7 @@ namespace WordCheck
             //Application.Run(new frmCountdown());
             //Application.Run(new frmTest0());
             //Application.Run(new frmSentenceDrill());
+            //Application.Run(new frmDictionaryMaintenancecs());
         }
     }
 }

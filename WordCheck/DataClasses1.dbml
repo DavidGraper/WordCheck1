@@ -99,4 +99,22 @@
     <Parameter Name="incorrectword" Type="System.String" DbType="VarChar(100)" />
     <Return Type="System.Int32" />
   </Function>
+  <Function Name="dbo.pr_AddCorrectSentenceRecord" Method="pr_AddCorrectSentenceRecord">
+    <Parameter Name="drillid" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="sentenceid" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="milliseconds" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="datecorrect" Type="System.DateTime" DbType="DateTime" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.pr_LookupWord" Method="pr_LookupWord">
+    <Parameter Name="word" Type="System.String" DbType="VarChar(100)" />
+    <ElementType Name="pr_LookupWordResult">
+      <Column Name="steno" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.pr_AddDictionaryEntry" Method="pr_AddDictionaryEntry">
+    <Parameter Name="steno" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="english" Type="System.String" DbType="VarChar(100)" />
+    <Return Type="System.Int32" />
+  </Function>
 </Database>
